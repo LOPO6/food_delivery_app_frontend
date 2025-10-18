@@ -1,0 +1,16 @@
+.navbar {
+  background-color:#374151 !important;
+  color: white;
+}
+.navbar .nav-link {
+  color: white;
+}
+.navbar .nav-link:hover {
+  color: #ccc;
+}
+
+a{
+    font-family:'Bauer Bodoni', serif;
+    font-size: 25px;
+    
+}
