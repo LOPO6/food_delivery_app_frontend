@@ -1,24 +1,6 @@
 @import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 @import '../node_modules/bootstrap-icons/font/bootstrap-icons.min.css';
 
-main{
-    margin-left: 100px;
-}
-
-fieldset{
-    margin:5px;
-}
-
-label{
-    width:120px;
-}
-
-.list-group-item-heading{
-    cursor: pointer;
-    text-decoration: underline;
-    color: blue;
-}
-
-.list-group-item-heading:hover{
-    color: darkblue;
+html, body{
+    background-color: blanchedalmond;
 }

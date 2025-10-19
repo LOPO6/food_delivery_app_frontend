@@ -1,0 +1,288 @@
+/* Main Container */
+.browse-page {
+  min-height: 100vh;
+  padding-top: 5rem; /* pt-20 */
+  padding-bottom: 3rem; /* pb-12 */
+}
+
+.browse-page .container {
+  max-width: 1280px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+/* AI Recommendation Banner */
+.ai-banner {
+  margin-bottom: 2rem;
+  background-color: rgb(255, 244, 229); /* warm, subtle background */
+  border-radius: 0.75rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+  border: 3px solid #ffe28a; /* or keep very light border */
+}
+
+
+.ai-banner-content {
+  padding: 1.5rem;
+}
+
+.ai-banner-flex {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.ai-icon-container {
+  width: 5rem;
+  height: 3rem;
+  background-color: hsl(var(--accent) / 0.2);
+  border-radius: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.ai-icon {
+  width: 1.5rem;
+  height: 1.5rem;
+  color: hsl(var(--accent));
+}
+
+.ai-content {
+  flex: 1;
+}
+
+.ai-content h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.ai-content p {
+  color: hsl(var(--muted-foreground));
+  margin-bottom: 1rem;
+}
+
+/* Search Bar */
+.search-container {
+  margin-bottom: 2rem;
+  background-color: transparent;
+}
+
+.search-wrapper {
+  background-color: blanchedalmond;
+  border-radius: 0.75rem;
+  padding: 0.25rem 0.75rem; /* smaller vertical padding */
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  display: flex;
+  align-items: center;
+  height: 2.25rem; /* optional: force smaller height */
+}
+
+.search-input {
+  background: transparent;
+  border: none;
+  outline: none;
+  padding-left: 0.5rem;
+  font-size: 0.9rem;
+  width: 100%;
+  height: 100%; /* ensure it fills parent */
+}
+
+.search-icon {
+  color: #888;
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+
+/* Filter Badges */
+.filter-badges {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+  overflow-x: auto;
+  padding-bottom: 0.5rem;
+  width: 100%;
+}
+
+.badge {
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  border-radius: 9999px;
+  padding: 0.125rem 0.625rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.badge-default {
+  background-color: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
+  border: 1.5px solid grey; /* red border */
+  color: black; /* red text */
+}
+.badge-default:hover{ 
+    background-color: #ffdbc9;
+}
+
+.badge-outline {
+  border: 1.5px solid grey; /* red border */
+  color: black; /* red text */
+  background-color: transparent;
+  border-radius: 9999px; /* fully rounded */
+  padding: 0.25rem 0.75rem;
+  font-weight: 600;
+}
+
+.badge-outline:hover {
+  background-color: #ffdbc9;
+}
+
+/* Restaurant Grid */
+.restaurant-grid {
+  display: grid;
+  gap: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .restaurant-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .restaurant-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Restaurant Card */
+.restaurant-card {
+  border: none;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.06);
+  background-color: #fff;
+  transition: transform 0.2s;
+}
+
+.restaurant-card:hover {
+  transform: translateY(-4px);
+}
+
+.restaurant-image-container {
+  height: 14rem;
+  position: relative;
+}
+
+
+.restaurant-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s;
+}
+
+
+/* make anchor-wrapped cards fill layout and remove default link styles */
+.restaurant-card-link {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+}
+
+/* small helper for the get-picks button (optional) */
+.btn-get-picks {
+  background-color: #c8102e; /* strong red */
+  color: white;
+  font-weight: 600;
+  padding: 0.5rem 1rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  transition: background-color 0.2s;
+  border-radius: 0.5rem;
+}
+
+.btn-get-picks:hover {
+  background-color: #a50f25;
+}
+
+
+/* ensure featured badge sits above image and aligns */
+.featured-badge {
+  position: absolute;
+  background-color: #ffe28a;
+  color: #a66f00;
+  font-weight: 600;
+  top: 0.75rem;
+  right: 0.75rem;
+  padding: 0.25rem 0.75rem;
+  font-size: 0.75rem;
+  border-radius: 999px;
+}
+
+
+.restaurant-content {
+  padding: 1rem;
+}
+
+.restaurant-name {
+  font-weight: 700;
+  font-size: 1.125rem;
+  margin-bottom: 0.5rem;
+  transition: color 0.2s;
+}
+
+.restaurant-card:hover .restaurant-name {
+  color: hsl(var(--primary));
+}
+
+.restaurant-cuisine {
+  font-size: 0.875rem;
+  color: hsl(var(--muted-foreground));
+  margin-bottom: 0.75rem;
+}
+
+.restaurant-stats {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.875rem;
+}
+
+.stat-item {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.stat-icon {
+  width: 1rem;
+  height: 1rem;
+}
+
+.star-icon {
+  width: 0.01rem;
+  height: 0.875rem;
+  fill: hsl(var(--accent));
+}
+
+.muted-text {
+  color: hsl(var(--muted-foreground));
+}
+
+.rating-value {
+  font-weight: 600;
+}
+
+.search-wrapper:focus-within {
+  border: 3px solid #c8102e; /* Red border on focus */
+}
+
+.search-wrapper{
+    border: 1.5px solid #ccc;
+}
+
+
