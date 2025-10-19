@@ -6,7 +6,6 @@
     margin: 2em auto;
 }
 
-/* Add margin to elements */
 h1, h2, p {
     margin: 0.7em 0;
 }
@@ -32,4 +31,13 @@ form {
 
 button {
     margin: 1.5em auto;
+}
+
+.auth-links a {
+    cursor: pointer;
+    color: #FF0000;
+}
+
+.auth-links a:hover {
+    text-decoration: underline;
 }

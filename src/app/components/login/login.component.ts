@@ -12,33 +12,51 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
+
+  isLogin: boolean = true;
+
   email: string = '';
   password: string = ''
 
+  name: string = '';
+
   constructor(private http: HttpClient, private router: Router) { }
 
-  onSubmit(form: NgForm) {
-    if (form.invalid) {
-      return;
-    }
+  showLogin() { this.isLogin = true; }
+  showRegister() { this.isLogin = false; }
 
-    const loginData = {
+
+   onLogin(form: NgForm) {
+    if (!form.valid) return;
+
+    this.http.post('http://localhost:3000/api/users/login', {
       email: this.email,
       password: this.password
-    };
-
-    this.http.post('http://localhost:3000/api/users/login', loginData)
-    .subscribe({
+    }).subscribe({
       next: (res: any) => {
-        // Successful login – store token and navigate
         localStorage.setItem('token', res.token);
-        this.router.navigate(['/home']); 
-        alert("Login successful");
+       alert('Login successful!');
       },
-      error: (err) => {
-        alert(err.error?.message || "Invalid login credentials");
-      }
+      error: (err) => alert(err.error?.message || 'Login failed')
     });
   }
+
+  onRegister(form: NgForm) {
+    if (!form.valid) return;
+
+
+    this.http.post('http://localhost:3000/api/users/register', {
+      name: this.name,
+      email: this.email,
+      password: this.password
+    }).subscribe({
+      next: () => {
+        alert('Registration successful! You can now log in.');
+        this.isLogin = true;
+      },
+      error: (err) => alert(err.error?.message || 'Registration failed')
+    });
+  }
+
 
   }

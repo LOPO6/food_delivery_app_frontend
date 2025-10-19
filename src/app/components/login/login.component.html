@@ -17,34 +17,27 @@
             <p>Sign in or create an account</p>
 
             <div class="auth-links">
-                <a href="#">Sign In</a>
-                <a href="#">Sign Up</a>
+            <a (click)="showLogin()">Sign In</a>
+            <a (click)="showRegister()">Sign Up</a>
+
             </div>
 
-        <form (ngSubmit)="onSubmit(loginForm)" #loginForm="ngForm">
-        <div class="mb-3">
-            <label for="email">Email address</label>
-            <input 
-            type="email" 
-            id="email" 
-            name="email" 
-            [(ngModel)]="email" 
-            class="form-control" 
-            required>
-        </div>
 
-        <div class="mb-3">
-            <label for="password">Password</label>
-            <input 
-            type="password" 
-            id="password" 
-            name="password" 
-            [(ngModel)]="password" 
-            class="form-control" 
-            required>
-        </div>
+            <!-- Login form -->
+            <form *ngIf="isLogin" #loginForm="ngForm" (ngSubmit)="onLogin(loginForm)">
+            <h2>Login</h2>
+            <input type="email" name="email" [(ngModel)]="email" placeholder="Email" required>
+            <input type="password" name="password" [(ngModel)]="password" placeholder="Password" required>
+            <button type="submit" [disabled]="loginForm.invalid">Sign In</button>
+            </form>
 
-        <button type="submit" class="btn btn-primary">Sign In</button>
+            <!-- Register form -->
+            <form *ngIf="!isLogin" #registerForm="ngForm" (ngSubmit)="onRegister(registerForm)">
+            <h2>Create Account</h2>
+            <input type="text" name="name" [(ngModel)]="name" placeholder="Full Name" required>
+            <input type="email" name="email" [(ngModel)]="email" placeholder="Email" required>
+            <input type="password" name="password" [(ngModel)]="password" placeholder="Password" required>
+            <button type="submit" [disabled]="registerForm.invalid">Sign Up</button>
         </form>
 
             <p>&#8592; Back to home</p>
