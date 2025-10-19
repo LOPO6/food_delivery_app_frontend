@@ -1,22 +1,32 @@
-<p>nav works!</p>
- <div class="container-fluid">
-      <a class="navbar-brand d-flex align-items-center" routerLink="/">
-    <img
-      src="assets/GourmAI_Logo.png"
-      alt="GourmAI Logo"
-      width="40"
-      height="40"
-      class="d-inline-block align-text-top me-2"
-    />
-    GourmAI
-  </a><button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-        <div class="navbar-nav">
-          <a class="nav-link" routerLink="/restaurant"> Browse</a>
-          <!--need link to cart-->
-          <a class="nav-link" routerLink ="/user">Profile</a> <!--need to add image here-->
+
+<nav class="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" routerLink="/">
+            <img src="GourmAI_Logo.png" alt="GourmAI Logo" width="55" height="55" class="d-inline-block align-text-top me-2" />
+        </a>
+    
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+                aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/restaurant">Browse</a>
+                </li>
+                <li class="nav-item">
+                    <div class="navbar-nav ms-auto" *ngIf="!username">
+                        <a class="nav-link-box" routerLink="/login">Sign In</a>
+                    </div>
+                    <div class="navbar-nav ms-auto" *ngIf="username">
+                        <a class="nav-link"><i class="bi bi-person"></i></a>
+                    </div>
+                </li>
+            </ul>
         </div>
-      </div>
+    </div>
+</nav>
+      
 <!--Browse goes to restuarants page, shopping cart goes to checkout (need to make component for that maybe?), user icon goes to user page, main icon on far left goes to home-->
