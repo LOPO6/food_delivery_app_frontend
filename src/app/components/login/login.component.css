@@ -1,0 +1,35 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 2em auto;
+}
+
+/* Add margin to elements */
+h1, h2, p {
+    margin: 0.7em 0;
+}
+
+p {
+    font-size: 1.1em;
+}
+
+.auth-links {
+    margin-top: 2.5em;
+    margin-bottom: 2.5em;
+    display: flex;
+    gap: 1em;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 400px;
+}
+
+button {
+    margin: 1.5em auto;
+}
