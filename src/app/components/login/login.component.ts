@@ -4,6 +4,7 @@ import { RouterModule, Router } from '@angular/router';
 import { FormsModule, NgForm } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 
+
 @Component({
   standalone: true,
   selector: 'app-login',
@@ -13,15 +14,15 @@ import { HttpClient } from '@angular/common/http';
 })
 export class LoginComponent {
 
+  // Variables to hold form data and state
   isLogin: boolean = true;
-
   email: string = '';
   password: string = ''
-
   name: string = '';
 
   constructor(private http: HttpClient, private router: Router) { }
 
+  // Methods to toggle between login and registration forms
   showLogin() { this.isLogin = true; }
   showRegister() { this.isLogin = false; }
 
@@ -29,6 +30,7 @@ export class LoginComponent {
    onLogin(form: NgForm) {
     if (!form.valid) return;
 
+    // Send login request to backend
     this.http.post('http://localhost:3000/api/users/login', {
       email: this.email,
       password: this.password
@@ -44,7 +46,7 @@ export class LoginComponent {
   onRegister(form: NgForm) {
     if (!form.valid) return;
 
-
+    // Send registration request to backend
     this.http.post('http://localhost:3000/api/users/register', {
       name: this.name,
       email: this.email,
