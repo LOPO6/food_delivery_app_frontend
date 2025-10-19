@@ -1,7 +1,15 @@
 <p>nav works!</p>
  <div class="container-fluid">
-      <a class="navbar-brand" href="#">GourmAI</a> <!--need to add image for link here-->
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+      <a class="navbar-brand d-flex align-items-center" routerLink="/">
+    <img
+      src="assets/GourmAI_Logo.png"
+      alt="GourmAI Logo"
+      width="40"
+      height="40"
+      class="d-inline-block align-text-top me-2"
+    />
+    GourmAI
+  </a><button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
@@ -9,14 +17,6 @@
           <a class="nav-link" routerLink="/restaurant"> Browse</a>
           <!--need link to cart-->
           <a class="nav-link" routerLink ="/user">Profile</a> <!--need to add image here-->
-          
-          
         </div>
-        <!--
-        <div class="navbar-nav ms-auto">
-          <a class="nav-link" routerLink="/register"><i class="bi bi-person-fill-add"></i> Register</a>
-          <a class="nav-link" routerLink="/login"><i class="bi bi-person-fill-lock"></i> Login</a>
-        </div>
-     need to add username function if we're going to make this actually work--> 
       </div>
 <!--Browse goes to restuarants page, shopping cart goes to checkout (need to make component for that maybe?), user icon goes to user page, main icon on far left goes to home-->
