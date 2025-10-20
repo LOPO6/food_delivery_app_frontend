@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { FormsModule, NgForm } from '@angular/forms';
+import { AuthService } from '../../services/auth.service';   // ✅ import your service
 
 interface User {
   name: string;
@@ -24,51 +25,52 @@ export class LoginComponent {
   password = '';
   name = '';
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private authService: AuthService) {}  // ✅ inject service
 
   showLogin() { this.isLogin = true; }
   showRegister() { this.isLogin = false; }
 
-  // ✅ Register locally
+  // ✅ Register (works with backend or local fallback)
   onRegister(form: NgForm) {
     if (!form.valid) return;
 
-    const storedUsers: User[] = JSON.parse(localStorage.getItem('users') || '[]');
-    const exists = storedUsers.find(u => u.email === this.email);
-
-    if (exists) {
-      alert('Email already registered!');
-      return;
-    }
-
-    const newUser: User = {
+    const user: User = {
       name: this.name,
       email: this.email,
       password: this.password
     };
 
-    storedUsers.push(newUser);
-    localStorage.setItem('users', JSON.stringify(storedUsers));
-
-    alert('Account created! You can now log in.');
-    this.isLogin = true;
+    this.authService.register(user).subscribe({
+      next: () => {
+        alert('Account created! You can now log in.');
+        this.isLogin = true;
+      },
+      error: (err) => {
+        const msg = err?.error?.message || 'Registration failed';
+        alert(msg);
+      }
+    });
   }
 
-  // ✅ Login locally
+  // ✅ Login (works with backend or local fallback)
   onLogin(form: NgForm) {
     if (!form.valid) return;
 
-    const storedUsers: User[] = JSON.parse(localStorage.getItem('users') || '[]');
-    const user = storedUsers.find(
-      u => u.email === this.email && u.password === this.password
-    );
+    const user: User = {
+      name: this.name,
+      email: this.email,
+      password: this.password
+    };
 
-    if (user) {
-      localStorage.setItem('currentUser', JSON.stringify(user));
-      alert(`Welcome back, ${user.name}!`);
-      this.router.navigate(['/restaurant']);  // redirect anywhere you want
-    } else {
-      alert('Invalid email or password');
-    }
+    this.authService.login(user).subscribe({
+      next: (res: any) => {
+        alert(`Welcome back, ${res?.username || user.name}!`);
+        this.router.navigate(['/restaurant']);
+      },
+      error: (err) => {
+        const msg = err?.error?.message || 'Invalid email or password';
+        alert(msg);
+      }
+    });
   }
 }

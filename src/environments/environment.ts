@@ -1,3 +1,8 @@
+// export const environment = {
+//     serverUrl: 'nothignjfgrgbnergjken'
+// }
+
 export const environment = {
-    serverUrl: 'nothignjfgrgbnergjken'
-}
+  production: false,
+  serverUrl: ''  // empty string → local mode
+};

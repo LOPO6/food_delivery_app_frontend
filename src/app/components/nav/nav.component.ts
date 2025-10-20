@@ -5,19 +5,20 @@ import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-nav',
+  standalone: true,
   imports: [RouterLink, NgIf],
   templateUrl: './nav.component.html',
-  styleUrl: './nav.component.css'
+  styleUrls: ['./nav.component.css']   // ✅ plural
 })
 export class NavComponent {
-  username: string | null=null;
+  username: string | null = null;
 
-  constructor(private authService: AuthService){}
+  constructor(private authService: AuthService) {}
 
-  ngOnInit(): void{
-    this.authService.username.subscribe((username)=>{
+  ngOnInit(): void {
+    this.authService.username.subscribe((username) => {
       this.username = username;
     });
   }
-
 }
+
