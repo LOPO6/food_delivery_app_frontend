@@ -20,7 +20,7 @@ export const routes: Routes = [
     {path: 'register', component: RegisterComponent},
     {path: 'restaurant-add', component: RestaurantAddComponent},
     {path: 'user', component: UserComponent},
-    { path: 'cart', component: CartComponent },
+    { path: 'cart', component: CartComponent }
 
 
   
