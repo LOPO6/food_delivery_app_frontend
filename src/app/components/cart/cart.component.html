@@ -13,17 +13,14 @@
         </div>
         <div class="item-actions">
           <div class="quantity">
-            <button>-</button>
+            <!-- ✅ connect to methods -->
+            <button (click)="decrement()">-</button>
             <span>{{ item.quantity }}</span>
-            <button>+</button>
+            <button (click)="increment()">+</button>
           </div>
           <button class="remove-btn">✕</button>
         </div>
         <p class="price">${{ item.price.toFixed(2) }}</p>
-      </div>
-
-      <div class="cart-item empty">
-        <!-- Empty extra slot for spacing / future items -->
       </div>
     </div>
 
