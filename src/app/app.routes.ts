@@ -8,6 +8,7 @@ import { RegisterComponent } from './components/register/register.component';
 import { RestaurantComponent } from './components/restaurant/restaurant.component';
 import { RestaurantAddComponent } from './components/restaurant-add/restaurant-add.component';
 import { UserComponent } from './components/user/user.component';
+import { CartComponent } from './components/cart/cart.component';
 
 
 
@@ -18,7 +19,9 @@ export const routes: Routes = [
     {path: '', component: HomeComponent},
     {path: 'register', component: RegisterComponent},
     {path: 'restaurant-add', component: RestaurantAddComponent},
-    {path: 'user', component: UserComponent}
+    {path: 'user', component: UserComponent},
+    { path: 'cart', component: CartComponent },
+
 
   
   // You probably won't route to nav directly, since it appears on all pages
