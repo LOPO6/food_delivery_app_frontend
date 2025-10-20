@@ -2,8 +2,12 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { FormsModule, NgForm } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
 
+interface User {
+  name: string;
+  email: string;
+  password: string;
+}
 
 @Component({
   standalone: true,
@@ -14,51 +18,57 @@ import { HttpClient } from '@angular/common/http';
 })
 export class LoginComponent {
 
-  // Variables to hold form data and state
-  isLogin: boolean = true;
-  email: string = '';
-  password: string = ''
-  name: string = '';
+  // State
+  isLogin = true;
+  email = '';
+  password = '';
+  name = '';
 
-  constructor(private http: HttpClient, private router: Router) { }
+  constructor(private router: Router) {}
 
-  // Methods to toggle between login and registration forms
   showLogin() { this.isLogin = true; }
   showRegister() { this.isLogin = false; }
 
-
-   onLogin(form: NgForm) {
-    if (!form.valid) return;
-
-    // Send login request to backend
-    this.http.post('http://localhost:3000/api/users/login', {
-      email: this.email,
-      password: this.password
-    }).subscribe({
-      next: (res: any) => {
-        localStorage.setItem('token', res.token);
-       alert('Login successful!');
-      },
-      error: (err) => alert(err.error?.message || 'Login failed')
-    });
-  }
-
+  // ✅ Register locally
   onRegister(form: NgForm) {
     if (!form.valid) return;
 
-    // Send registration request to backend
-    this.http.post('http://localhost:3000/api/users/register', {
+    const storedUsers: User[] = JSON.parse(localStorage.getItem('users') || '[]');
+    const exists = storedUsers.find(u => u.email === this.email);
+
+    if (exists) {
+      alert('Email already registered!');
+      return;
+    }
+
+    const newUser: User = {
       name: this.name,
       email: this.email,
       password: this.password
-    }).subscribe({
-      next: () => {
-        alert('Registration successful! You can now log in.');
-        this.isLogin = true;
-      },
-      error: (err) => alert(err.error?.message || 'Registration failed')
-    });
+    };
+
+    storedUsers.push(newUser);
+    localStorage.setItem('users', JSON.stringify(storedUsers));
+
+    alert('Account created! You can now log in.');
+    this.isLogin = true;
   }
 
+  // ✅ Login locally
+  onLogin(form: NgForm) {
+    if (!form.valid) return;
 
+    const storedUsers: User[] = JSON.parse(localStorage.getItem('users') || '[]');
+    const user = storedUsers.find(
+      u => u.email === this.email && u.password === this.password
+    );
+
+    if (user) {
+      localStorage.setItem('currentUser', JSON.stringify(user));
+      alert(`Welcome back, ${user.name}!`);
+      this.router.navigate(['/restaurant']);  // redirect anywhere you want
+    } else {
+      alert('Invalid email or password');
+    }
   }
+}
