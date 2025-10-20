@@ -1,1 +1,65 @@
-<p>cart works!</p>
+<div class="cart-container">
+  <a href="/restaurant" class="back-link">← Continue Shopping</a>
+
+  <h1>Your Cart</h1>
+
+  <div class="cart-content">
+    <!-- Left side: Cart items -->
+    <div class="cart-items">
+      <div class="cart-item">
+        <div class="item-info">
+          <h3>Classic Burger</h3>
+          <p class="restaurant-name">The Gourmet Burger Co.</p>
+        </div>
+        <div class="item-actions">
+          <div class="quantity">
+            <button>-</button>
+            <span>2</span>
+            <button>+</button>
+          </div>
+          <button class="remove-btn">✕</button>
+        </div>
+        <p class="price">$12.99</p>
+      </div>
+
+      <div class="cart-item empty">
+        <!-- Empty extra slot for spacing / future items -->
+      </div>
+    </div>
+
+    <!-- Right side: Order summary -->
+    <div class="order-summary">
+      <h3>Order Summary</h3>
+      <div class="summary-line">
+        <span>Subtotal</span>
+        <span>$25.98</span>
+      </div>
+      <div class="summary-line">
+        <span>Delivery Fee</span>
+        <span>$4.99</span>
+      </div>
+      <div class="summary-line">
+        <span>Tax</span>
+        <span>$3.38</span>
+      </div>
+
+      <hr />
+
+      <div class="summary-total">
+        <span>Total</span>
+        <span class="total-price">$34.35</span>
+      </div>
+
+      <div class="form-section">
+        <label>Delivery Address</label>
+        <input type="text" placeholder="Enter Your Address" />
+
+        <label>Special Instructions</label>
+        <input type="text" placeholder="Add Delivery Notes" />
+      </div>
+
+      <button class="checkout-btn">Proceed To Checkout</button>
+    </div>
+  </div>
+</div>
+
