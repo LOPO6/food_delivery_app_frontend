@@ -1,9 +1,6 @@
 <div class="cart-container">
   <a href="/restaurant" class="back-link">← Continue Shopping</a>
 
-  <div class="cart-container">
-  <a href="/restaurant" class="back-link">← Continue Shopping</a>
-
   <!-- 👇 This line now dynamically shows the user's name -->
   <h1 *ngIf="userName; else defaultTitle">{{ userName }}'s Cart</h1>
   <ng-template #defaultTitle><h1>Your Cart</h1></ng-template>
@@ -63,7 +60,15 @@
         <input type="text" placeholder="Add Delivery Notes" />
       </div>
 
-      <button class="checkout-btn">Proceed To Checkout</button>
+      <a
+        class="checkout-btn"
+        routerLink="/checkout"
+        href="/checkout"
+        role="button"
+        aria-label="Proceed to checkout"
+      >
+        Proceed To Checkout
+      </a>
     </div>
   </div>
 </div>

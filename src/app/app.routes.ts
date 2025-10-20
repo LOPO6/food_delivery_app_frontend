@@ -10,6 +10,7 @@ import { RestaurantAddComponent } from './components/restaurant-add/restaurant-a
 import { UserComponent } from './components/user/user.component';
 import { CartComponent } from './components/cart/cart.component';
 import { MenuComponent } from './components/menu/menu.component';
+import { CheckoutComponent } from './components/checkout/checkout.component';
 
 
 
@@ -22,7 +23,8 @@ export const routes: Routes = [
     {path: 'restaurant-add', component: RestaurantAddComponent},
     {path: 'user', component: UserComponent},
     {path: 'cart', component: CartComponent },
-    {path: 'menu', component: MenuComponent}
+    {path: 'menu', component: MenuComponent},
+    {path: 'checkout', component: CheckoutComponent}
 
 
   
