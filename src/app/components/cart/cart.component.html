@@ -1,7 +1,15 @@
 <div class="cart-container">
   <a href="/restaurant" class="back-link">← Continue Shopping</a>
 
-  <h1>Your Cart</h1>
+  <div class="cart-container">
+  <a href="/restaurant" class="back-link">← Continue Shopping</a>
+
+  <!-- 👇 This line now dynamically shows the user's name -->
+  <h1 *ngIf="userName; else defaultTitle">{{ userName }}'s Cart</h1>
+  <ng-template #defaultTitle><h1>Your Cart</h1></ng-template>
+
+  <div class="cart-content">
+    <!-- ... rest of your HTML stays the same ... -->
 
   <div class="cart-content">
     <!-- Left side: Cart items -->
