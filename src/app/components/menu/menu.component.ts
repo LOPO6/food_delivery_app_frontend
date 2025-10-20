@@ -16,8 +16,10 @@ export class MenuComponent {
     { id: 6, name: 'Chocolate Shake', description: 'Rich chocolate ice cream shake', price: 5.99, category: 'Drinks' },
   ];
 
-  addToCart(itemName: string) {
+    addToCart(itemName: string) {
     alert(`${itemName} has been added to your cart!`);
   }
+
+  
 
 }
