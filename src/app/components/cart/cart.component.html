@@ -1,74 +1,65 @@
 <div class="cart-container">
-  <a href="/restaurant" class="back-link">← Continue Shopping</a>
+  <a routerLink="/restaurant" href="/restaurant" class="back-link">← Continue Shopping</a>
 
-  <!-- 👇 This line now dynamically shows the user's name -->
-  <h1 *ngIf="userName; else defaultTitle">{{ userName }}'s Cart</h1>
-  <ng-template #defaultTitle><h1>Your Cart</h1></ng-template>
-
-  <div class="cart-content">
-    <!-- ... rest of your HTML stays the same ... -->
+  <h1 *ngIf="items.length; else emptyTitle">Your Cart</h1>
+  <ng-template #emptyTitle><h1>Your Cart</h1></ng-template>
 
   <div class="cart-content">
-    <!-- Left side: Cart items -->
     <div class="cart-items">
-      <div class="cart-item">
+      <div *ngIf="items.length === 0" class="empty-cart">
+        Your cart is empty. <a routerLink="/restaurant" href="/restaurant">Browse restaurants</a>
+      </div>
+
+      <div class="cart-item" *ngFor="let item of items">
         <div class="item-info">
-          <h3>{{ item.name }}</h3>
-          <p class="restaurant-name">{{ item.restaurant }}</p>
+          <h3 class="item-name">{{ item.name }}</h3>
+          <p class="item-desc" *ngIf="item.description">{{ item.description }}</p>
         </div>
-        <div class="item-actions">
-          <div class="quantity">
-            <!-- ✅ connect to methods -->
-            <button (click)="decrement()">-</button>
-            <span>{{ item.quantity }}</span>
-            <button (click)="increment()">+</button>
-          </div>
-          <button class="remove-btn">✕</button>
+
+        <div class="item-qty">
+          <button type="button" (click)="decrement(item)" [attr.aria-label]="'Decrease ' + item.name">-</button>
+          <span class="qty">{{ item.quantity }}</span>
+          <button type="button" (click)="increment(item)" [attr.aria-label]="'Increase ' + item.name">+</button>
         </div>
-        <p class="price">${{ item.price.toFixed(2) }}</p>
+
+        <div class="item-price">
+          ${{ (item.price * item.quantity) | number:'1.2-2' }}
+        </div>
+
+        <button class="remove-btn" type="button" (click)="remove(item)" [attr.aria-label]="'Remove ' + item.name">Remove</button>
       </div>
     </div>
 
-    <!-- Right side: Order summary -->
-    <div class="order-summary">
+    <aside class="order-summary">
       <h3>Order Summary</h3>
+
       <div class="summary-line">
         <span>Subtotal</span>
-        <span>${{ subtotal.toFixed(2) }}</span>
+        <span>${{ subtotal | number:'1.2-2' }}</span>
       </div>
+
       <div class="summary-line">
         <span>Delivery Fee</span>
-        <span>${{ deliveryFee.toFixed(2) }}</span>
+        <span>${{ deliveryFee | number:'1.2-2' }}</span>
       </div>
+
       <div class="summary-line">
         <span>Tax</span>
-        <span>${{ tax.toFixed(2) }}</span>
+        <span>${{ tax | number:'1.2-2' }}</span>
       </div>
 
       <hr />
 
       <div class="summary-total">
-        <span>Total</span>
-        <span class="total-price">${{ total.toFixed(2) }}</span>
+        <strong>Total</strong>
+        <strong class="total-price">${{ total | number:'1.2-2' }}</strong>
       </div>
 
-      <div class="form-section">
-        <label>Delivery Address</label>
-        <input type="text" placeholder="Enter Your Address" />
-
-        <label>Special Instructions</label>
-        <input type="text" placeholder="Add Delivery Notes" />
+      <div class="checkout-actions">
+        <a class="checkout-btn" routerLink="/checkout" href="/checkout" [class.disabled]="items.length === 0" (click)="items.length === 0 ? $event.preventDefault() : null">
+          Proceed To Checkout
+        </a>
       </div>
-
-      <a
-        class="checkout-btn"
-        routerLink="/checkout"
-        href="/checkout"
-        role="button"
-        aria-label="Proceed to checkout"
-      >
-        Proceed To Checkout
-      </a>
-    </div>
+    </aside>
   </div>
 </div>

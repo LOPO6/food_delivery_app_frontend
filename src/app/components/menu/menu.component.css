@@ -315,6 +315,54 @@
   }
 }
 
+/* card layout without images */
+.menu-card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.6rem;
+  background: #fff;
+  border: 1px solid #e6e6e6;
+  border-radius: 0.75rem;
+  transition: transform 180ms cubic-bezier(.2,.8,.2,1), box-shadow 180ms cubic-bezier(.2,.8,.2,1);
+  will-change: transform, box-shadow;
+}
+
+.menu-card:hover {
+  transform: translateY(-6px) scale(1.01);
+  box-shadow: 0 12px 24px rgba(0,0,0,0.08);
+}
+
+.menu-details {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.menu-details h3 {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.menu-details p {
+  margin: 0.25rem 0 0;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.menu-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-left: auto;
+}
+
+/* remove any thumbnail rules if present */
+.menu-thumb { display: none !important; }
+
 
 
 

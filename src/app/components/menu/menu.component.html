@@ -1,27 +1,11 @@
 <div class="restaurant-page">
-  
-  <a class="back-button" routerLink="/restaurant" href="/restaurant" role="button" aria-label="Back to browse" tabindex="0">
-    ← Back to Browse
-  </a>
+  <a class="back-button" routerLink="/restaurant" href="/restaurant" role="button" tabindex="0">← Back to Browse</a>
 
-  
   <div class="restaurant-header">
-    
-    
-
     <div class="restaurant-info">
       <h1>The Gourmet Burger Co.</h1>
-      <p>
-        Premium burgers made with locally sourced ingredients and house-made
-        sauces. Every bite is crafted to perfection.
-      </p>
-
-      <div class="restaurant-stats">
-        <span> 4.8 (250+ ratings)</span>
-        <span> 25–35 min</span>
-        <span>$ $ </span>
-        <span>2.5 miles away</span>
-      </div>
+      <p></p>
+      <div class="restaurant-stats"></div>
     </div>
 
     <div class="restaurant-details">
@@ -32,7 +16,6 @@
     </div>
   </div>
 
-  
   <div class="menu-section">
     <h2>Menu</h2>
 
@@ -45,58 +28,15 @@
     </div>
 
     <div class="menu-grid">
-      <div class="menu-card">
-        <div class="menu-text">
-          <h3>Classic Burger</h3>
-          <p>Angus beef, lettuce, tomato, special sauce</p>
-          <span class="price">$12.99</span>
+      <div class="menu-card" *ngFor="let item of menuItems">
+        <div class="menu-details">
+          <h3>{{ item.name }}</h3>
+          <p>{{ item.description }}</p>
         </div>
-        <button class="add-btn" (click)="addToCart('Classic Burger')">+</button>
-      </div>
-
-      <div class="menu-card">
-        <div class="menu-text">
-          <h3>Truffle Fries</h3>
-          <p>Hand-cut fries with truffle oil and parmesan</p>
-          <span class="price">$8.99</span>
+        <div class="menu-actions">
+          <span class="price">${{ item.price.toFixed(2) }}</span>
+          <button class="add-btn" (click)="addToCart(item)" [attr.aria-label]="'Add ' + item.name + ' to cart'">+</button>
         </div>
-        <button class="add-btn" (click)="addToCart('Truffle Fries')">+</button>
-      </div>
-
-      <div class="menu-card">
-        <div class="menu-text">
-          <h3>Bacon Deluxe</h3>
-          <p>Double patty, crispy bacon, cheddar, BBQ sauce</p>
-          <span class="price">$15.99</span>
-        </div>
-        <button class="add-btn" (click)="addToCart('Bacon Deluxe')">+</button>
-      </div>
-
-      <div class="menu-card">
-        <div class="menu-text">
-          <h3>Veggie Burger</h3>
-          <p>Plant-based patty, avocado, sprouts</p>
-          <span class="price">$11.99</span>
-        </div>
-        <button class="add-btn" (click)="addToCart('Veggie Burger')">+</button>
-      </div>
-
-      <div class="menu-card">
-        <div class="menu-text">
-          <h3>Loaded Nachos</h3>
-          <p>Tortilla chips, cheese, jalapeños, sour cream</p>
-          <span class="price" (click)="addToCart('Loaded Nachos')">$9.99</span>
-        </div>
-        <button class="add-btn">+</button>
-      </div>
-
-      <div class="menu-card">
-        <div class="menu-text">
-          <h3>Chocolate Shake</h3>
-          <p>Rich chocolate ice cream shake</p>
-          <span class="price">$5.99</span>
-        </div>
-        <button class="add-btn" (click)="addToCart('Chocolate shake')">+</button>
       </div>
     </div>
   </div>
