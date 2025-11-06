@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { CartItem, CartService } from '../../services/cart.service';
 
 @Component({
   selector: 'app-cart',
@@ -9,46 +10,40 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./cart.component.css']
 })
 export class CartComponent {
-  // Example cart item (you can expand this later)
-  item = {
-    name: 'Classic Burger',
-    restaurant: 'The Gourmet Burger Co.',
-    price: 12.99,
-    quantity: 2
-  };
-
+  items: CartItem[] = [] //creating a cartItem with preset delivery fee and tax rate
   deliveryFee = 4.99;
   taxRate = 0.13;
+  userName = ''; //setting username variable so that you can get it later
 
-  // 🧩 Add this variable
-  userName: string = '';
-
-  constructor() {
-    const user = localStorage.getItem('currentUser');
-    if (user) {
-      const parsed = JSON.parse(user);
-      this.userName = parsed.name; // e.g., "Colton Campbell"
-    }
+  constructor(private cart: CartService) {
+    this.cart.items$.subscribe(items => this.items = items);
+    const saved = localStorage.getItem('username'); //getting the username variable, maybe nead to tweak this so it can be grabbed from the api?
+    this.userName = saved ?? ''; //saving the new username
   }
 
-  // 🧮 Calculations
-  get subtotal(): number {
-    return this.item.price * this.item.quantity;
+  get subtotal(): number { //function to get subtotal
+    return this.items.reduce((s,i)=> s+ i.price*i.quantity,0)
+  }
+  get tax(): number { //function to get the tax
+    return this.subtotal *this.taxRate;
+  } 
+  get total(): number { //function to calculate the subtotal
+    return this.subtotal +this.deliveryFee + this.tax;
   }
 
-  get tax(): number {
-    return this.subtotal * this.taxRate;
+  increment(item: CartItem) { //function to increase quantity of an item
+    this.cart.addItem(item,1);
+  }
+  decrement(item: CartItem){ //function to decrease quantity of an item
+    this.cart.updateQuantity(item.id, item.quantity-1);
   }
 
-  get total(): number {
-    return this.subtotal + this.deliveryFee + this.tax;
-  }
-
-  increment() {
-    this.item.quantity++;
-  }
-
-  decrement() {
-    if (this.item.quantity > 1) this.item.quantity--;
-  }
+  checkout(){ //function to checkout, creates the order as a payload, then sets everything
+    const orderPayload = {
+      user_id: 1,
+      restaurant_id: 1,
+      order_address: '', //this is blank rn, need to get from the api
+      order_items: this.items.map(i=> ({menu_item_id: i.id, quantity: i.quantity}))
+    };
+  } //I'll be honest, I'm not the biggest fan of this checkout function, its gotta be changed before submission
 }

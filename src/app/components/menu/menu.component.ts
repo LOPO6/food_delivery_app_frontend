@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { RestuarantService } from '../../services/restuarant.service';
+import { CartService } from '../../services/cart.service';
 
 @Component({
   selector: 'app-menu',
@@ -7,18 +9,31 @@ import { Component } from '@angular/core';
   styleUrl: './menu.component.css'
 })
 export class MenuComponent {
-  menuItems = [
-    { id: 1, name: 'Classic Burger', description: 'Angus beef, lettuce, tomato, special sauce', price: 12.99, category: 'Burgers' },
-    { id: 2, name: 'Truffle Fries', description: 'Hand-cut fries with truffle oil and parmesan', price: 8.99, category: 'Sides' },
-    { id: 3, name: 'Bacon Deluxe', description: 'Double patty, crispy bacon, cheddar, BBQ sauce', price: 15.99, category: 'Burgers' },
-    { id: 4, name: 'Veggie Burger', description: 'Plant-based patty, avocado, sprouts', price: 11.99, category: 'Burgers' },
-    { id: 5, name: 'Loaded Nachos', description: 'Tortilla chips, cheese, jalapeños, sour cream', price: 9.99, category: 'Appetizers' },
-    { id: 6, name: 'Chocolate Shake', description: 'Rich chocolate ice cream shake', price: 5.99, category: 'Drinks' },
-  ];
+  menuItems: any[] = [];
 
-    addToCart(itemName: string) {
-    alert(`${itemName} has been added to your cart!`);
+  constructor(private api: RestuarantService, private cart: CartService){
+    this.loadMenu(1);
   }
+
+  loadMenu(restaurantId: number){
+    this.api.getRestaurantMenu(restaurantId).subscribe((res:any)=>{ //need to check this subscribe message, cause I smell trouble, this probably isn't gonna work, but I'm commenting so everyone can be confused by it too
+      this.menuItems = res?.menuItems ?? [];
+    }, err =>{
+      console.error('failed to load menu', err);
+    });
+  }
+  addToCart(item: any){ //function to add an item to the cart, sets all the variables to the items respective variables
+    const cartItem = {
+      id: item.menu_item_id ?? item.id,
+      name: item.item_name ?? item.name,
+      price: item.item_price ?? item.price,
+      description: item.description,
+      category: item.category
+    };
+    this.cart.addItem(cartItem, 1); //adds the item to the cart
+    //need to add a toast message here, so that user knows item's been added to cart
+  }
+
 
   
 
