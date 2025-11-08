@@ -46,4 +46,9 @@ export class CartComponent {
       order_items: this.items.map(i=> ({menu_item_id: i.id, quantity: i.quantity}))
     };
   } //I'll be honest, I'm not the biggest fan of this checkout function, its gotta be changed before submission
+
+  remove(item: CartItem){ //function to remove an item from the cart
+    this.cart.removeItem(item.id);
+  }
+
 }

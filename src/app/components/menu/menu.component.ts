@@ -1,10 +1,12 @@
 import { Component } from '@angular/core';
 import { RestuarantService } from '../../services/restuarant.service';
 import { CartService } from '../../services/cart.service';
+// Get lib for ngFor directive
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-menu',
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './menu.component.html',
   styleUrl: './menu.component.css'
 })

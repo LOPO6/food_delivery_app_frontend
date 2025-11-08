@@ -2,7 +2,8 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { FormsModule, NgForm } from '@angular/forms';
-import { AuthService } from '../../services/auth.service';   // ✅ import your service
+import { AuthService } from '../../services/auth.service';
+
 
 interface User {
   name: string;

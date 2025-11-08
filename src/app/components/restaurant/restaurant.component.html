@@ -35,46 +35,53 @@
       <span class="badge badge-outline">Top Rated</span>
     </div>
 
-    <!-- Restaurant Grid -->
-    <div class="restaurant-grid">
-      
-      <!-- Restaurant Card Example --> <!--this is entirely for testing purposes, ideally youd wanna make a get function that populates using each item-->
-      <a routerLink="/menu" class="restaurant-card-link">
-        <div class="restaurant-card">
-          <div class="restaurant-image-container">
-            <img
-              src="front-view-burger-stand.jpg"
-              alt="The Gourmet Burger Co."
-              class="restaurant-image"
-            />
-            <span class="featured-badge">
-              <svg class="star-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                <!-- Star icon -->
-              </svg>
-              AI Pick
-            </span>
+   <!-- Restaurant Grid -->
+<div class="restaurant-grid">
+  <!-- Loop through restaurants from the DB -->
+  <a *ngFor="let restaurant of restaurants"
+    [routerLink]="['/menu', restaurant._id]"
+    class="restaurant-card-link"
+  >
+    <div class="restaurant-card">
+      <div class="restaurant-image-container">
+        <img
+          [src]="restaurant.imageUrl || 'assets/placeholder-restaurant.jpg'"
+          [alt]="restaurant.name"
+          class="restaurant-image"
+        />
+        <!-- Show badge only if restaurant is featured -->
+        <span class="featured-badge" *ngIf="restaurant.featured">
+          <svg class="star-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <!-- Star icon -->
+          </svg>
+          AI Pick
+        </span>
+      </div>
+      <div class="restaurant-content">
+        <h3 class="restaurant-name">{{ restaurant.name }}</h3>
+        <p class="restaurant-cuisine">
+          {{ restaurant.cuisine || 'Various' }}
+        </p>
+        <div class="restaurant-stats">
+          <div class="stat-item">
+            <span class="rating-value">{{ restaurant.rating || '4.5' }}</span>
           </div>
-          <div class="restaurant-content">
-            <h3 class="restaurant-name">The Gourmet Burger Co.</h3>
-            <p class="restaurant-cuisine">American</p>
-            <div class="restaurant-stats">
-              <div class="stat-item">
-                <span class="rating-value">4.8</span>
-              </div>
-              <div class="stat-item muted-text">
-                <span>25-35 min</span>
-              </div>
-              <div class="stat-item muted-text">
-                <span>$$</span>
-              </div>
-            </div>
+          <div class="stat-item muted-text">
+            <span>{{ restaurant.eta || '25-35 min' }}</span>
+          </div>
+          <div class="stat-item muted-text">
+            <span>{{ restaurant.priceTier || '$$' }}</span>
           </div>
         </div>
-      </a>
+      </div>
+    </div>
+  </a>
+</div>
+
 
       <!-- Repeat cards as needed -->
       
     </div>
   </div>
-</div>
+
 

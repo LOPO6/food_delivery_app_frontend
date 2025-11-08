@@ -4,5 +4,5 @@
 
 export const environment = {
   production: false,
-  serverUrl: ''  // empty string → local mode
+  serverUrl: 'http://localhost:3000/api'
 };
