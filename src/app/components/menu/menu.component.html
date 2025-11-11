@@ -17,6 +17,9 @@
   </div>
 
   <div class="menu-section">
+  <div class="toast-notification" *ngIf="showToast">
+    <p>Item added to cart</p>
+  </div>
     <h2>Menu</h2>
 
     <div class="menu-categories">
@@ -40,5 +43,9 @@
       </div>
     </div>
   </div>
+  <div class="toast" *ngIf="showToast">
+    <p>Item added to cart</p>
+  </div>
 </div>
+
 

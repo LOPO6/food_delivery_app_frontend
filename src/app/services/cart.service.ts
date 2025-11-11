@@ -36,7 +36,9 @@ export class CartService {
     return this.itemsSubject.getValue();
   }
 
-  addItem(item: { id: number; name: string; price: number; description?: string; category?: string }, quantity = 1) {
+  // Remove description and category from the addItem parameters
+  addItem(item: { id: number; name: string; price: number }, quantity = 1) {
+    console.log(`Adding item to cart: ${item.name}, Quantity: ${quantity}`);
     const items = [...this.getItems()];
     const found = items.find(i => i.id === item.id);
     if (found) {

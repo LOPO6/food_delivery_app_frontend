@@ -16,11 +16,10 @@ export class MenuComponent {
   menuItems: any[] = [];
   restaurantId = '';
   restaurant: any;
+  showToast = false;
 
 
-  constructor(private api: RestuarantService, private cart: CartService, private route: ActivatedRoute){
-    // this.loadMenu(1);
-  }
+  constructor(private api: RestuarantService, private cart: CartService, private route: ActivatedRoute){ }
 
     ngOnInit(): void {
     this.restaurantId = this.route.snapshot.paramMap.get('id') || '';
@@ -54,19 +53,19 @@ export class MenuComponent {
 
   addToCart(item: any){ //function to add an item to the cart, sets all the variables to the items respective variables
     const cartItem = {
-      id: item.menu_item_id ?? item.id,
-      name: item.item_name ?? item.name,
-      price: item.item_price ?? item.price,
-      description: item.description,
-      category: item.category
+      id: item.menu_item_id,
+      name: item.item_name,
+      price: item.item_price,
+      restaurantId: this.restaurantId 
     };
     this.cart.addItem(cartItem, 1); //adds the item to the cart
-    //need to add a toast message here, so that user knows item's been added to cart
+
+    this.showToast = true;
+
+    setTimeout(() => {
+      this.showToast = false;
+    }, 2000); // Hide toast after 2 seconds
   }
 
-
-
-
-  
 
 }
