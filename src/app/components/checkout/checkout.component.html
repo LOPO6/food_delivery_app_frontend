@@ -1,2 +1,49 @@
-<h1>Your order is being processed!</h1>
-<h2>It will be delivered in 25-35 minutes!</h2>
+<div class="checkout-page">
+  <h2>Confirm Your Order</h2>
+
+  <div *ngIf="cartItems.length; else emptyCart">
+    <!-- Items box -->
+    <div class="items-box">
+      <div *ngFor="let item of cartItems" class="checkout-item">
+        <div class="item-info">
+          <div class="item-name">{{ item.name }}</div>
+          <div class="item-meta">
+            Qty: {{ item.quantity }} ·
+            {{ item.price | currency:'CAD' }}
+          </div>
+        </div>
+        <div class="item-total">
+          {{ (item.price * item.quantity) | currency:'CAD' }}
+        </div>
+      </div>
+    </div>
+
+    <!-- Fees / tax box -->
+    <div class="fees-box">
+      <div class="fee-row">
+        <span>Subtotal</span>
+        <span>{{ subTotal | currency:'CAD' }}</span>
+      </div>
+      <div class="fee-row">
+        <span>Tax ({{ taxRate * 100 }}%)</span>
+        <span>{{ (subTotal * taxRate) | currency:'CAD' }}</span>
+      </div>
+      <div class="fee-row">
+        <span>Delivery Fee</span>
+        <span>{{ deliveryFee | currency:'CAD' }}</span>
+      </div>
+    </div>
+
+    <!-- Total -->
+    <div class="total-line">
+      <span>Total</span>
+      <span>{{ total | currency:'CAD' }}</span>
+    </div>
+
+    <button (click)="confirmOrder()">Confirm Order</button>
+  </div>
+
+  <ng-template #emptyCart>
+    <p>Your cart is empty.</p>
+  </ng-template>
+</div>

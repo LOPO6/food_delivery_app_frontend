@@ -14,6 +14,7 @@ export class CartComponent {
   deliveryFee = 4.99;
   taxRate = 0.13;
   userName = ''; //setting username variable so that you can get it later
+  orderTotal = 0;
 
   constructor(private cart: CartService) {
     this.cart.items$.subscribe(items => this.items = items);
@@ -28,7 +29,8 @@ export class CartComponent {
     return this.subtotal *this.taxRate;
   } 
   get total(): number { //function to calculate the subtotal
-    return this.subtotal +this.deliveryFee + this.tax;
+    this.orderTotal = this.subtotal + this.deliveryFee + this.tax;
+    return this.orderTotal;
   }
 
   increment(item: CartItem) { //function to increase quantity of an item
