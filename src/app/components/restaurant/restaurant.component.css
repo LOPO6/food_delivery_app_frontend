@@ -285,4 +285,37 @@
     border: 1.5px solid #ccc;
 }
 
+.search-container {
+  margin-bottom: 1rem;
+}
+
+.btn-search {
+  background-color: #c8102e;
+  color: #fff;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.35rem 1rem;
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: background-color 0.15s ease, transform 0.15s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  height: 2.25rem;
+  margin-bottom: 2em;
+}
+
+.btn-search:hover,
+.btn-search:focus {
+  background-color: #a50f25;
+  outline: none;
+  transform: translateY(-1px);
+}
+
+.search-container .btn-search {
+  margin-left: 0.5rem;
+}
+
 

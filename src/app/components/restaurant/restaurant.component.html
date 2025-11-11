@@ -18,15 +18,18 @@
       <div class="search-wrapper">
         <input
           type="text"
-          placeholder="Search for restaurants, cuisines, or dishes..."
+          placeholder="Search by restaurants or dishes"
           class="search-input"
+          [(ngModel)]="searchQuery"
         />
       </div>
     </div>
+    <!-- Search Button -->
+    <button class="btn-search" (click)="searchForItem(searchQuery)">Search</button>
 
     <!-- Filter Badges -->
     <div class="filter-badges">
-      <span class="badge badge-default">All</span>
+      <span class="badge badge-default" (click)="fetchRestaurants()">All</span>
       <span class="badge badge-outline">Italian</span>
       <span class="badge badge-outline">Japanese</span>
       <span class="badge badge-outline">American</span>

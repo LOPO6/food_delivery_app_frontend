@@ -30,6 +30,11 @@ export class RestuarantService { //all the functions that are being called from 
     return this.http.get(`${this.serverUrl}/api/menu-items/${id}`);
   }
 
+
+  getAllMenuItems() {
+    return this.http.get(`${this.serverUrl}/menu-items`);
+  }
+
   //all the api functions that involve ordering are added to the service below
   createOrder(payload: any){
     return this.http.post(`${this.serverUrl}/api/orders`, payload);
