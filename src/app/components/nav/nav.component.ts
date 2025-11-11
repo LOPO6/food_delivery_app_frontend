@@ -15,7 +15,10 @@ export class NavComponent {
 
   constructor(private authService: AuthService) {}
 
+  // Subscribe to username on init
   ngOnInit(): void {
+
+    // Succsessfully subscribe to username observable
     this.authService.username.subscribe((username) => {
       this.username = username;
     });

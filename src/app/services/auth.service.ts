@@ -35,20 +35,24 @@ export class AuthService {
   // PERMANENT (BACKEND) SECTION
   // ==========================================================================================
   register(user: any): Observable<any> {
-    if (!this.serverUrl) return this.registerLocal(user); // fallback
     return this.http.post(`${this.serverUrl}/users/register`, user, { withCredentials: true }).pipe(
       tap((res: any) => {
-        if (res?.username) this.setUsername(res.username);
+        if (res?.name) this.setUsername(res.user.name);
       }),
       catchError(err => throwError(() => err))
     );
   }
 
   login(user: any): Observable<any> {
-    if (!this.serverUrl) return this.loginLocal(user); // fallback
     return this.http.post(`${this.serverUrl}/users/login`, user, { withCredentials: true }).pipe(
       tap((res: any) => {
-        if (res?.username) this.setUsername(res.username);
+        console.log('Username response:', res?.user.name);
+        console.log('Full response:', res);
+        if (res?.user.name) {
+          this.setUsername(res.user.name);
+        } else {
+          this.setUsername('User'); // Fallback if name is missing
+        }
       }),
       catchError(err => throwError(() => err))
     );
@@ -71,24 +75,24 @@ export class AuthService {
   // ==========================================================================================
   // TEMPORARY (NO BACKEND) SECTION
   // ==========================================================================================
-  private registerLocal(user: any): Observable<any> {
-    const users = JSON.parse(localStorage.getItem('users') || '[]');
-    if (users.find((u: any) => u.email === user.email)) {
-      return throwError(() => ({ error: { message: 'Email already registered (local mode)' } }));
-    }
-    users.push(user);
-    localStorage.setItem('users', JSON.stringify(users));
-    this.setUsername(user.name);
-    return of({ message: 'Registered locally', username: user.name });
-  }
+  // private registerLocal(user: any): Observable<any> {
+  //   const users = JSON.parse(localStorage.getItem('users') || '[]');
+  //   if (users.find((u: any) => u.email === user.email)) {
+  //     return throwError(() => ({ error: { message: 'Email already registered (local mode)' } }));
+  //   }
+  //   users.push(user);
+  //   localStorage.setItem('users', JSON.stringify(users));
+  //   this.setUsername(user.name);
+  //   return of({ message: 'Registered locally', username: user.name });
+  // }
 
-  private loginLocal(user: any): Observable<any> {
-    const users = JSON.parse(localStorage.getItem('users') || '[]');
-    const found = users.find((u: any) => u.email === user.email && u.password === user.password);
-    if (!found) {
-      return throwError(() => ({ error: { message: 'Invalid credentials (local mode)' } }));
-    }
-    this.setUsername(found.name);
-    return of({ message: 'Logged in locally', username: found.name });
-  }
+  // private loginLocal(user: any): Observable<any> {
+  //   const users = JSON.parse(localStorage.getItem('users') || '[]');
+  //   const found = users.find((u: any) => u.email === user.email && u.password === user.password);
+  //   if (!found) {
+  //     return throwError(() => ({ error: { message: 'Invalid credentials (local mode)' } }));
+  //   }
+  //   this.setUsername(found.name);
+  //   return of({ message: 'Logged in locally', username: found.name });
+  // }
 }

@@ -11,6 +11,7 @@ import { UserComponent } from './components/user/user.component';
 import { CartComponent } from './components/cart/cart.component';
 import { MenuComponent } from './components/menu/menu.component';
 import { CheckoutComponent } from './components/checkout/checkout.component';
+import { AccountComponent } from './components/account/account.component';
 
 
 
@@ -25,7 +26,7 @@ export const routes: Routes = [
     {path: 'cart', component: CartComponent },
     {path: 'menu', component: MenuComponent},
     {path: 'checkout', component: CheckoutComponent},
-    { path: 'menu/:id', component: MenuComponent }
-  
-  // You probably won't route to nav directly, since it appears on all pages
+    { path: 'menu/:id', component: MenuComponent },
+    {path: 'account', component: AccountComponent},
+
 ];

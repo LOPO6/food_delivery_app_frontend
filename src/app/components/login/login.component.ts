@@ -65,7 +65,7 @@ export class LoginComponent {
 
     this.authService.login(user).subscribe({
       next: (res: any) => {
-        alert(`Welcome back, ${res?.username || user.name}!`);
+        alert(`Welcome back, ${res?.user.name}!`);
         this.router.navigate(['/restaurant']);
       },
       error: (err) => {
