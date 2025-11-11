@@ -15,12 +15,16 @@ export class RestuarantService { //all the functions that are being called from 
     return this.http.get(`${this.serverUrl}/restaurants`); //calling all dem gets baybeee
   }
 
+  getRestaurantById(id: number){
+    return this.http.get(`${this.serverUrl}/restaurants/${id}`);
+  }
+
   addRestaurant(restaurant: any){
     return this.http.post(`${this.serverUrl}/restaurants`, restaurant, {withCredentials: true});
   }
 
   getRestaurantMenu(id: number){
-    return this.http.get(`${this.serverUrl}/api/restaurants/${id}/menu`);
+    return this.http.get(`${this.serverUrl}/restaurants/${id}/menu`);
   }
   getMenuItem(id: number){
     return this.http.get(`${this.serverUrl}/api/menu-items/${id}`);

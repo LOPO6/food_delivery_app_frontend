@@ -1,6 +1,5 @@
 <div class="browse-page">
   <div class="container">
-    
     <!-- AI Recommendation Banner -->
     <div class="ai-banner">
       <div class="ai-banner-content">
@@ -35,53 +34,46 @@
       <span class="badge badge-outline">Top Rated</span>
     </div>
 
-   <!-- Restaurant Grid -->
-<div class="restaurant-grid">
-  <!-- Loop through restaurants from the DB -->
-  <a *ngFor="let restaurant of restaurants"
-    [routerLink]="['/menu', restaurant._id]"
-    class="restaurant-card-link"
-  >
-    <div class="restaurant-card">
-      <div class="restaurant-image-container">
-        <img
-          [src]="restaurant.imageUrl || 'assets/placeholder-restaurant.jpg'"
-          [alt]="restaurant.name"
-          class="restaurant-image"
-        />
-        <!-- Show badge only if restaurant is featured -->
-        <span class="featured-badge" *ngIf="restaurant.featured">
-          <svg class="star-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-            <!-- Star icon -->
-          </svg>
-          AI Pick
-        </span>
-      </div>
-      <div class="restaurant-content">
-        <h3 class="restaurant-name">{{ restaurant.name }}</h3>
-        <p class="restaurant-cuisine">
-          {{ restaurant.cuisine || 'Various' }}
-        </p>
-        <div class="restaurant-stats">
-          <div class="stat-item">
-            <span class="rating-value">{{ restaurant.rating || '4.5' }}</span>
+    <!-- Restaurant Grid -->
+    <div class="restaurant-grid">
+      <a
+        *ngFor="let restaurant of restaurants"
+        [routerLink]="['/menu', restaurant.restaurant_id]"
+        class="restaurant-card-link"
+      >
+        <div class="restaurant-card">
+          <div class="restaurant-image-container">
+            <img
+              [src]="restaurant.imageUrl || 'assets/placeholder-restaurant.jpg'"
+              [alt]="restaurant.name"
+              class="restaurant-image"
+            />
+            <span class="featured-badge" *ngIf="restaurant.featured">
+              <svg class="star-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <!-- Star icon -->
+              </svg>
+              AI Pick
+            </span>
           </div>
-          <div class="stat-item muted-text">
-            <span>{{ restaurant.eta || '25-35 min' }}</span>
-          </div>
-          <div class="stat-item muted-text">
-            <span>{{ restaurant.priceTier || '$$' }}</span>
+          <div class="restaurant-content">
+            <h3 class="restaurant-name">{{ restaurant.name }}</h3>
+            <p class="restaurant-cuisine">
+              {{ restaurant.cuisine || 'Various' }}
+            </p>
+            <div class="restaurant-stats">
+              <div class="stat-item">
+                <span class="rating-value">{{ restaurant.rating || '4.5' }}</span>
+              </div>
+              <div class="stat-item muted-text">
+                <span>{{ restaurant.eta || '25-35 min' }}</span>
+              </div>
+              <div class="stat-item muted-text">
+                <span>{{ restaurant.priceTier || '$$' }}</span>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-    </div>
-  </a>
-</div>
-
-
-      <!-- Repeat cards as needed -->
-      
+      </a>
     </div>
   </div>
-
-
+</div>

@@ -13,9 +13,12 @@ import { RestuarantService } from '../../services/restuarant.service';
 })
 export class RestaurantComponent {
   restaurants: any[] = [];
+
+
   loading = false;
 
   constructor(private restaurantService: RestuarantService) {}
+
 
   ngOnInit(): void {
     this.fetchRestaurants();

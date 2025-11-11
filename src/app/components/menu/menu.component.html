@@ -3,16 +3,16 @@
 
   <div class="restaurant-header">
     <div class="restaurant-info">
-      <h1>The Gourmet Burger Co.</h1>
-      <p></p>
+      <h1>{{ restaurant.name }}</h1>
       <div class="restaurant-stats"></div>
     </div>
 
+
     <div class="restaurant-details">
       <h3>Restaurant Info</h3>
-      <p><strong>Cuisine:</strong> American</p>
-      <p><strong>Address:</strong> 123 Burger Street, Food City</p>
-      <p><strong>Hours:</strong> 11:00 AM – 10:00 PM</p>
+      <p><strong>Phone Number:</strong> {{ restaurant.contact_info }}</p>
+      <p><strong>Address:</strong> {{ restaurant.address }}</p>
+      <p><strong>Delivery Range:</strong> {{ restaurant.delivery_range }} KM</p>
     </div>
   </div>
 
@@ -30,11 +30,11 @@
     <div class="menu-grid">
       <div class="menu-card" *ngFor="let item of menuItems">
         <div class="menu-details">
-          <h3>{{ item.name }}</h3>
-          <p>{{ item.description }}</p>
+          <h3>{{ item.item_name }}</h3>
+          <p>{{ item.item_price }}</p>
         </div>
         <div class="menu-actions">
-          <span class="price">${{ item.price.toFixed(2) }}</span>
+          <span class="price">${{ item.price }}</span>
           <button class="add-btn" (click)="addToCart(item)" [attr.aria-label]="'Add ' + item.name + ' to cart'">+</button>
         </div>
       </div>
