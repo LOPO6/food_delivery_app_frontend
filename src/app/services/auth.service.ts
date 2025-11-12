@@ -37,19 +37,40 @@ export class AuthService {
   register(user: any): Observable<any> {
     return this.http.post(`${this.serverUrl}/users/register`, user, { withCredentials: true }).pipe(
       tap((res: any) => {
-        if (res?.name) this.setUsername(res.user.name);
+        if (res?.name) {
+          // Set the observable username
+          this.setUsername(res.user.name);
+          // Save user details to localStorage
+          localStorage.setItem('user', JSON.stringify(res?.user));
+        }
       }),
       catchError(err => throwError(() => err))
     );
   }
 
+  // A method to update user details
+  updateUser(user: any): Observable<any> {
+    console.log('Updating user with ID:', user.user_id);
+    return this.http.put(`${this.serverUrl}/users/${Number(user.user_id)}`, user, { withCredentials: true }).pipe(
+      tap((res: any) => {
+        if (res) this.setUsername(user.name);
+
+      }),
+      catchError(err => throwError(() => err))
+    );
+  }
+
+  // A method to log in a user
   login(user: any): Observable<any> {
     return this.http.post(`${this.serverUrl}/users/login`, user, { withCredentials: true }).pipe(
       tap((res: any) => {
         console.log('Username response:', res?.user.name);
         console.log('Full response:', res);
         if (res?.user.name) {
+          // Set the observable username
           this.setUsername(res.user.name);
+          // Save user details to localStorage
+          localStorage.setItem('user', JSON.stringify(res?.user));
         } else {
           this.setUsername('User'); // Fallback if name is missing
         }
@@ -58,6 +79,7 @@ export class AuthService {
     );
   }
 
+  // A method to log out a user
   logout(): Observable<any> {
     if (!this.serverUrl) {
       this.clearUsername();
@@ -71,6 +93,15 @@ export class AuthService {
       })
     );
   }
+
+    // A method to get the current user's ID from localStorage
+    getCurrentUserId(): string {
+    const user = localStorage.getItem('user');
+    const userId = user ? JSON.parse(user).user_id : '';
+    console.log('Current User ID:', userId);
+    return userId;
+  }
+
 
   // ==========================================================================================
   // TEMPORARY (NO BACKEND) SECTION
