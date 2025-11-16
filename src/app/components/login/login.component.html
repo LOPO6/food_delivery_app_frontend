@@ -33,10 +33,12 @@
                 </form>
 
                 <!-- Register form -->
-                <form *ngIf="!isLogin" #registerForm="ngForm" (ngSubmit)="onRegister(registerForm)">
+                                <form *ngIf="!isLogin" #registerForm="ngForm" (ngSubmit)="onRegister(registerForm)">
                 <input type="text" name="name" [(ngModel)]="name" placeholder="Full Name" required>
                 <input type="email" name="email" [(ngModel)]="email" placeholder="Email" required>
-                <input type="password" name="password" [(ngModel)]="password" placeholder="Password" required>
+                                <input type="tel" name="phone" [(ngModel)]="phone" placeholder="Phone" required>
+                                <input type="text" name="address" [(ngModel)]="address" placeholder="Address" required>
+                <input type="password" name="password" [(ngModel)]="password" placeholder="Password" minlength="6" required>
                 <button type="submit" [disabled]="registerForm.invalid">Sign Up</button>
             </form>
         </div>

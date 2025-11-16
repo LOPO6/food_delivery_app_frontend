@@ -9,6 +9,8 @@ interface User {
   name: string;
   email: string;
   password: string;
+  phone: string;
+  address: string;
 }
 
 @Component({
@@ -25,8 +27,10 @@ export class LoginComponent {
   email = '';
   password = '';
   name = '';
+  phone = '';
+  address = '';
 
-  constructor(private router: Router, private authService: AuthService) {}  // ✅ inject service
+  constructor(private router: Router, private authService: AuthService) {}
 
   showLogin() { this.isLogin = true; }
   showRegister() { this.isLogin = false; }
@@ -38,7 +42,9 @@ export class LoginComponent {
     const user: User = {
       name: this.name,
       email: this.email,
-      password: this.password
+      password: this.password,
+      phone: this.phone,
+      address: this.address
     };
 
     this.authService.register(user).subscribe({
@@ -60,12 +66,20 @@ export class LoginComponent {
     const user: User = {
       name: this.name,
       email: this.email,
-      password: this.password
+      password: this.password,
+      phone: this.phone,
+      address: this.address
     };
 
     this.authService.login(user).subscribe({
       next: (res: any) => {
-        alert(`Welcome back, ${res?.user.name}!`);
+        const u = res?.user;
+        if (!u?.phone || !u?.address) {
+          alert('Please complete your profile (phone and address) before continuing.');
+          this.router.navigate(['/account']);
+          return;
+        }
+        alert(`Welcome back, ${u.name}!`);
         this.router.navigate(['/restaurant']);
       },
       error: (err) => {

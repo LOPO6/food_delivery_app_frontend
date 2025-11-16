@@ -12,6 +12,8 @@ import { AuthService } from '../../services/auth.service';
 })
 export class NavComponent {
   username: string | null = null;
+  isAdmin = false;
+  isRestaurant = false;
 
   constructor(private authService: AuthService) {}
 
@@ -22,6 +24,16 @@ export class NavComponent {
     this.authService.username.subscribe((username) => {
       this.username = username;
     });
+
+    try {
+      const userStr = localStorage.getItem('user');
+      const u = userStr ? JSON.parse(userStr) : null;
+      this.isAdmin = Boolean(u?.isAdmin);
+      this.isRestaurant = Boolean(u?.isRestaurant);
+    } catch { 
+      this.isAdmin = false;
+      this.isRestaurant = false;
+    }
   }
 }
 

@@ -13,6 +13,15 @@
 
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                <li class="nav-item" *ngIf="isAdmin">
+                    <a class="nav-link" routerLink="/restaurant-add">Add Restaurant</a>
+                </li>
+                <li class="nav-item" *ngIf="isAdmin">
+                    <a class="nav-link" routerLink="/restaurant-approvals">Pending Approvals</a>
+                </li>
+                <li class="nav-item" *ngIf="isRestaurant && !isAdmin">
+                    <a class="nav-link" routerLink="/restaurant-add">Submit Restaurant</a>
+                </li>
                 <li class="nav-item">
                     <a class="nav-link" routerLink="/restaurant">Browse</a>
                 </li>
@@ -41,6 +50,8 @@
                         </div>
                     </ng-template>
                 </li>
+
+                
 
             </ul>
         </div>

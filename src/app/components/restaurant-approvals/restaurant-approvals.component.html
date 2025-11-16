@@ -1,0 +1,25 @@
+<div class="container">
+  <a routerLink="/restaurant">← Back to Restaurants</a>
+  <h2>Pending Restaurant Approvals (Admin)</h2>
+
+  <p *ngIf="loading">Loading...</p>
+  <p *ngIf="!loading && pendingRestaurants.length === 0">No pending restaurants.</p>
+
+  <div class="pending-list">
+    <div *ngFor="let r of pendingRestaurants" class="pending-item">
+      <h3>{{ r.name }}</h3>
+      <p><strong>Address:</strong> {{ r.address }}</p>
+      <p *ngIf="r.phone"><strong>Phone:</strong> {{ r.phone }}</p>
+      <p *ngIf="r.email"><strong>Email:</strong> {{ r.email }}</p>
+      <p *ngIf="r.cuisineType"><strong>Cuisine:</strong> {{ r.cuisineType }}</p>
+      <p *ngIf="r.details"><strong>Details:</strong> {{ r.details }}</p>
+      <p><strong>Owner User ID:</strong> {{ r.user_id }}</p>
+      <p *ngIf="r.owner"><strong>Owner Name:</strong> {{ r.owner.name }}</p>
+      <p *ngIf="r.owner"><strong>Owner Email:</strong> {{ r.owner.email }}</p>
+      <div class="actions">
+        <button class="btn-approve" (click)="approve(r.restaurant_id)">Approve</button>
+        <button class="btn-reject" (click)="reject(r.restaurant_id)">Reject</button>
+      </div>
+    </div>
+  </div>
+</div>

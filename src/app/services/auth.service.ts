@@ -20,6 +20,11 @@ export class AuthService {
     }
   }
 
+  // Fetch a user's profile by id
+  getProfile(userId: string | number) {
+    return this.http.get(`${this.serverUrl}/users/profile/${userId}`, { withCredentials: true });
+  }
+
   /** ✅ Shared username logic */
   private setUsername(username: string): void {
     this.usernameSource.next(username);
@@ -85,7 +90,7 @@ export class AuthService {
       this.clearUsername();
       return of({ message: 'Logged out (local mode)' });
     }
-    return this.http.get(`${this.serverUrl}/users/logout`, { withCredentials: true }).pipe(
+    return this.http.post(`${this.serverUrl}/users/logout`, {}, { withCredentials: true }).pipe(
       tap(() => this.clearUsername()),
       catchError(err => {
         this.clearUsername();

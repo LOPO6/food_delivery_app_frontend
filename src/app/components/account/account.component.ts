@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service'
 import { HttpClient } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
@@ -8,7 +8,7 @@ import { FormsModule } from '@angular/forms';
 @Component({
   selector: 'app-account',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './account.component.html',
   styleUrls: ['./account.component.css']
 })
@@ -26,7 +26,35 @@ export class AccountComponent {
   successMessage = '';
   errorMessage = '';
 
+  
+
   constructor(private authService: AuthService, private router: Router, private http: HttpClient) {}
+
+  ngOnInit(): void {
+    const userId = this.authService.getCurrentUserId();
+    if (!userId) {
+      this.router.navigate(['/login']);
+      return;
+    }
+
+    this.authService.getProfile(userId).subscribe({
+      next: (res: any) => {
+        this.updatedUser = {
+          user_id: String(res.user_id ?? userId),
+          name: res.name ?? '',
+          email: res.email ?? '',
+          phone: res.phone ?? '',
+          address: res.address ?? '',
+          password: ''
+        };
+        // form is prefilled; address remains a simple text field now
+      },
+      error: (err) => {
+        console.error('Failed to load profile', err);
+        // still show the form with empty values
+      }
+    });
+  }
 
 
   // A function to handle user account updates

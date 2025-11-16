@@ -4,6 +4,7 @@ import { RouterModule } from '@angular/router';
 
 import { RestuarantService } from '../../services/restuarant.service';
 import { FormsModule } from '@angular/forms';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   standalone: true,
@@ -23,10 +24,28 @@ export class RestaurantComponent {
 
   loading = false;
 
-  constructor(private restaurantService: RestuarantService) {}
+  // Admin state
+  isAdmin = false;
+  newRestaurant: any = {
+    name: '',
+    address: '',
+    phone: '',
+    email: '',
+    cuisineType: '',
+    details: '',
+    user_id: '',
+    owner_email: ''
+  };
+
+  constructor(private restaurantService: RestuarantService, private auth: AuthService) {}
 
 
   ngOnInit(): void {
+    try {
+      const userStr = localStorage.getItem('user');
+      const u = userStr ? JSON.parse(userStr) : null;
+      this.isAdmin = Boolean(u?.isAdmin);
+    } catch { this.isAdmin = false; }
     this.fetchRestaurants();
   }
 
@@ -98,6 +117,45 @@ searchForItem(query: string): void {
     }
   );
 }
+
+  // =============================
+  // Admin actions
+  // =============================
+  createRestaurant(): void {
+    if (!this.isAdmin) return;
+    const payload = { ...this.newRestaurant };
+    if (!payload.name || !payload.address || (!payload.user_id && !payload.owner_email)) {
+      alert('Name, address and either owner user ID or owner email are required');
+      return;
+    }
+    if (payload.user_id) payload.user_id = Number(payload.user_id);
+    this.restaurantService.adminCreateRestaurant(payload).subscribe({
+      next: () => {
+        alert('Restaurant created');
+        this.newRestaurant = { name: '', address: '', phone: '', email: '', cuisineType: '', details: '', user_id: '', owner_email: '' };
+        this.fetchRestaurants();
+      },
+      error: (err) => {
+        console.error('Create failed', err);
+        alert(err?.error?.error || 'Failed to create restaurant');
+      }
+    });
+  }
+
+  deleteRestaurant(id: number, ev?: Event): void {
+    if (ev) ev.preventDefault();
+    if (!this.isAdmin) return;
+    if (!confirm('Delete this restaurant?')) return;
+    this.restaurantService.adminDeleteRestaurant(id).subscribe({
+      next: () => {
+        this.restaurants = this.restaurants.filter(r => r.restaurant_id !== id);
+      },
+      error: (err) => {
+        console.error('Delete failed', err);
+        alert(err?.error?.error || 'Failed to delete');
+      }
+    });
+  }
 
 
 

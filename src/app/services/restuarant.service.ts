@@ -37,12 +37,31 @@ export class RestuarantService { //all the functions that are being called from 
 
   //all the api functions that involve ordering are added to the service below
   createOrder(payload: any){
-    return this.http.post(`${this.serverUrl}/api/orders`, payload);
+    return this.http.post(`${this.serverUrl}/orders`, payload);
   }
 
   getOrder(id: number){
-    return this.http.get(`${this.serverUrl}/api/orders/${id}`);
+    return this.http.get(`${this.serverUrl}/orders/${id}`);
   }
 
   //maybe need to add a cancel order function here?? just an idea for later
+
+  // ==========================
+  // Admin endpoints
+  // ==========================
+  adminCreateRestaurant(payload: any){
+    return this.http.post(`${this.serverUrl}/admin/restaurants`, payload, { withCredentials: true });
+  }
+
+  adminDeleteRestaurant(id: number){
+    return this.http.delete(`${this.serverUrl}/admin/restaurants/${id}`, { withCredentials: true });
+  }
+
+  listPendingRestaurants(){
+    return this.http.get(`${this.serverUrl}/admin/restaurants/pending`, { withCredentials: true });
+  }
+
+  approveRestaurant(id: number){
+    return this.http.put(`${this.serverUrl}/admin/restaurants/${id}/approve`, {}, { withCredentials: true });
+  }
 }

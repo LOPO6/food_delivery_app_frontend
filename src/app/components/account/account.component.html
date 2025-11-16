@@ -50,12 +50,7 @@
 
     <div class="form-group">
       <label for="address">Address</label>
-      <textarea
-        id="address"
-        name="address"
-        rows="3"
-        [(ngModel)]="updatedUser.address"
-      ></textarea>
+      <input id="address" name="address" type="text" [(ngModel)]="updatedUser.address" placeholder="Address" required />
     </div>
 
     <button type="submit" [disabled]="accountForm.invalid">Save Changes</button>
