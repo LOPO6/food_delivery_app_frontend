@@ -1,5 +1,5 @@
+<a class="back-button" routerLink="/restaurant">← Back to Restaurants</a>
 <div class="container">
-  <a routerLink="/restaurant">← Back to Restaurants</a>
   <h2 *ngIf="isAdmin && !isRestaurant">Create Restaurant (Admin)</h2>
   <h2 *ngIf="isRestaurant">Submit Your Restaurant</h2>
 
@@ -26,7 +26,9 @@
     </div>
     <div>
       <label>Details</label>
+      <div>
       <textarea name="details" [(ngModel)]="model.details"></textarea>
+      </div>
     </div>
     <!-- Admin-only owner assignment -->
     <div *ngIf="isAdmin && !isRestaurant">
