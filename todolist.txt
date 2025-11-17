@@ -5,10 +5,12 @@ Components:
     2. (cart) Users carts should be specific to them, someone signing in from a different account shouldn't see the same items, same thing for users who haven't signed in yet 
     3. (payment) needs to be implemented, currently no code in there
     4. (courier) need to implement function to fetch order information for the backend, also need to finish html for other tabs, and design functions to fetch all the required info for that as well
-    5. (restaurant) need to actually get restaurant images added into the backend server so we can test if they will display properly
+    5. (restaurant) need to actually get restaurant images added into the backend server so we can test if they will display properly, also need to make filters actually work
     6. (menu) need to format the image inside the css header so everything displays like the wireframe
     7. (restaurant-add) need to add css to this page
-    8. 
+    8. (restuarant) need to add the ai searchbar implementation
+    9. (checkout) make sure nothing is broken if this is deleted, because it's currently not being used, if nothing breaks, remove it
+
 
 
 Other stuff:
