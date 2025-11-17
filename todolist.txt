@@ -1,0 +1,21 @@
+THIS IS THE FRONT END TO DO LIST, NOT SURE WHAT TO DO? LOOK HERE!
+
+Components:
+    1. (cart/menu) need to add restrictions on user account so that users can't add orders from multiple restaurants
+    2. (cart) Users carts should be specific to them, someone signing in from a different account shouldn't see the same items, same thing for users who haven't signed in yet 
+    3. (payment) needs to be implemented, currently no code in there
+    4. (courier) need to implement function to fetch order information for the backend, also need to finish html for other tabs, and design functions to fetch all the required info for that as well
+    5. (restaurant) need to actually get restaurant images added into the backend server so we can test if they will display properly
+    6. (menu) need to format the image inside the css header so everything displays like the wireframe
+    7. (restaurant-add) need to add css to this page
+    8. 
+
+
+Other stuff:
+    1. Need to run non local testing on vercel 
+    2. Need to add proper toast notifications
+    3. need to make it so that when a user signs up it logs them in to the site and redirects them to the browse page, instead of redirecting them to login
+
+
+(note, please delete the to do list before final submission)
+
