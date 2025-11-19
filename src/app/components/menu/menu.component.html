@@ -2,18 +2,29 @@
   <a class="back-button" routerLink="/restaurant" href="/restaurant" role="button" tabindex="0">← Back to Browse</a>
 
   <div class="restaurant-header">
-    <div class="restaurant-info">
-      <h1>{{ restaurant.name }}</h1>
-      <div class="restaurant-stats"></div>
+    
+
+    <div class="restaurant-image-container">
+      <img
+        [src]="restaurant.imageUrl || '/GourmAI_Logo.png'"
+        [alt]="restaurant.name"
+        class="restaurant-image"
+      />
     </div>
-
-
-    <div class="restaurant-details">
+    
+    <div class="restaurant-info">
+      <div class="restaurant-details">
       <h3>Restaurant Info</h3>
       <p><strong>Phone Number:</strong> {{ restaurant.contact_info }}</p>
       <p><strong>Address:</strong> {{ restaurant.address }}</p>
       <p><strong>Delivery Range:</strong> {{ restaurant.delivery_range }} KM</p>
+      </div>
+      <div class="restaurant-stats"></div>
     </div>
+
+
+    
+    <h1>{{ restaurant.name }}</h1>
   </div>
 
   <div class="menu-section">

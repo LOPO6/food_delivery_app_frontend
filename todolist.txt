@@ -2,13 +2,14 @@ THIS IS THE FRONT END TO DO LIST, NOT SURE WHAT TO DO? LOOK HERE!
 
 Components:
     1. (cart/menu) need to add restrictions on user account so that users can't add orders from multiple restaurants
-    2. (cart) Users carts should be specific to them, someone signing in from a different account shouldn't see the same items, same thing for users who haven't signed in yet 
+    2. (cart) Users carts should be specific to them, someone signing in from a different account shouldn't see the same items, same thing for users who haven't signed in yet, if a user adds something to their cart, then logs out, they shouldn't still be able to see it
     3. (payment) needs to be implemented, currently no code in there
     4. (courier) need to implement function to fetch order information for the backend, also need to finish html for other tabs, and design functions to fetch all the required info for that as well
     5. (restaurant) need to actually get restaurant images added into the backend server so we can test if they will display properly, also need to make filters actually work
-    6. (menu) need to format the image inside the css header so everything displays like the wireframe
     7. (restuarant) need to add the ai searchbar implementation
     8. (checkout) make sure nothing is broken if this is deleted, because it's currently not being used, if nothing breaks, remove it
+    9. (general) need to add a proper font
+    10. (menu) need to add a description to the restaurants, may need to update the model for this one
 
 
 
