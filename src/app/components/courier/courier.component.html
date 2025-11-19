@@ -1,9 +1,12 @@
 <main>
+
+   
     <section class="dashboard-header">
         <div>
             <h1>Courier Dashboard</h1>
             <p>Manage your deliveries and availability</p>
         </div>
+
         <div class="availability-toggle">
             <label class="switch">
                 <input type="checkbox" checked/>
@@ -14,27 +17,105 @@
     </section>
 
     <section class="tabs">
-        <button class="tab active">Current Order</button>
-        <button class="tab">Past Orders</button>
-        <button class="tab">Navigation</button>
-    </section>
+        <button class="tab"
+                [class.active]="activeTab === 'current-order'"
+                (click)="setTab('current-order')">
+            Current Order
+        </button>
 
-    <section class="order-card">
-        <div class="order header">
-            <p>need to add the info about the order here</p>
-            <!--need to add gets here to get the accepted order info and display it-->
+        <button class="tab"
+                [class.active]="activeTab === 'past-orders'"
+                (click)="setTab('past-orders')">
+            Past Orders
+        </button>
+
+        <button class="tab"
+                [class.active]="activeTab === 'navigation'"
+                (click)="setTab('navigation')">
+            Navigation
+        </button>
+    </section>
+     <section *ngIf="activeTab === 'current-order'" class="order-card"> <!--currently containing temp info, needs to be replaced with gets from the backend-->
+        <div class="order-header">
+            <h2>Order #ORD-098</h2>
+            <span class="order-status">Accepted</span>
+        </div>
+
+        <p class="restaurant-name">Sushi Palace</p>
+
+        <div class="order-details">
+            <div class="items">
+                <h3>Items</h3>
+                <ul>
+                    <li>Spicy Tuna Roll x1</li>
+                    <li>Dragon Roll x2</li>
+                </ul>
+                <p class="order-total">Total: $23.50</p>
+            </div>
+
+            <div class="delivery-info">
+                <h3>Delivery Info</h3>
+                <p>Customer: Jane Smith</p>
+                <button class="btn call-customer">Call Customer</button>
+            </div>
+        </div>
+
+        <div class="timeline">
+            <h3>Delivery Timeline</h3>
+            <p>Accepted: 5:26 PM</p>
+            <p>Picked Up: Pending</p>
+            <p>Delivered: Pending</p>
         </div>
 
         <div class="message-customer">
-        <label for="message">Message Customer</label>
-        <textarea id="message" placeholder="Type a message to the customer..."></textarea>
-        <button class="btn send-message">Send Message</button>
-      </div>
+            <label for="message">Message Customer</label>
+            <textarea id="message" placeholder="Type a message to the customer..."></textarea>
+            <button class="btn send-message">Send Message</button>
+        </div>
 
-      <button class="btn mark-delivered">Mark as Delivered</button>
+        <button class="btn mark-delivered">Mark as Delivered</button>
+    </section>
+    <section *ngIf="activeTab === 'past-orders'" class="order-card"> <!--currently containing past info, needs to be replaced with actual backend gets-->
+        <h2>Past Orders</h2>
+        <p>Your completed deliveries</p>
+
+        <div class="past-order">
+            <div>
+                <strong>Order #ORD-098</strong>
+                <p>Sushi Palace</p>
+                <p>Customer: Jane Smith</p>
+                <p>Today, 5:30 PM</p>
+            </div>
+
+            <div>
+                <span class="order-status">Completed</span>
+                <p class="order-total">$8.50</p>
+            </div>
+        </div>
+
+        
+    </section>
+    <section *ngIf="activeTab === 'navigation'" class="order-card"> <!--currently features temp info, needs to be replaced with actual gets from backend-->
+        <h2>Navigation</h2>
+        <p>Route to delivery destination</p>
+
+        <div class="nav-map">
+            <div class="map-placeholder"></div>
+            <h3>123 Main St, Apt 4B</h3>
+            <p>Estimated time: 15 minutes</p>
+            <button class="btn">Open in Maps</button>
+        </div>
+
+        <hr>
+
+        <h3>Directions</h3>
+        <ol>
+            <li>Head north on Main St toward 2nd Ave</li>
+            <li>Turn right onto Oak Street</li>
+            <li>Turn left onto Elm Avenue</li>
+            <li>Destination will be on the right</li>
+        </ol>
     </section>
 
-
-
-    
 </main>
+
