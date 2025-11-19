@@ -58,11 +58,11 @@
             <div class="restaurant-content">
               <h3 class="restaurant-name">{{ restaurant.name }}</h3>
               <p class="restaurant-cuisine">
-                {{ restaurant.cuisine || 'Various' }}
+                {{ restaurant.cuisineType || 'Various' }}
               </p>
               <div class="restaurant-stats">
                 <div class="stat-item">
-                  <span class="rating-value">{{ restaurant.rating || '4.5' }}</span>
+                  <span class="rating-value">{{ restaurant.rating || 'Unrated' }}</span>
                 </div>
                 <div class="stat-item muted-text">
                   <span>{{ restaurant.eta || '25-35 min' }}</span>

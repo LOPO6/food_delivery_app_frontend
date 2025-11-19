@@ -146,6 +146,14 @@
   display: grid;
   gap: 1.5rem;
 }
+.btn-delete{
+  margin-top: 0.5rem;
+  border-radius: 5.5px;
+  border: 0.5px solid black;
+
+  background-color: #a50f25;
+  color: white;
+}
 
 @media (min-width: 768px) {
   .restaurant-grid {

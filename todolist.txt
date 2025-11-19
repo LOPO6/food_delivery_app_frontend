@@ -8,8 +8,9 @@ Components:
     5. (restaurant) need to actually get restaurant images added into the backend server so we can test if they will display properly, also need to make filters actually work
     7. (restuarant) need to add the ai searchbar implementation
     8. (checkout) make sure nothing is broken if this is deleted, because it's currently not being used, if nothing breaks, remove it
-    9. (general) need to add a proper font
-    10. (menu) need to add a description to the restaurants, may need to update the backend model for this one
+    9. (general) need to add a proper font for all text, right now generic font is being used.
+    10.(menu) need to add a description, star rating, and eta to the restaurants, may need to update the backend model for this one
+    11.(menu) need to connect the filter badges to a function that gets the restaurants based on their respective filter
 
 
 

@@ -3,6 +3,14 @@
   margin: 2rem auto;
   padding: 1rem;
 }
+.back-btn {
+  display: inline-flex;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  text-decoration: none;
+  color: #b91c1c;
+  font-weight: 600;
+}
 
 h2 {
   margin-bottom: 1.5rem;
