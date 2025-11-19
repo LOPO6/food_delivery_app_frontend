@@ -13,6 +13,12 @@
     border: 0.5px solid rgb(194, 194, 194);
     border-radius: 0.75rem;
 }
+.restaurant-heading {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
 
 /* Back link */
 .back-btn {
