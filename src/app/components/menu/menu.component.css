@@ -19,7 +19,7 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  margin-bottom: 1.5rem;
+  margin-bottom: 0.5rem;
 }
 
 .restaurant-heading h1 {
@@ -89,7 +89,7 @@
   grid-template-columns: 1.5fr 1fr;
   gap: 2rem;
   align-items: start;
-  margin-bottom: 3rem;
+  margin-bottom: 0.5rem;
 }
 
 /* Image container */
@@ -307,7 +307,7 @@
 .menu-details p {
   margin: 0.4rem 0 0;
   font-size: 0.9rem;
-  color: #555;
+  color: #a50f25;
 }
 
 .menu-actions {

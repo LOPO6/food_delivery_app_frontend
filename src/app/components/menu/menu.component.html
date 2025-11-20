@@ -28,9 +28,9 @@
     <div class="restaurant-info">
       <div class="restaurant-details">
       <h3>Restaurant Info</h3>
-      <p><strong>Phone Number:</strong> {{ restaurant.contact_info }}</p>
+      <p><strong>Phone Number:</strong> {{ restaurant.phone }}</p>
       <p><strong>Address:</strong> {{ restaurant.address }}</p>
-      <p><strong>Delivery Range:</strong> {{ restaurant.delivery_range }} KM</p>
+      <p><strong>Cuisine Type:</strong> {{ restaurant.cuisineType}}</p>
       </div>
       <div class="restaurant-stats"></div>
     </div>
@@ -60,10 +60,10 @@
       <div class="menu-card" *ngFor="let item of menuItems">
         <div class="menu-details">
           <h3>{{ item.item_name }}</h3>
-          <p>{{ item.item_price }}</p>
+          <p>${{ item.item_price }}</p>
         </div>
         <div class="menu-actions">
-          <span class="price">${{ item.price }}</span>
+          <span class="price">{{ item._price }}</span>
           <button class="add-btn" (click)="addToCart(item)" [attr.aria-label]="'Add ' + item.name + ' to cart'">+</button>
         </div>
       </div>
