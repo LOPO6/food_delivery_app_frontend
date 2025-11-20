@@ -30,6 +30,10 @@
       <textarea name="details" [(ngModel)]="model.details"></textarea>
       </div>
     </div>
+    <div>
+      <label>Restaurant Image (optional)</label>
+      <input type="file" accept="image/*" (change)="onFileSelected($event)" />
+    </div>
     <!-- Admin-only owner assignment -->
     <div *ngIf="isAdmin && !isRestaurant">
       <label>Owner Email (alternative)</label>

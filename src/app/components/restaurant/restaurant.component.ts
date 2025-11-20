@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router';
 import { RestuarantService } from '../../services/restuarant.service';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
+import { environment } from '../../../environments/environment';
 
 @Component({
   standalone: true,
@@ -15,6 +16,7 @@ import { AuthService } from '../../services/auth.service';
 })
 export class RestaurantComponent {
   restaurants: any[] = [];
+  allRestaurants: any[] = []; // backup of all restaurants for filtering
 
   searchQuery: string = '';
 
@@ -23,6 +25,12 @@ export class RestaurantComponent {
 
 
   loading = false;
+  // Track selected files per restaurant id
+  uploadFiles: { [id: number]: File | undefined } = {};
+  
+  // Cuisine filter
+  selectedCuisine: string = 'All';
+  cuisineTypes: string[] = ['All', 'Burgers', 'Cafe', 'Fast Food', 'Greek', 'Indian', 'Italian', 'Japanese', 'Mediterranean', 'Mexican', 'Pizza', 'Sandwiches', 'Steakhouse', 'Vegetarian'];
 
   // Admin state
   isAdmin = false;
@@ -53,12 +61,45 @@ export class RestaurantComponent {
     this.loading = true;
     this.restaurantService.getRestaurants().subscribe({
       next: (data) => {
-        this.restaurants = data as any[];
+        const list = (data as any[]) || [];
+        this.allRestaurants = list.map(r => ({
+          ...r,
+          imageUrl: `${environment.serverUrl}/restaurants/${r.restaurant_id}/image${r.updatedAt ? `?v=${new Date(r.updatedAt).getTime()}` : ''}`
+        }));
+        this.restaurants = [...this.allRestaurants];
         this.loading = false;
       },
       error: (err) => {
         console.error('Error fetching restaurants', err);
         this.loading = false;
+      }
+    });
+  }
+
+  onFileSelected(restaurantId: number, event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const file = (input && input.files && input.files.length) ? input.files[0] : undefined;
+    this.uploadFiles[restaurantId] = file;
+  }
+
+  uploadImage(restaurantId: number): void {
+    const file = this.uploadFiles[restaurantId];
+    if (!file) {
+      alert('Please choose an image first.');
+      return;
+    }
+    this.restaurantService.uploadRestaurantImage(restaurantId, file).subscribe({
+      next: () => {
+        const idx = this.restaurants.findIndex(r => r.restaurant_id === restaurantId);
+        if (idx >= 0) {
+          const base = `${environment.serverUrl}/restaurants/${restaurantId}/image`;
+          this.restaurants[idx].imageUrl = `${base}?v=${Date.now()}`;
+        }
+        this.uploadFiles[restaurantId] = undefined;
+      },
+      error: (err) => {
+        console.error('Upload failed', err);
+        alert(err?.error?.error || 'Failed to upload image');
       }
     });
   }
@@ -149,12 +190,22 @@ searchForItem(query: string): void {
     this.restaurantService.adminDeleteRestaurant(id).subscribe({
       next: () => {
         this.restaurants = this.restaurants.filter(r => r.restaurant_id !== id);
+        this.allRestaurants = this.allRestaurants.filter(r => r.restaurant_id !== id);
       },
       error: (err) => {
         console.error('Delete failed', err);
         alert(err?.error?.error || 'Failed to delete');
       }
     });
+  }
+
+  filterByCuisine(cuisine: string): void {
+    this.selectedCuisine = cuisine;
+    if (cuisine === 'All') {
+      this.restaurants = [...this.allRestaurants];
+    } else {
+      this.restaurants = this.allRestaurants.filter(r => r.cuisineType === cuisine);
+    }
   }
 
 

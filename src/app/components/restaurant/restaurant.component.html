@@ -29,12 +29,15 @@
 
     <!-- Filter Badges -->
     <div class="filter-badges">
-      <span class="badge badge-default" (click)="fetchRestaurants()">All</span>
-      <span class="badge badge-outline">Italian</span>
-      <span class="badge badge-outline">Japanese</span>
-      <span class="badge badge-outline">American</span>
-      <span class="badge badge-outline">Fast Delivery</span>
-      <span class="badge badge-outline">Top Rated</span>
+      <span 
+        *ngFor="let type of cuisineTypes" 
+        class="badge" 
+        [class.badge-default]="selectedCuisine === type"
+        [class.badge-outline]="selectedCuisine !== type"
+        (click)="filterByCuisine(type)"
+      >
+        {{ type }}
+      </span>
     </div>
 
     <!-- Admin Controls moved to Restaurant Add page -->

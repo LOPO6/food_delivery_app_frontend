@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 
 
@@ -63,5 +63,17 @@ export class RestuarantService { //all the functions that are being called from 
 
   approveRestaurant(id: number){
     return this.http.put(`${this.serverUrl}/admin/restaurants/${id}/approve`, {}, { withCredentials: true });
+  }
+
+  // Upload restaurant image (admin or owner)
+  uploadRestaurantImage(id: number, file: File){
+    const form = new FormData();
+    form.append('image', file);
+    const token = localStorage.getItem('token');
+    const options: any = { withCredentials: true };
+    if (token) {
+      options.headers = new HttpHeaders({ 'Authorization': `Bearer ${token}` });
+    }
+    return this.http.put(`${this.serverUrl}/restaurants/${id}/image`, form, options);
   }
 }

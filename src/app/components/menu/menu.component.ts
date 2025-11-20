@@ -1,10 +1,9 @@
 import { Component } from '@angular/core';
 import { RestuarantService } from '../../services/restuarant.service';
 import { CartService } from '../../services/cart.service';
-// Get lib for ngFor directive
 import { CommonModule } from '@angular/common';
-
 import { ActivatedRoute } from '@angular/router';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-menu',
@@ -17,11 +16,21 @@ export class MenuComponent {
   restaurantId = '';
   restaurant: any;
   showToast = false;
+  currentUserId: number | null = null;
+  isAdmin = false;
+  canUploadImage = false;
+  selectedImage?: File;
 
 
   constructor(private api: RestuarantService, private cart: CartService, private route: ActivatedRoute){ }
 
     ngOnInit(): void {
+    try {
+      const userStr = localStorage.getItem('user');
+      const u = userStr ? JSON.parse(userStr) : null;
+      this.currentUserId = u?.user_id || null;
+      this.isAdmin = Boolean(u?.isAdmin);
+    } catch {}
     this.restaurantId = this.route.snapshot.paramMap.get('id') || '';
     if (this.restaurantId) {
       console.log('Loading menu for restaurant ID:', this.restaurantId);
@@ -35,7 +44,11 @@ export class MenuComponent {
    */
   loadRestaurant(id: string): void {
     this.api.getRestaurantById(Number(id)).subscribe({
-      next: (res) => (this.restaurant = res),
+      next: (res: any) => {
+        this.restaurant = res;
+        this.restaurant.imageUrl = `${environment.serverUrl}/restaurants/${res.restaurant_id}/image?v=${Date.now()}`;
+        this.canUploadImage = this.isAdmin || (this.currentUserId === res.user_id);
+      },
       error: (err) => console.error('Error loading restaurant', err)
     });
   }
@@ -67,5 +80,30 @@ export class MenuComponent {
     }, 2000); // Hide toast after 2 seconds
   }
 
+  onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    this.selectedImage = (input && input.files && input.files.length) ? input.files[0] : undefined;
+    
+    // Auto-upload on file selection
+    if (this.selectedImage) {
+      this.uploadImage();
+    }
+  }
+
+  uploadImage(): void {
+    if (!this.selectedImage || !this.restaurantId) {
+      return;
+    }
+    this.api.uploadRestaurantImage(Number(this.restaurantId), this.selectedImage).subscribe({
+      next: () => {
+        this.restaurant.imageUrl = `${environment.serverUrl}/restaurants/${this.restaurantId}/image?v=${Date.now()}`;
+        this.selectedImage = undefined;
+      },
+      error: (err) => {
+        console.error('Upload failed', err);
+        alert(err?.error?.error || 'Failed to upload image');
+      }
+    });
+  }
 
 }

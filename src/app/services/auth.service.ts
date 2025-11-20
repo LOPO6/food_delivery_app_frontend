@@ -47,6 +47,7 @@ export class AuthService {
           this.setUsername(res.user.name);
           // Save user details to localStorage
           localStorage.setItem('user', JSON.stringify(res?.user));
+          if (res?.token) localStorage.setItem('token', res.token);
         }
       }),
       catchError(err => throwError(() => err))
@@ -76,6 +77,7 @@ export class AuthService {
           this.setUsername(res.user.name);
           // Save user details to localStorage
           localStorage.setItem('user', JSON.stringify(res?.user));
+          if (res?.token) localStorage.setItem('token', res.token);
         } else {
           this.setUsername('User'); // Fallback if name is missing
         }

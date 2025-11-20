@@ -24,6 +24,7 @@ export class RestaurantAddComponent {
     owner_email: '',
     user_id: ''
   };
+  selectedImage?: File;
 
   constructor(private api: RestuarantService, private router: Router) {}
 
@@ -49,7 +50,10 @@ export class RestaurantAddComponent {
         return;
       }
       this.api.addRestaurant(payload).subscribe({
-        next: () => {
+        next: (res: any) => {
+          if (this.selectedImage && res?.restaurant?.restaurant_id) {
+            this.uploadImageAfterCreate(res.restaurant.restaurant_id);
+          }
           alert('Restaurant submitted for approval');
           this.router.navigate(['/restaurant']);
         },
@@ -68,7 +72,10 @@ export class RestaurantAddComponent {
     }
     if (payload.user_id) payload.user_id = Number(payload.user_id);
     this.api.adminCreateRestaurant(payload).subscribe({
-      next: () => {
+      next: (res: any) => {
+        if (this.selectedImage && res?.restaurant?.restaurant_id) {
+          this.uploadImageAfterCreate(res.restaurant.restaurant_id);
+        }
         alert('Restaurant created');
         this.router.navigate(['/restaurant']);
       },
@@ -76,6 +83,20 @@ export class RestaurantAddComponent {
         console.error(err);
         alert(err?.error?.error || 'Failed to create restaurant');
       }
+    });
+  }
+
+  onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    this.selectedImage = (input && input.files && input.files.length) ? input.files[0] : undefined;
+  }
+
+  // Upload image after restaurant creation (will be called with created restaurant_id)
+  uploadImageAfterCreate(restaurantId: number): void {
+    if (!this.selectedImage) return;
+    this.api.uploadRestaurantImage(restaurantId, this.selectedImage).subscribe({
+      next: () => console.log('Image uploaded'),
+      error: (err) => console.error('Image upload failed', err)
     });
   }
 }
