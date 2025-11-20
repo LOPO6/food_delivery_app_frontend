@@ -6,6 +6,7 @@ import { RestuarantService } from '../../services/restuarant.service';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { environment } from '../../../environments/environment';
+import { ChatbotService } from '../../services/chatbot.service';
 
 @Component({
   standalone: true,
@@ -45,7 +46,7 @@ export class RestaurantComponent {
     owner_email: ''
   };
 
-  constructor(private restaurantService: RestuarantService, private auth: AuthService) {}
+  constructor(private restaurantService: RestuarantService, private auth: AuthService, private chatbot: ChatbotService) {}
 
 
   ngOnInit(): void {
@@ -56,6 +57,8 @@ export class RestaurantComponent {
     } catch { this.isAdmin = false; }
     this.fetchRestaurants();
   }
+
+  openChatbot(): void { this.chatbot.open(); }
 
   fetchRestaurants(): void {
     this.loading = true;
