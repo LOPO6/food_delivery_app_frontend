@@ -1,52 +1,220 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
-</head>
-<body>
-    <section class="login-section">
-        <div class="container">
-
+<div class="login-page">
+    <div class="login-container">
+        <div class="logo-section">
+            <img src="GourmAI_Logo.png" alt="GourmAI Logo" class="logo">
             <h1>GourmAI</h1>
-            <p>Welcome Back! Sign in to continue</p>
-            
-            <div class="auth-container">
-                <h2>Authentication</h2>
+            <p class="tagline">Your favorite restaurants, delivered</p>
+        </div>
 
-                <p>Sign in or create an account</p>
+        <div class="auth-card">
+            <div class="auth-tabs">
+                <button 
+                    class="tab" 
+                    [class.active]="isLogin" 
+                    (click)="showLogin()">
+                    Sign In
+                </button>
+                <button 
+                    class="tab" 
+                    [class.active]="!isLogin" 
+                    (click)="showRegister()">
+                    Sign Up
+                </button>
+            </div>
 
-                <div class="auth-links">
-                <!-- Toggle between login and register forms -->
-                <a (click)="showLogin()">Sign In</a>
-                <a (click)="showRegister()">Sign Up</a>
-
+            <!-- Login Form -->
+            <form *ngIf="isLogin" #loginForm="ngForm" (ngSubmit)="onLogin(loginForm)" class="auth-form">
+                <div class="form-group">
+                    <label for="login-email">Email</label>
+                    <input 
+                        type="email" 
+                        id="login-email"
+                        name="email" 
+                        [(ngModel)]="email" 
+                        placeholder="you@example.com" 
+                        required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="login-password">Password</label>
+                    <input 
+                        type="password" 
+                        id="login-password"
+                        name="password" 
+                        [(ngModel)]="password" 
+                        placeholder="••••••••" 
+                        required>
                 </div>
 
+                <button type="submit" class="submit-btn" [disabled]="loginForm.invalid">
+                    <span *ngIf="!loginForm.invalid">Sign In</span>
+                    <span *ngIf="loginForm.invalid">Please fill all fields</span>
+                </button>
+            </form>
 
-                <!-- Login form -->
-                <form *ngIf="isLogin" #loginForm="ngForm" (ngSubmit)="onLogin(loginForm)">
-                <input type="email" name="email" [(ngModel)]="email" placeholder="Email" required>
-                <input type="password" name="password" [(ngModel)]="password" placeholder="Password" required>
-                <button type="submit" [disabled]="loginForm.invalid">Sign In</button>
-                </form>
+            <!-- Register Form -->
+            <form *ngIf="!isLogin" #registerForm="ngForm" (ngSubmit)="onRegister(registerForm)" class="auth-form">
+                <div class="form-group">
+                    <label for="register-name">Full Name</label>
+                    <input 
+                        type="text" 
+                        id="register-name"
+                        name="name" 
+                        [(ngModel)]="name" 
+                        placeholder="John Doe" 
+                        required>
+                </div>
 
-                <!-- Register form -->
-                                <form *ngIf="!isLogin" #registerForm="ngForm" (ngSubmit)="onRegister(registerForm)">
-                <input type="text" name="name" [(ngModel)]="name" placeholder="Full Name" required>
-                <input type="email" name="email" [(ngModel)]="email" placeholder="Email" required>
-                                <input type="tel" name="phone" [(ngModel)]="phone" placeholder="Phone" required>
-                                <input type="text" name="address" [(ngModel)]="address" placeholder="Address" required>
-                <input type="password" name="password" [(ngModel)]="password" placeholder="Password" minlength="6" required>
-                <button type="submit" [disabled]="registerForm.invalid">Sign Up</button>
+                <div class="form-group">
+                    <label for="register-email">Email</label>
+                    <input 
+                        type="email" 
+                        id="register-email"
+                        name="email" 
+                        [(ngModel)]="email" 
+                        placeholder="you@example.com" 
+                        required>
+                </div>
+
+                <div class="form-group">
+                    <label for="register-phone">Phone Number</label>
+                    <input 
+                        type="tel" 
+                        id="register-phone"
+                        name="phone" 
+                        [(ngModel)]="phone" 
+                        placeholder="(555) 123-4567" 
+                        required>
+                </div>
+
+                <div class="form-group">
+                    <label for="register-address">Address</label>
+                    <input 
+                        type="text" 
+                        id="register-address"
+                        name="address" 
+                        [(ngModel)]="address" 
+                        placeholder="123 Main St, City, State" 
+                        required>
+                </div>
+
+                <div class="form-group">
+                    <label for="register-role">I want to register as a</label>
+                    <select 
+                        id="register-role"
+                        name="role" 
+                        [(ngModel)]="userRole" 
+                        required>
+                        <option value="customer">Customer</option>
+                        <option value="courier">Courier</option>
+                        <option value="restaurant">Restaurant Owner</option>
+                    </select>
+                </div>
+
+                <!-- Courier-specific fields -->
+                <div *ngIf="userRole === 'courier'" class="role-specific-fields">
+                    <h3 class="section-title">Vehicle Information</h3>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="vehicleMake">Vehicle Make</label>
+                            <input 
+                                type="text" 
+                                id="vehicleMake"
+                                name="vehicleMake" 
+                                [(ngModel)]="vehicleMake" 
+                                placeholder="Toyota" 
+                                [required]="userRole === 'courier'">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="vehicleModel">Vehicle Model</label>
+                            <input 
+                                type="text" 
+                                id="vehicleModel"
+                                name="vehicleModel" 
+                                [(ngModel)]="vehicleModel" 
+                                placeholder="Camry" 
+                                [required]="userRole === 'courier'">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="vehicleYear">Year</label>
+                            <input 
+                                type="number" 
+                                id="vehicleYear"
+                                name="vehicleYear" 
+                                [(ngModel)]="vehicleYear" 
+                                placeholder="2020" 
+                                min="1990"
+                                max="2025"
+                                [required]="userRole === 'courier'">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="vehicleColour">Color</label>
+                            <input 
+                                type="text" 
+                                id="vehicleColour"
+                                name="vehicleColour" 
+                                [(ngModel)]="vehicleColour" 
+                                placeholder="Silver" 
+                                [required]="userRole === 'courier'">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="licensePlate">License Plate</label>
+                            <input 
+                                type="text" 
+                                id="licensePlate"
+                                name="licensePlate" 
+                                [(ngModel)]="licensePlate" 
+                                placeholder="ABC1234" 
+                                [required]="userRole === 'courier'">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="city">City</label>
+                            <input 
+                                type="text" 
+                                id="city"
+                                name="city" 
+                                [(ngModel)]="city" 
+                                placeholder="Your city" 
+                                [required]="userRole === 'courier'">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="register-password">Password</label>
+                    <input 
+                        type="password" 
+                        id="register-password"
+                        name="password" 
+                        [(ngModel)]="password" 
+                        placeholder="••••••••" 
+                        minlength="6" 
+                        required>
+                    <small>At least 6 characters</small>
+                </div>
+
+                <button type="submit" class="submit-btn" [disabled]="registerForm.invalid">
+                    <span *ngIf="!registerForm.invalid">Create Account</span>
+                    <span *ngIf="registerForm.invalid">Please fill all fields</span>
+                </button>
             </form>
         </div>
 
-            <a routerLink="/"><p>&#8592; Back to home</p></a>
-        </div>
-
-    </section>
-    
-</body>
-</html>
+        <a routerLink="/" class="back-link">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                <path d="M8 0L6.59 1.41L12.17 7H0v2h12.17l-5.58 5.59L8 16l8-8z" transform="rotate(180 8 8)"/>
+            </svg>
+            Back to Home
+        </a>
+    </div>
+</div>

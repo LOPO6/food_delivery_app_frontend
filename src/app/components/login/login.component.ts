@@ -30,6 +30,15 @@ export class LoginComponent {
   name = '';
   phone = '';
   address = '';
+  userRole = 'customer';
+
+  // Courier-specific fields
+  vehicleMake = '';
+  vehicleModel = '';
+  vehicleYear?: number;
+  licensePlate = '';
+  vehicleColour = '';
+  city = '';
 
   constructor(private router: Router, private authService: AuthService, private toast: ToastService) {}
 
@@ -48,13 +57,33 @@ export class LoginComponent {
       address: this.address
     };
 
-    this.authService.register(user).subscribe({
+    const payload: any = {
+      ...user,
+      isCourier: this.userRole === 'courier',
+      isRestaurant: this.userRole === 'restaurant',
+      isAdmin: false
+    };
+
+    // Add courier-specific fields if registering as courier
+    if (this.userRole === 'courier') {
+      payload.vehicleMake = this.vehicleMake;
+      payload.vehicleModel = this.vehicleModel;
+      payload.vehicleYear = this.vehicleYear;
+      payload.licensePlate = this.licensePlate;
+      payload.vehicleColour = this.vehicleColour;
+      payload.city = this.city;
+    }
+
+    console.log('Registration payload:', payload);
+
+    this.authService.register(payload).subscribe({
       next: () => {
         this.toast.success('Account created! You can now log in.');
         this.isLogin = true;
       },
       error: (err) => {
-        const msg = err?.error?.message || 'Registration failed';
+        console.error('Registration error:', err);
+        const msg = err?.error?.error || err?.error?.message || 'Registration failed';
         this.toast.error(msg);
       }
     });
