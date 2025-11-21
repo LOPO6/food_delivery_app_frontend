@@ -49,22 +49,63 @@
     <h2>Menu</h2>
 
     <div class="menu-categories">
-      <button class="active">All Items</button>
-      <button>Burgers</button>
-      <button>Sides</button>
-      <button>Appetizers</button>
-      <button>Drinks</button>
+      <button 
+        *ngFor="let category of categories"
+        [class.active]="selectedCategory === category"
+        (click)="filterByCategory(category)">
+        {{ category }}
+      </button>
+    </div>
+
+    <!-- Add/Edit Menu Item Form (Admin/Owner Only) -->
+    <div *ngIf="canUploadImage" class="menu-management">
+      <button class="btn-add-item" (click)="toggleAddForm()">
+        {{ showAddForm ? 'Cancel' : '+ Add Menu Item' }}
+      </button>
+
+      <div *ngIf="showAddForm" class="add-item-form">
+        <h3>{{ editingItem ? 'Edit Menu Item' : 'Add New Menu Item' }}</h3>
+        <div class="form-group">
+          <label>Item Name</label>
+          <input type="text" [(ngModel)]="newItem.item_name" placeholder="e.g., Cheeseburger" />
+        </div>
+        <div class="form-group">
+          <label>Price ($)</label>
+          <input type="number" [(ngModel)]="newItem.item_price" step="0.01" min="0" placeholder="9.99" />
+        </div>
+        <div class="form-group">
+          <label>Category</label>
+          <select [(ngModel)]="newItem.category">
+            <option *ngFor="let cat of categories" [value]="cat" [disabled]="cat === 'All Items'">{{ cat }}</option>
+          </select>
+          <small style="display: block; margin-top: 0.25rem; color: #666;">Or type a new category name to create it</small>
+          <input type="text" [(ngModel)]="newItem.category" placeholder="e.g., Appetizers, Desserts, Beverages" style="margin-top: 0.5rem;" />
+        </div>
+        <div class="form-group">
+          <label>Description (Optional)</label>
+          <textarea [(ngModel)]="newItem.description" rows="3" placeholder="Brief description of the item..."></textarea>
+        </div>
+        <div class="form-actions">
+          <button class="btn-save" (click)="saveMenuItem()">{{ editingItem ? 'Update' : 'Add' }}</button>
+          <button class="btn-cancel" (click)="toggleAddForm()">Cancel</button>
+        </div>
+      </div>
     </div>
 
     <div class="menu-grid">
-      <div class="menu-card" *ngFor="let item of menuItems">
+      <div class="menu-card" *ngFor="let item of filteredMenuItems">
         <div class="menu-details">
           <h3>{{ item.item_name }}</h3>
-          <p>${{ item.item_price }}</p>
+          <p class="item-category" *ngIf="item.category && item.category !== 'All Items'">{{ item.category }}</p>
+          <p class="item-description" *ngIf="item.description">{{ item.description }}</p>
+          <p class="item-price">${{ item.item_price?.toFixed(2) }}</p>
         </div>
         <div class="menu-actions">
-          <span class="price">{{ item._price }}</span>
-          <button class="add-btn" (click)="addToCart(item)" [attr.aria-label]="'Add ' + item.name + ' to cart'">+</button>
+          <button class="add-btn" (click)="addToCart(item)" [attr.aria-label]="'Add ' + item.item_name + ' to cart'">+</button>
+          <div *ngIf="canUploadImage" class="admin-actions">
+            <button class="btn-edit" (click)="startEdit(item)" title="Edit item">✎</button>
+            <button class="btn-delete" (click)="deleteMenuItem(item)" title="Delete item">🗑</button>
+          </div>
         </div>
       </div>
     </div>

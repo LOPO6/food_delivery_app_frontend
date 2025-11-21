@@ -1,7 +1,9 @@
 import { NgIf } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { CartService } from '../../services/cart.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-nav',
@@ -10,30 +12,35 @@ import { AuthService } from '../../services/auth.service';
   templateUrl: './nav.component.html',
   styleUrls: ['./nav.component.css']   // ✅ plural
 })
-export class NavComponent {
+export class NavComponent implements OnInit, OnDestroy {
   username: string | null = null;
   isAdmin = false;
   isRestaurant = false;
+  cartCount = 0;
+  private sub?: Subscription;
+  private cartSub?: Subscription;
 
-  constructor(private authService: AuthService) {}
+  constructor(
+    private authService: AuthService,
+    private cartService: CartService
+  ) {}
 
-  // Subscribe to username on init
+  // Subscribe to username and cart on init
   ngOnInit(): void {
-
-    // Succsessfully subscribe to username observable
-    this.authService.username.subscribe((username) => {
-      this.username = username;
+    this.sub = this.authService.user$.subscribe(u => {
+      this.username = u?.name || null;
+      this.isAdmin = (u?.isAdmin === true);
+      this.isRestaurant = (u?.isRestaurant === true);
     });
 
-    try {
-      const userStr = localStorage.getItem('user');
-      const u = userStr ? JSON.parse(userStr) : null;
-      this.isAdmin = Boolean(u?.isAdmin);
-      this.isRestaurant = Boolean(u?.isRestaurant);
-    } catch { 
-      this.isAdmin = false;
-      this.isRestaurant = false;
-    }
+    this.cartSub = this.cartService.items$.subscribe(() => {
+      this.cartCount = this.cartService.getCount();
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.sub?.unsubscribe();
+    this.cartSub?.unsubscribe();
   }
 }
 

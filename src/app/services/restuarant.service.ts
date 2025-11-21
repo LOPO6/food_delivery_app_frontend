@@ -76,4 +76,19 @@ export class RestuarantService { //all the functions that are being called from 
     }
     return this.http.put(`${this.serverUrl}/restaurants/${id}/image`, form, options);
   }
+
+  // ==========================
+  // Menu Item Management
+  // ==========================
+  createMenuItem(payload: any){
+    return this.http.post(`${this.serverUrl}/menu-items`, payload, { withCredentials: true });
+  }
+
+  updateMenuItem(id: number, payload: any){
+    return this.http.put(`${this.serverUrl}/menu-items/${id}`, payload, { withCredentials: true });
+  }
+
+  deleteMenuItem(id: number){
+    return this.http.delete(`${this.serverUrl}/menu-items/${id}`, { withCredentials: true });
+  }
 }

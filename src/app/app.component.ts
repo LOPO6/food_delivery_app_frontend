@@ -4,10 +4,11 @@ import { NavComponent } from './components/nav/nav.component';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { ChatbotComponent } from './components/chatbot/chatbot.component';
+import { ToastComponent } from './components/toast/toast.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, NavComponent, CommonModule, RouterModule, ChatbotComponent],
+  imports: [RouterOutlet, NavComponent, CommonModule, RouterModule, ChatbotComponent, ToastComponent],
   templateUrl: './app.component.html',//hello
   styleUrl: './app.component.css'
 })

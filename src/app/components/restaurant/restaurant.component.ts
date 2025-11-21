@@ -7,6 +7,7 @@ import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { environment } from '../../../environments/environment';
 import { ChatbotService } from '../../services/chatbot.service';
+import { ToastService } from '../../services/toast.service';
 
 @Component({
   standalone: true,
@@ -46,7 +47,7 @@ export class RestaurantComponent {
     owner_email: ''
   };
 
-  constructor(private restaurantService: RestuarantService, private auth: AuthService, private chatbot: ChatbotService) {}
+  constructor(private restaurantService: RestuarantService, private auth: AuthService, private chatbot: ChatbotService, private toast: ToastService) {}
 
 
   ngOnInit(): void {
@@ -88,7 +89,7 @@ export class RestaurantComponent {
   uploadImage(restaurantId: number): void {
     const file = this.uploadFiles[restaurantId];
     if (!file) {
-      alert('Please choose an image first.');
+      this.toast.warning('Please choose an image first.');
       return;
     }
     this.restaurantService.uploadRestaurantImage(restaurantId, file).subscribe({
@@ -102,7 +103,7 @@ export class RestaurantComponent {
       },
       error: (err) => {
         console.error('Upload failed', err);
-        alert(err?.error?.error || 'Failed to upload image');
+        this.toast.error(err?.error?.error || 'Failed to upload image');
       }
     });
   }
@@ -169,19 +170,19 @@ searchForItem(query: string): void {
     if (!this.isAdmin) return;
     const payload = { ...this.newRestaurant };
     if (!payload.name || !payload.address || (!payload.user_id && !payload.owner_email)) {
-      alert('Name, address and either owner user ID or owner email are required');
+      this.toast.error('Name, address and either owner user ID or owner email are required');
       return;
     }
     if (payload.user_id) payload.user_id = Number(payload.user_id);
     this.restaurantService.adminCreateRestaurant(payload).subscribe({
       next: () => {
-        alert('Restaurant created');
+        this.toast.success('Restaurant created');
         this.newRestaurant = { name: '', address: '', phone: '', email: '', cuisineType: '', details: '', user_id: '', owner_email: '' };
         this.fetchRestaurants();
       },
       error: (err) => {
         console.error('Create failed', err);
-        alert(err?.error?.error || 'Failed to create restaurant');
+        this.toast.error(err?.error?.error || 'Failed to create restaurant');
       }
     });
   }
@@ -197,7 +198,7 @@ searchForItem(query: string): void {
       },
       error: (err) => {
         console.error('Delete failed', err);
-        alert(err?.error?.error || 'Failed to delete');
+        this.toast.error(err?.error?.error || 'Failed to delete');
       }
     });
   }

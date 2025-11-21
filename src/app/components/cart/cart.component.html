@@ -1,65 +1,92 @@
 <div class="cart-container">
   <a routerLink="/restaurant" href="/restaurant" class="back-link">← Continue Shopping</a>
 
-  <h1 *ngIf="items.length; else emptyTitle">Your Cart</h1>
-  <ng-template #emptyTitle><h1>Your Cart</h1></ng-template>
+  <h1>Your Cart</h1>
 
-  <div class="cart-content">
-    <div class="cart-items">
-      <div *ngIf="items.length === 0" class="empty-cart">
-        Your cart is empty. <a routerLink="/restaurant" href="/restaurant">Browse restaurants</a>
+  <div *ngIf="restaurantCarts.length === 0" class="empty-cart">
+    <p>Your cart is empty. <a routerLink="/restaurant" href="/restaurant">Browse restaurants</a></p>
+  </div>
+
+  <div *ngIf="restaurantCarts.length > 0" class="restaurant-carts">
+    <!-- Loop through each restaurant cart -->
+    <div *ngFor="let restaurantCart of restaurantCarts" class="restaurant-cart-section">
+      
+      <!-- Restaurant Header -->
+      <div class="restaurant-header">
+        <div class="restaurant-info">
+          <h2>🍽️ {{ restaurantCart.restaurantName }}</h2>
+          <p class="item-count">{{ restaurantCart.items.length }} item(s)</p>
+        </div>
+        <button class="clear-restaurant-btn" (click)="clearRestaurantCart(restaurantCart.restaurantId)" 
+                title="Clear all items from this restaurant">
+          Clear Cart
+        </button>
       </div>
 
-      <div class="cart-item" *ngFor="let item of items">
-        <div class="item-info">
-          <h3 class="item-name">{{ item.name }}</h3>
-          <p class="item-desc" *ngIf="item.description">{{ item.description }}</p>
-        </div>
+      <!-- Items for this restaurant -->
+      <div class="cart-items">
+        <div class="cart-item" *ngFor="let item of restaurantCart.items">
+          <div class="item-info">
+            <h3 class="item-name">{{ item.name }}</h3>
+            <p class="item-desc" *ngIf="item.description">{{ item.description }}</p>
+          </div>
 
-        <div class="item-qty">
-          <button type="button" (click)="decrement(item)" [attr.aria-label]="'Decrease ' + item.name">-</button>
-          <span class="qty">{{ item.quantity }}</span>
-          <button type="button" (click)="increment(item)" [attr.aria-label]="'Increase ' + item.name">+</button>
-        </div>
+          <div class="item-qty">
+            <button type="button" (click)="decrement(item)" [attr.aria-label]="'Decrease ' + item.name">-</button>
+            <span class="qty">{{ item.quantity }}</span>
+            <button type="button" (click)="increment(item)" [attr.aria-label]="'Increase ' + item.name">+</button>
+          </div>
 
-        <div class="item-price">
-          ${{ (item.price * item.quantity) | number:'1.2-2' }}
-        </div>
+          <div class="item-price">
+            ${{ (item.price * item.quantity) | number:'1.2-2' }}
+          </div>
 
-        <button class="remove-btn" type="button" (click)="remove(item)" [attr.aria-label]="'Remove ' + item.name">Remove</button>
+          <button class="remove-btn" type="button" (click)="remove(item)" 
+                  [attr.aria-label]="'Remove ' + item.name">
+            Remove
+          </button>
+        </div>
       </div>
+
+      <!-- Order Summary for this restaurant -->
+      <div class="order-summary">
+        <h3>Order Summary</h3>
+
+        <div class="summary-line">
+          <span>Subtotal</span>
+          <span>${{ getSubtotal(restaurantCart.restaurantId) | number:'1.2-2' }}</span>
+        </div>
+
+        <div class="summary-line">
+          <span>Delivery Fee</span>
+          <span>${{ deliveryFee | number:'1.2-2' }}</span>
+        </div>
+
+        <div class="summary-line">
+          <span>Tax ({{ taxRate * 100 }}%)</span>
+          <span>${{ getTax(getSubtotal(restaurantCart.restaurantId)) | number:'1.2-2' }}</span>
+        </div>
+
+        <hr />
+
+        <div class="summary-total">
+          <strong>Total</strong>
+          <strong class="total-price">${{ getTotal(restaurantCart.restaurantId) | number:'1.2-2' }}</strong>
+        </div>
+
+        <div class="checkout-actions">
+          <a class="checkout-btn" 
+             *ngIf="isLoggedIn"
+             [routerLink]="['/checkout']" 
+             [queryParams]="{restaurantId: restaurantCart.restaurantId}">
+            Checkout {{ restaurantCart.restaurantName }}
+          </a>
+          <div *ngIf="!isLoggedIn" class="login-required">
+            <p class="login-message">Please <a routerLink="/login">login</a> to checkout</p>
+          </div>
+        </div>
+      </div>
+
     </div>
-
-    <aside class="order-summary">
-      <h3>Order Summary</h3>
-
-      <div class="summary-line">
-        <span>Subtotal</span>
-        <span>${{ subtotal | number:'1.2-2' }}</span>
-      </div>
-
-      <div class="summary-line">
-        <span>Delivery Fee</span>
-        <span>${{ deliveryFee | number:'1.2-2' }}</span>
-      </div>
-
-      <div class="summary-line">
-        <span>Tax</span>
-        <span>${{ tax | number:'1.2-2' }}</span>
-      </div>
-
-      <hr />
-
-      <div class="summary-total">
-        <strong>Total</strong>
-        <strong class="total-price">${{ total | number:'1.2-2' }}</strong>
-      </div>
-
-      <div class="checkout-actions">
-        <a class="checkout-btn" routerLink="/checkout" href="/checkout" [class.disabled]="items.length === 0" (click)="items.length === 0 ? $event.preventDefault() : null">
-          Proceed To Checkout
-        </a>
-      </div>
-    </aside>
   </div>
 </div>

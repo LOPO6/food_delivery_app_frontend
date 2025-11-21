@@ -15,6 +15,7 @@ import { CheckoutComponent } from './components/checkout/checkout.component';
 import { AccountComponent } from './components/account/account.component';
 import { PaymentComponent } from './components/payment/payment.component';
 import { CourierComponent } from './components/courier/courier.component';
+import { OrderConfirmationComponent } from './components/order-confirmation/order-confirmation.component';
 
 
 
@@ -30,6 +31,7 @@ export const routes: Routes = [
     {path: 'cart', component: CartComponent },
     {path: 'menu', component: MenuComponent},
     {path: 'checkout', component: CheckoutComponent},
+    {path: 'order-confirmation', component: OrderConfirmationComponent},
     { path: 'menu/:id', component: MenuComponent },
     {path: 'account', component: AccountComponent},
     {path: 'payment', component: PaymentComponent},

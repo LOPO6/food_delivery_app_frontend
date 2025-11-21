@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { RestuarantService } from '../../services/restuarant.service';
+import { ToastService } from '../../services/toast.service';
 
 @Component({
   selector: 'app-restaurant-approvals',
@@ -15,7 +16,7 @@ export class RestaurantApprovalsComponent {
   pendingRestaurants: any[] = [];
   loading = false;
 
-  constructor(private api: RestuarantService, private router: Router) {}
+  constructor(private api: RestuarantService, private router: Router, private toast: ToastService) {}
 
   ngOnInit(): void {
     try {
@@ -48,12 +49,12 @@ export class RestaurantApprovalsComponent {
     if (!confirm('Approve this restaurant?')) return;
     this.api.approveRestaurant(id).subscribe({
       next: () => {
-        alert('Restaurant approved');
+        this.toast.success('Restaurant approved');
         this.pendingRestaurants = this.pendingRestaurants.filter(r => r.restaurant_id !== id);
       },
       error: (err) => {
         console.error('Approval failed', err);
-        alert(err?.error?.error || 'Failed to approve');
+        this.toast.error(err?.error?.error || 'Failed to approve');
       }
     });
   }
@@ -62,12 +63,12 @@ export class RestaurantApprovalsComponent {
     if (!confirm('Reject (delete) this restaurant?')) return;
     this.api.adminDeleteRestaurant(id).subscribe({
       next: () => {
-        alert('Restaurant rejected and deleted');
+        this.toast.success('Restaurant rejected and deleted');
         this.pendingRestaurants = this.pendingRestaurants.filter(r => r.restaurant_id !== id);
       },
       error: (err) => {
         console.error('Rejection failed', err);
-        alert(err?.error?.error || 'Failed to reject');
+        this.toast.error(err?.error?.error || 'Failed to reject');
       }
     });
   }

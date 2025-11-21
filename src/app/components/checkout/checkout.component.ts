@@ -1,39 +1,118 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { CartService } from '../../services/cart.service';
 import { RestuarantService } from '../../services/restuarant.service';
+import { ToastService } from '../../services/toast.service';
 
 @Component({
   standalone: true,
   selector: 'app-checkout',
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule],
   templateUrl: './checkout.component.html',
   styleUrls: ['./checkout.component.css']
 })
-export class CheckoutComponent {
+export class CheckoutComponent implements OnInit {
   cartItems: any[] = [];
+  restaurantId: number | null = null;
+  restaurantName = '';
   subTotal = 0;
   total = 0;
   taxRate = 0.13;
-  deliveryFee = 4.99; 
+  deliveryFee = 4.99;
+  isLoading = false;
+  errorMessage = '';
 
-  constructor(private cart: CartService) {}
+  constructor(
+    private cart: CartService,
+    private route: ActivatedRoute,
+    private router: Router,
+    private restaurantService: RestuarantService,
+    private toast: ToastService
+  ) {}
 
   ngOnInit(): void {
-    this.cartItems = this.cart.getItems?.() ?? [];
-    this.calculateTotal();
+    // Get restaurant ID from query params
+    this.route.queryParams.subscribe(params => {
+      this.restaurantId = params['restaurantId'] ? Number(params['restaurantId']) : null;
+      
+      if (this.restaurantId) {
+        this.loadRestaurantCart();
+      } else {
+        this.errorMessage = 'No restaurant selected';
+      }
+    });
+  }
+
+  loadRestaurantCart(): void {
+    if (!this.restaurantId) return;
+    
+    this.cartItems = this.cart.getItemsByRestaurant(this.restaurantId);
+    
+    if (this.cartItems.length > 0) {
+      this.restaurantName = this.cartItems[0].restaurantName || `Restaurant ${this.restaurantId}`;
+      this.calculateTotal();
+    } else {
+      this.errorMessage = 'No items in cart for this restaurant';
+    }
   }
 
   calculateTotal(): void {
-    this.subTotal = (this.cartItems.reduce((sum, item) => sum + (item.price ?? 0) * (item.quantity ?? 1), 0));
+    this.subTotal = this.cartItems.reduce((sum, item) => sum + (item.price ?? 0) * (item.quantity ?? 1), 0);
     this.total = this.subTotal + (this.subTotal * this.taxRate) + this.deliveryFee;
   }
 
-  // Have to work out whether or not users can order at multiple restaurants at once (If so we will have to update the backend api)
   confirmOrder(): void {
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
+    
+    if (!user.user_id) {
+      this.toast.warning('Please login first');
+      this.router.navigate(['/login']);
+      return;
+    }
 
-    alert('Order confirmed! Total amount: ' + this.total);
-    this.cartItems = [];
-    this.total = 0;
+    if (!this.restaurantId || this.cartItems.length === 0) {
+      this.toast.error('Cart is empty');
+      return;
+    }
+
+    const payload = {
+      user_id: user.user_id,
+      restaurant_id: this.restaurantId,
+      order_address: user.address || 'Default Address',
+      order_items: this.cartItems.map(item => ({
+        menu_item_id: item.id,
+        quantity: item.quantity
+      }))
+    };
+
+    this.isLoading = true;
+    this.errorMessage = '';
+
+    this.restaurantService.createOrder(payload).subscribe({
+      next: (response: any) => {
+        // Clear only this restaurant's items from cart
+        this.cart.clearRestaurant(this.restaurantId!);
+        
+        this.toast.success('Order placed successfully!');
+        
+        // Small delay to allow toast to appear before navigation
+        setTimeout(() => {
+          // Navigate to order confirmation with order details
+          this.router.navigate(['/order-confirmation'], {
+            queryParams: {
+              orderId: response.order.order_id,
+              restaurant: this.restaurantName,
+              total: this.total.toFixed(2)
+            }
+          });
+        }, 500);
+      },
+      error: (err) => {
+        this.isLoading = false;
+        this.errorMessage = err.error?.error || 'Order failed. Please try again.';
+        this.toast.error(this.errorMessage);
+      }
+    });
   }
 }

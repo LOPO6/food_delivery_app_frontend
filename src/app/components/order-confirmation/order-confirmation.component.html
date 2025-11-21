@@ -1,0 +1,51 @@
+<div class="confirmation-container">
+  <div class="confirmation-card">
+    <!-- Success Icon -->
+    <div class="success-icon">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+        <polyline points="22 4 12 14.01 9 11.01"></polyline>
+      </svg>
+    </div>
+
+    <!-- Success Message -->
+    <h1>Order Confirmed!</h1>
+    <p class="success-message">Thank you for your order. Your food is being prepared!</p>
+
+    <!-- Order Details -->
+    <div class="order-details">
+      <div class="detail-row">
+        <span class="label">Order Number:</span>
+        <span class="value">#{{ orderId }}</span>
+      </div>
+      <div class="detail-row">
+        <span class="label">Restaurant:</span>
+        <span class="value">{{ restaurantName }}</span>
+      </div>
+      <div class="detail-row">
+        <span class="label">Total Amount:</span>
+        <span class="value total-amount">${{ total | number:'1.2-2' }}</span>
+      </div>
+      <div class="detail-row">
+        <span class="label">Estimated Delivery:</span>
+        <span class="value">{{ estimatedTime }}</span>
+      </div>
+    </div>
+
+    <!-- Status Message -->
+    <div class="status-box">
+      <p>🚀 Your order is being prepared</p>
+      <p class="status-sub">We'll notify you when it's on the way!</p>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="action-buttons">
+      <button class="btn-primary" (click)="continueShopping()">
+        Continue Shopping
+      </button>
+      <a routerLink="/cart" class="btn-secondary">
+        View Cart
+      </a>
+    </div>
+  </div>
+</div>

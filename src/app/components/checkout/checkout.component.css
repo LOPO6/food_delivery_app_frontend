@@ -17,6 +17,53 @@
   text-align: center;
 }
 
+.restaurant-header {
+  background: linear-gradient(135deg, #ff6b35 0%, #e55a25 100%);
+  color: white;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.restaurant-header h3 {
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.error-message {
+  background: #fee;
+  border: 1px solid #fcc;
+  border-radius: 8px;
+  padding: 1.5rem;
+  text-align: center;
+  color: #c33;
+}
+
+.error-message p {
+  margin: 0 0 1rem 0;
+  font-weight: 600;
+}
+
+.error-message a {
+  color: #ff6b35;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.error-message a:hover {
+  text-decoration: underline;
+}
+
+.items-box {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 0.75rem 0.85rem;
+  margin-bottom: 1rem;
+}
+
 .checkout-item {
   display: flex;
   justify-content: space-between;

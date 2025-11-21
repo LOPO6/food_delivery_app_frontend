@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { RestuarantService } from '../../services/restuarant.service';
+import { ToastService } from '../../services/toast.service';
 
 @Component({
   selector: 'app-restaurant-add',
@@ -26,7 +27,7 @@ export class RestaurantAddComponent {
   };
   selectedImage?: File;
 
-  constructor(private api: RestuarantService, private router: Router) {}
+  constructor(private api: RestuarantService, private router: Router, private toast: ToastService) {}
 
   ngOnInit(): void {
     try {
@@ -46,7 +47,7 @@ export class RestaurantAddComponent {
     // Owner self-registration path
     if (this.isRestaurant && !this.isAdmin) {
       if (!payload.name || !payload.address) {
-        alert('Name and address are required');
+        this.toast.error('Name and address are required');
         return;
       }
       this.api.addRestaurant(payload).subscribe({
@@ -54,12 +55,12 @@ export class RestaurantAddComponent {
           if (this.selectedImage && res?.restaurant?.restaurant_id) {
             this.uploadImageAfterCreate(res.restaurant.restaurant_id);
           }
-          alert('Restaurant submitted for approval');
+          this.toast.success('Restaurant submitted for approval');
           this.router.navigate(['/restaurant']);
         },
         error: (err) => {
           console.error(err);
-          alert(err?.error?.error || 'Failed to submit restaurant');
+          this.toast.error(err?.error?.error || 'Failed to submit restaurant');
         }
       });
       return;
@@ -67,7 +68,7 @@ export class RestaurantAddComponent {
 
     // Admin path (pre-approved)
     if (!payload.name || !payload.address || (!payload.user_id && !payload.owner_email)) {
-      alert('Name, address and either owner user ID or owner email are required');
+      this.toast.error('Name, address and either owner user ID or owner email are required');
       return;
     }
     if (payload.user_id) payload.user_id = Number(payload.user_id);
@@ -76,12 +77,12 @@ export class RestaurantAddComponent {
         if (this.selectedImage && res?.restaurant?.restaurant_id) {
           this.uploadImageAfterCreate(res.restaurant.restaurant_id);
         }
-        alert('Restaurant created');
+        this.toast.success('Restaurant created');
         this.router.navigate(['/restaurant']);
       },
       error: (err) => {
         console.error(err);
-        alert(err?.error?.error || 'Failed to create restaurant');
+        this.toast.error(err?.error?.error || 'Failed to create restaurant');
       }
     });
   }

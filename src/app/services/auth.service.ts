@@ -11,12 +11,18 @@ export class AuthService {
   private serverUrl = environment.serverUrl ?? ''; // If blank, fallback to local mode
   private usernameSource = new BehaviorSubject<string | null>(null);
   username = this.usernameSource.asObservable();
+  private userSource = new BehaviorSubject<any | null>(null);
+  user$ = this.userSource.asObservable();
 
   constructor(private http: HttpClient) {
     // load saved username from localStorage if available
     const saved = localStorage.getItem('username');
     if (saved) {
       this.usernameSource.next(saved);
+    }
+    const userStr = localStorage.getItem('user');
+    if (userStr) {
+      try { this.userSource.next(JSON.parse(userStr)); } catch { this.userSource.next(null); }
     }
   }
 
@@ -48,6 +54,7 @@ export class AuthService {
           // Save user details to localStorage
           localStorage.setItem('user', JSON.stringify(res?.user));
           if (res?.token) localStorage.setItem('token', res.token);
+          this.userSource.next(res?.user);
         }
       }),
       catchError(err => throwError(() => err))
@@ -78,8 +85,10 @@ export class AuthService {
           // Save user details to localStorage
           localStorage.setItem('user', JSON.stringify(res?.user));
           if (res?.token) localStorage.setItem('token', res.token);
+          this.userSource.next(res?.user);
         } else {
           this.setUsername('User'); // Fallback if name is missing
+          this.userSource.next(null);
         }
       }),
       catchError(err => throwError(() => err))
@@ -90,6 +99,7 @@ export class AuthService {
   logout(): Observable<any> {
     if (!this.serverUrl) {
       this.clearUsername();
+      this.userSource.next(null);
       return of({ message: 'Logged out (local mode)' });
     }
     return this.http.post(`${this.serverUrl}/users/logout`, {}, { withCredentials: true }).pipe(

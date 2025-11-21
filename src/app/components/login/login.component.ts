@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { FormsModule, NgForm } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
+import { ToastService } from '../../services/toast.service';
 
 
 interface User {
@@ -30,7 +31,7 @@ export class LoginComponent {
   phone = '';
   address = '';
 
-  constructor(private router: Router, private authService: AuthService) {}
+  constructor(private router: Router, private authService: AuthService, private toast: ToastService) {}
 
   showLogin() { this.isLogin = true; }
   showRegister() { this.isLogin = false; }
@@ -49,12 +50,12 @@ export class LoginComponent {
 
     this.authService.register(user).subscribe({
       next: () => {
-        alert('Account created! You can now log in.');
+        this.toast.success('Account created! You can now log in.');
         this.isLogin = true;
       },
       error: (err) => {
         const msg = err?.error?.message || 'Registration failed';
-        alert(msg);
+        this.toast.error(msg);
       }
     });
   }
@@ -75,16 +76,16 @@ export class LoginComponent {
       next: (res: any) => {
         const u = res?.user;
         if (!u?.phone || !u?.address) {
-          alert('Please complete your profile (phone and address) before continuing.');
+          this.toast.warning('Please complete your profile (phone and address) before continuing.');
           this.router.navigate(['/account']);
           return;
         }
-        alert(`Welcome back, ${u.name}!`);
+        this.toast.success(`Welcome back, ${u.name}!`);
         this.router.navigate(['/restaurant']);
       },
       error: (err) => {
         const msg = err?.error?.message || 'Invalid email or password';
-        alert(msg);
+        this.toast.error(msg);
       }
     });
   }

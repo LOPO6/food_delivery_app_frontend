@@ -1,7 +1,16 @@
 <div class="checkout-page">
   <h2>Confirm Your Order</h2>
 
-  <div *ngIf="cartItems.length; else emptyCart">
+  <div *ngIf="restaurantName" class="restaurant-header">
+    <h3>🍽️ {{ restaurantName }}</h3>
+  </div>
+
+  <div *ngIf="errorMessage" class="error-message">
+    <p>{{ errorMessage }}</p>
+    <a routerLink="/cart">← Back to Cart</a>
+  </div>
+
+  <div *ngIf="cartItems.length > 0 && !errorMessage">
     <!-- Items box -->
     <div class="items-box">
       <div *ngFor="let item of cartItems" class="checkout-item">
@@ -40,10 +49,8 @@
       <span>{{ total | currency:'CAD' }}</span>
     </div>
 
-    <button (click)="confirmOrder()">Confirm Order</button>
+    <button (click)="confirmOrder()" [disabled]="isLoading">
+      {{ isLoading ? 'Processing...' : 'Confirm Order' }}
+    </button>
   </div>
-
-  <ng-template #emptyCart>
-    <p>Your cart is empty.</p>
-  </ng-template>
 </div>
