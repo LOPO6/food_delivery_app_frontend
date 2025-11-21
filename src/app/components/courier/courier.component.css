@@ -281,3 +281,19 @@ ol {
   margin-left: 1rem;
   color: #2c2c2c;
 }
+
+#map-container {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1em;
+
+}
+#map-section, #mapBoxItem  {
+  flex: 1;
+  height: 10em;
+  width: 50%;
+}
+
+#map-section {
+  flex: 1.4;
+}

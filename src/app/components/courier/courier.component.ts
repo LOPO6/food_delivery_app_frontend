@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, CUSTOM_ELEMENTS_SCHEMA, ViewChild, ElementRef, AfterViewInit, OnChanges, SimpleChanges} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CourierService } from '../../services/courier.service';
 import { ToastService } from '../../services/toast.service';
@@ -7,15 +7,26 @@ import { ToastService } from '../../services/toast.service';
   selector: 'app-courier',
   imports: [CommonModule],
   templateUrl: './courier.component.html',
-  styleUrl: './courier.component.css'
+  styleUrls: ['./courier.component.css'],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class CourierComponent implements OnInit {
+  @ViewChild('orderMap', { static: false }) mapElement!: any;
+
+  map!: google.maps.Map;
+  geocoder!: google.maps.Geocoder;
+  marker?: google.maps.Marker;
   activeTab: string = 'available-orders';
   
   // Courier data
   courierId: number | null = null;
   userId: number | null = null;
   isAvailable: boolean = false;
+
+  currentOrderAddress: string = '';
+  currentLat: number = 0;
+  currentLng: number = 0;
+
   
   // Orders
   availableOrders: any[] = [];
@@ -32,7 +43,58 @@ export class CourierComponent implements OnInit {
     private toast: ToastService
   ) {}
 
+  setMap() {
+    console.log('Setting up map...');
+
+    if (this.map && this.currentOrder?.order_address) {
+      this.moveToAddress(this.currentOrder.order_address);
+    }
+  }
+
+   moveToAddress(address: string, zoom = 15) {
+    console.log('Geocoding address:', address);
+
+    this.map = this.mapElement.nativeElement.map as google.maps.Map;
+    this.geocoder = new google.maps.Geocoder();
+
+  
+    if (!this.geocoder) {
+      console.error('Geocoder not initialized');
+      return;
+    }
+    console.log('Geocoder is ready:', this.geocoder);
+
+    this.geocoder.geocode({ address }, (results, status) => {
+      console.log('Geocode result status:', status);
+      if (status === 'OK' && results && results[0]) {
+        const loc = results[0].geometry.location;
+
+        this.currentLat = loc.lat();
+        this.currentLng = loc.lng();
+        
+        console.log('Geocode successful, moving map to:', loc.toString());
+        this.map.panTo(loc);
+        this.map.setZoom(zoom);
+
+        if (!this.marker) {
+          this.marker = new google.maps.Marker({
+            map: this.map,
+            position: loc,
+            title: 'Order Location'
+          });
+        } else {
+          this.marker.setPosition(loc);
+        }
+      } else {
+        console.error('Geocode failed:', status);
+      }
+    });
+  }
+
+
   ngOnInit(): void {
+    this.setMap();
+
     // Get courier info from localStorage
     try {
       const userStr = localStorage.getItem('user');
@@ -122,6 +184,14 @@ export class CourierComponent implements OnInit {
       next: (res: any) => {
         this.currentOrder = res.order;
         this.loadingCurrent = false;
+        console.log('Current order loaded:', this.currentOrder);
+        this.currentOrderAddress = this.currentOrder?.customer?.address || '';
+        console.log('Current Order Address:', this.currentOrderAddress);
+
+      // if (this.currentOrder?.order_address && this.map) {
+      //   console.log('Moving to address:', this.currentOrder.order_address);
+      //   this.moveToAddress(this.currentOrder.order_address);
+      // }
       },
       error: (err) => {
         console.error('Failed to load current order', err);
@@ -154,6 +224,7 @@ export class CourierComponent implements OnInit {
         this.toast.success('Order accepted!');
         this.loadAllData();
         this.activeTab = 'current-order';
+        this.moveToAddress(this.currentOrder.order_address);
       },
       error: (err) => {
         console.error('Failed to accept order', err);
@@ -245,9 +316,25 @@ export class CourierComponent implements OnInit {
     return Number(order.tip || 0);
   }
 
-  //function that is called when the user clicks on a button
-  setTab(tab: string) {
-    this.activeTab = tab;
+setTab(tab: string) {
+  this.activeTab = tab;
+
+  if (tab === 'current-order') {
+    console.log('Switching to current-order tab');
+    this.loadCurrentOrder();
+
+    setTimeout(() => {
+      console.log('In setTab timeout');
+
+        if (this.currentOrderAddress) {
+          console.log('Moving to address from timeout:', this.currentOrderAddress);
+          this.moveToAddress(this.currentOrderAddress);
+        }
+      }, 2000);
+  }
+    
+    
+    
   }
   
 }
