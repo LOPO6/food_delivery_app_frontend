@@ -16,6 +16,7 @@ export class NavComponent implements OnInit, OnDestroy {
   username: string | null = null;
   isAdmin = false;
   isRestaurant = false;
+  isCourier = false;
   cartCount = 0;
   private sub?: Subscription;
   private cartSub?: Subscription;
@@ -31,6 +32,7 @@ export class NavComponent implements OnInit, OnDestroy {
       this.username = u?.name || null;
       this.isAdmin = (u?.isAdmin === true);
       this.isRestaurant = (u?.isRestaurant === true);
+      this.isCourier = (u?.isCourier === true);
     });
 
     this.cartSub = this.cartService.items$.subscribe(() => {

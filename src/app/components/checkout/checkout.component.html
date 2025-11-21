@@ -41,6 +41,26 @@
         <span>Delivery Fee</span>
         <span>{{ deliveryFee | currency:'CAD' }}</span>
       </div>
+
+      <!-- Tip Section -->
+      <div class="tip-section">
+        <h3>Add a tip for your courier</h3>
+        <div class="tip-buttons">
+          <button (click)="setTip(2)" [class.selected]="tip === 2">$2</button>
+          <button (click)="setTip(3)" [class.selected]="tip === 3">$3</button>
+          <button (click)="setTip(5)" [class.selected]="tip === 5">$5</button>
+          <button (click)="setTip(0)" [class.selected]="tip === 0">No Tip</button>
+        </div>
+        <div class="custom-tip">
+          <label>Custom Tip: $</label>
+          <input type="number" [(ngModel)]="tip" (ngModelChange)="onTipChange()" min="0" step="0.5" />
+        </div>
+      </div>
+
+      <div class="fee-row" *ngIf="tip > 0">
+        <span>Courier Tip</span>
+        <span>{{ tip | currency:'CAD' }}</span>
+      </div>
     </div>
 
     <!-- Total -->

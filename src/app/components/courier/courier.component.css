@@ -232,15 +232,30 @@ input:checked + .slider:before {
 .past-order {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
   border: 2px solid #ddd;
   padding: 1rem;
   border-radius: 6px;
   margin-top: 1rem;
 }
 
+.past-order > div {
+  display: flex;
+  flex-direction: column;
+}
+
+.past-order > div:last-child {
+  text-align: right;
+  min-width: 200px;
+}
+
 .past-order p {
   margin: 0.25rem 0;
+}
+
+.past-order strong {
+  font-size: 1.05rem;
+  color: #1f1f1f;
 }
 
 

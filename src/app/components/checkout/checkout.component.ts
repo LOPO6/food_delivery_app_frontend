@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { CartService } from '../../services/cart.service';
 import { RestuarantService } from '../../services/restuarant.service';
@@ -8,7 +9,7 @@ import { ToastService } from '../../services/toast.service';
 @Component({
   standalone: true,
   selector: 'app-checkout',
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, FormsModule],
   templateUrl: './checkout.component.html',
   styleUrls: ['./checkout.component.css']
 })
@@ -20,6 +21,7 @@ export class CheckoutComponent implements OnInit {
   total = 0;
   taxRate = 0.13;
   deliveryFee = 4.99;
+  tip = 0;
   isLoading = false;
   errorMessage = '';
 
@@ -59,7 +61,16 @@ export class CheckoutComponent implements OnInit {
 
   calculateTotal(): void {
     this.subTotal = this.cartItems.reduce((sum, item) => sum + (item.price ?? 0) * (item.quantity ?? 1), 0);
-    this.total = this.subTotal + (this.subTotal * this.taxRate) + this.deliveryFee;
+    this.total = this.subTotal + (this.subTotal * this.taxRate) + this.deliveryFee + this.tip;
+  }
+
+  setTip(amount: number): void {
+    this.tip = amount;
+    this.calculateTotal();
+  }
+
+  onTipChange(): void {
+    this.calculateTotal();
   }
 
   confirmOrder(): void {
@@ -80,6 +91,8 @@ export class CheckoutComponent implements OnInit {
       user_id: user.user_id,
       restaurant_id: this.restaurantId,
       order_address: user.address || 'Default Address',
+      tip: this.tip,
+      delivery_fee: this.deliveryFee,
       order_items: this.cartItems.map(item => ({
         menu_item_id: item.id,
         quantity: item.quantity
