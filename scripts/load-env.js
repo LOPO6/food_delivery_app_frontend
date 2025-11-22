@@ -12,6 +12,6 @@ export const environment = {
   GOOGLE_MAPS_KEY: '${process.env.GOOGLE_MAPS_KEY}'
 };
 `;
-
+// write to the file
 fs.writeFileSync(environmentPath, content);
 console.log('environment.ts updated from .env');
