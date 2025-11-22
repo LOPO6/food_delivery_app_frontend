@@ -106,12 +106,9 @@
                     <p class="order-total">Total: ${{ calculateOrderTotal(currentOrder).toFixed(2) }}</p>
                 </div>
 
-
-
-
                 <div class="delivery-info">
                     <h3>Delivery Info</h3>
-                    <p><strong>Customer:</strong> {{ currentOrder.customer?.name }}</p>
+                    <p><strong>Customer:</strong> {{currentOrder.customer?.name }}</p>
                     <p><strong>Address:</strong> {{ currentOrder.customer?.address }}</p>
                 </div>
             </div>

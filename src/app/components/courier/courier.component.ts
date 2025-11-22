@@ -17,6 +17,7 @@ export class CourierComponent implements OnInit {
   geocoder!: google.maps.Geocoder;
   marker?: google.maps.Marker;
   activeTab: string = 'available-orders';
+  currentOrderId: Number | null = null;
   
   // Courier data
   courierId: number | null = null;
@@ -26,6 +27,8 @@ export class CourierComponent implements OnInit {
   currentOrderAddress: string = '';
   currentLat: number = 0;
   currentLng: number = 0;
+
+
 
   
   // Orders
@@ -43,13 +46,6 @@ export class CourierComponent implements OnInit {
     private toast: ToastService
   ) {}
 
-  setMap() {
-    console.log('Setting up map...');
-
-    if (this.map && this.currentOrder?.order_address) {
-      this.moveToAddress(this.currentOrder.order_address);
-    }
-  }
 
    moveToAddress(address: string, zoom = 15) {
     console.log('Geocoding address:', address);
@@ -162,13 +158,16 @@ export class CourierComponent implements OnInit {
   loadCurrentOrder(): void {
     if (!this.courierId) return;
     this.loadingCurrent = true;
+
+    // Not returning the correct details
     this.courierService.getCurrentOrder(this.courierId).subscribe({
       next: (res: any) => {
         this.currentOrder = res.order;
         this.loadingCurrent = false;
-        console.log('Current order loaded:', this.currentOrder);
+        console.log('Current order loaded: (new)', this.currentOrder);
         this.currentOrderAddress = this.currentOrder?.customer?.address || '';
         console.log('Current Order Address:', this.currentOrderAddress);
+        this.moveToAddress(this.currentOrderAddress)
 
       // if (this.currentOrder?.order_address && this.map) {
       //   console.log('Moving to address:', this.currentOrder.order_address);
@@ -197,6 +196,7 @@ export class CourierComponent implements OnInit {
       }
     });
   }
+  
 
   acceptOrder(orderId: number): void {
     if (!this.courierId) return;
@@ -206,7 +206,9 @@ export class CourierComponent implements OnInit {
         this.toast.success('Order accepted!');
         this.loadAllData();
         this.activeTab = 'current-order';
-        this.moveToAddress(this.currentOrder.order_address);
+        // Call map function
+        this.moveToAddress(this.currentOrderAddress);
+        this.currentOrderId = orderId;
       },
       error: (err) => {
         console.error('Failed to accept order', err);
@@ -303,7 +305,6 @@ setTab(tab: string) {
 
   if (tab === 'current-order') {
     console.log('Switching to current-order tab');
-    this.loadCurrentOrder();
       console.log('In setTab timeout');
 
         if (this.currentOrderAddress) {
