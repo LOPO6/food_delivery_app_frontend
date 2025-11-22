@@ -559,4 +559,17 @@
   margin: 0.5rem 0;
 }
 
+.star-rating {
+  font-size: 2em;
+  color: #fbfbfb;
+  display: flex;
+  margin-bottom: 0.3em;
+}
+
+#rate-us {
+  font-size: 1.5em;
+  margin-top: 1em;
+  margin-bottom: 0.01;
+}
+
 

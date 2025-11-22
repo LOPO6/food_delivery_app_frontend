@@ -32,7 +32,11 @@
       <p><strong>Address:</strong> {{ restaurant.address }}</p>
       <p><strong>Cuisine Type:</strong> {{ restaurant.cuisineType}}</p>
       </div>
-      <div class="restaurant-stats"></div>
+      <h3 id="rate-us">Rate us</h3>
+      <div class="star-rating">
+        <i class="fa fa-star" *ngFor="let star of stars"></i>
+        <i class="fa fa-star-half" *ngIf="rating % 1 !== 0"></i>
+      </div>
     </div>
 
 

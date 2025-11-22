@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { RestuarantService } from '../../services/restuarant.service';
 import { CartService } from '../../services/cart.service';
 import { ToastService } from '../../services/toast.service';
@@ -36,6 +36,15 @@ export class MenuComponent {
     description: ''
   };
 
+  @Input() rating: number = 0;
+
+    get stars() 
+    {
+      return Array(Math.floor(this.rating)).fill(0);
+    }
+
+
+
 
   constructor(
     private api: RestuarantService, 
@@ -45,6 +54,7 @@ export class MenuComponent {
   ){ }
 
     ngOnInit(): void {
+      this.rating = 5;
     try {
       const userStr = localStorage.getItem('user');
       const u = userStr ? JSON.parse(userStr) : null;
