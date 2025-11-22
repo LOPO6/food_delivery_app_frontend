@@ -1,0 +1,196 @@
+<main>
+    <section class="dashboard-header">
+        <div>
+            <h1>Courier Dashboard</h1>
+            <p>Manage your deliveries and availability</p>
+        </div>
+
+        <div class="availability-toggle">
+            <label class="switch">
+                <input type="checkbox" [checked]="isAvailable" (change)="toggleAvailability()"/>
+                <span class="slider"></span>
+            </label>
+            <span class="status" [class.active]="isAvailable">
+                {{ isAvailable ? 'Available' : 'Offline' }}
+            </span>
+        </div>
+    </section>
+
+    <section class="tabs">
+        <button class="tab"
+                [class.active]="activeTab === 'available-orders'"
+                (click)="setTab('available-orders')">
+            Available Orders
+        </button>
+
+        <button class="tab"
+                [class.active]="activeTab === 'current-order'"
+                (click)="setTab('current-order')">
+            Current Order
+        </button>
+
+        <button class="tab"
+                [class.active]="activeTab === 'past-orders'"
+                (click)="setTab('past-orders')">
+            Past Orders
+        </button>
+    </section>
+
+    <!-- Available Orders Tab -->
+    <section *ngIf="activeTab === 'available-orders'" class="order-card">
+        <h2>Available Orders</h2>
+        <p>Orders waiting for delivery</p>
+
+        <div *ngIf="loadingAvailable" style="text-align: center; padding: 2rem;">
+            <p>Loading orders...</p>
+        </div>
+
+        <div *ngIf="!loadingAvailable && availableOrders.length === 0" style="text-align: center; padding: 2rem; color: #666;">
+            <p>No available orders at the moment</p>
+        </div>
+
+        <div *ngFor="let order of availableOrders" class="past-order" style="border: 1px solid #ddd; border-radius: 8px; padding: 1rem; margin-bottom: 1rem;">
+            <div>
+                <strong>Order #{{ order.order_id }}</strong>
+                <p><strong>{{ order.Restaurant?.name }}</strong></p>
+                <p>Customer: {{ order.customer?.name }}</p>
+                <p>{{ formatDate(order.order_time) }} at {{ formatTime(order.order_time) }}</p>
+                <div style="margin-top: 0.5rem;">
+                    <strong>Items:</strong>
+                    <ul style="margin-top: 0.25rem;">
+                        <li *ngFor="let item of order.items">
+                            {{ item.MenuItem?.item_name }} x{{ item.quantity }}
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div style="text-align: right;">
+                <p class="order-total" style="font-size: 1.2rem; margin-bottom: 0.5rem;">
+                    ${{ calculateOrderTotal(order).toFixed(2) }}
+                </p>
+                <button class="btn" (click)="acceptOrder(order.order_id)" style="background-color: #28a745;">
+                    Accept Order
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Current Order Tab -->
+    <section *ngIf="activeTab === 'current-order'" class="order-card">
+        <div *ngIf="loadingCurrent" style="text-align: center; padding: 2rem;">
+            <p>Loading current order...</p>
+        </div>
+
+        <div *ngIf="!loadingCurrent && !currentOrder" style="text-align: center; padding: 2rem; color: #666;">
+            <h2>No Active Order</h2>
+            <p>Accept an order from the Available Orders tab to get started</p>
+        </div>
+
+        <div *ngIf="!loadingCurrent && currentOrder">
+            <div class="order-header">
+                <h2>Order #{{ currentOrder.order_id }}</h2>
+                <span class="order-status">{{ currentOrder.status }}</span>
+            </div>
+
+            <p class="restaurant-name">{{ currentOrder.Restaurant?.name }}</p>
+
+            <div class="order-details">
+                <div class="items">
+                    <h3>Items</h3>
+                    <ul>
+                        <li *ngFor="let item of currentOrder.items">
+                            {{ item.MenuItem?.item_name }} x{{ item.quantity }} - ${{ (item.MenuItem?.item_price * item.quantity).toFixed(2) }}
+                        </li>
+                    </ul>
+                    <p class="order-total">Total: ${{ calculateOrderTotal(currentOrder).toFixed(2) }}</p>
+                </div>
+
+
+
+
+                <div class="delivery-info">
+                    <h3>Delivery Info</h3>
+                    <p><strong>Customer:</strong> {{ currentOrder.customer?.name }}</p>
+                    <p><strong>Address:</strong> {{ currentOrder.customer?.address }}</p>
+                </div>
+            </div>
+
+
+
+
+
+
+            <div id="map-container">
+                <div class="timeline" id="mapBoxItem">
+                    <h3>Delivery Timeline</h3>
+                    <p>Ordered: {{ formatTime(currentOrder.order_time) }}</p>
+                    <p *ngIf="currentOrder.status === 'Accepted'">Picked Up: Pending</p>
+                    <p *ngIf="currentOrder.status === 'Picked Up'">Picked Up: {{ formatTime(currentOrder.updatedAt) }}</p>
+                    <p *ngIf="currentOrder.status !== 'Delivered'">Delivered: Pending</p>
+                </div>
+                <div id="map-section">
+                    <gmp-map
+                    #orderMap
+                        [zoom]="15"
+                        [center]="{ lat: currentLat, lng: currentLng }" 
+                        style="height: 100%; width: 100%; display:block;" >
+                    </gmp-map>  
+                </div>
+            </div>
+
+            <div style="display: flex; gap: 1rem; margin-top: 1.5rem;">
+                <button 
+                    *ngIf="currentOrder.status === 'Accepted'" 
+                    class="btn" 
+                    (click)="markAsPickedUp()"
+                    style="flex: 1; background-color: #007bff;">
+                    Mark as Picked Up
+                </button>
+                <button 
+                    *ngIf="currentOrder.status === 'Picked Up'" 
+                    class="btn mark-delivered" 
+                    (click)="markAsDelivered()"
+                    style="flex: 1;">
+                    Mark as Delivered
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Past Orders Tab -->
+    <section *ngIf="activeTab === 'past-orders'" class="order-card">
+        <h2>Past Orders</h2>
+        <p>Your completed deliveries</p>
+
+        <div *ngIf="loadingPast" style="text-align: center; padding: 2rem;">
+            <p>Loading past orders...</p>
+        </div>
+
+        <div *ngIf="!loadingPast && pastOrders.length === 0" style="text-align: center; padding: 2rem; color: #666;">
+            <p>No past orders yet</p>
+        </div>
+
+        <div *ngFor="let order of pastOrders; let i = index" class="past-order">
+            <div>
+                <strong>Order #{{ order.order_id || 'N/A' }}</strong>
+                <p>{{ order.Restaurant?.name || 'Restaurant not found' }}</p>
+                <p>Customer: {{ order.customer?.name || 'Unknown' }}</p>
+                <p *ngIf="order.updatedAt">{{ formatDate(order.updatedAt) }}, {{ formatTime(order.updatedAt) }}</p>
+                <p *ngIf="!order.updatedAt" style="color: #999;">No date available</p>
+            </div>
+
+            <div>
+                <span class="order-status">Delivered</span>
+                <p class="order-total">Order: ${{ calculateOrderTotal(order).toFixed(2) }}</p>
+                <p style="color: #28a745; font-weight: 600; font-size: 0.95rem;">
+                    Earned: ${{ calculateCourierEarnings(order).toFixed(2) }}
+                </p>
+                <p style="font-size: 0.85rem; color: #666;">
+                    (Delivery: ${{ getCourierDeliveryPortion(order).toFixed(2) }} + Tip: ${{ getCourierTip(order).toFixed(2) }})
+                </p>
+            </div>
+        </div>
+    </section>
+</main>
+

@@ -1,0 +1,66 @@
+.container {
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 1rem;
+}
+.back-btn {
+  display: inline-flex;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  text-decoration: none;
+  color: #b91c1c;
+  font-weight: 600;
+}
+
+h2 {
+  margin-bottom: 1.5rem;
+}
+
+.pending-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.pending-item {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 1rem;
+  background: #f9f9f9;
+}
+
+.pending-item h3 {
+  margin-top: 0;
+}
+
+.actions {
+  margin-top: 1rem;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.btn-approve {
+  background: #28a745;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.btn-approve:hover {
+  background: #218838;
+}
+
+.btn-reject {
+  background: #dc3545;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.btn-reject:hover {
+  background: #c82333;
+}

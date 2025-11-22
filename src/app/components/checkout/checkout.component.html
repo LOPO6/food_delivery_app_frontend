@@ -1,0 +1,76 @@
+<div class="checkout-page">
+  <h2>Confirm Your Order</h2>
+
+  <div *ngIf="restaurantName" class="restaurant-header">
+    <h3>🍽️ {{ restaurantName }}</h3>
+  </div>
+
+  <div *ngIf="errorMessage" class="error-message">
+    <p>{{ errorMessage }}</p>
+    <a routerLink="/cart">← Back to Cart</a>
+  </div>
+
+  <div *ngIf="cartItems.length > 0 && !errorMessage">
+    <!-- Items box -->
+    <div class="items-box">
+      <div *ngFor="let item of cartItems" class="checkout-item">
+        <div class="item-info">
+          <div class="item-name">{{ item.name }}</div>
+          <div class="item-meta">
+            Qty: {{ item.quantity }} ·
+            {{ item.price | currency:'CAD' }}
+          </div>
+        </div>
+        <div class="item-total">
+          {{ (item.price * item.quantity) | currency:'CAD' }}
+        </div>
+      </div>
+    </div>
+
+    <!-- Fees / tax box -->
+    <div class="fees-box">
+      <div class="fee-row">
+        <span>Subtotal</span>
+        <span>{{ subTotal | currency:'CAD' }}</span>
+      </div>
+      <div class="fee-row">
+        <span>Tax ({{ taxRate * 100 }}%)</span>
+        <span>{{ (subTotal * taxRate) | currency:'CAD' }}</span>
+      </div>
+      <div class="fee-row">
+        <span>Delivery Fee</span>
+        <span>{{ deliveryFee | currency:'CAD' }}</span>
+      </div>
+
+      <!-- Tip Section -->
+      <div class="tip-section">
+        <h3>Add a tip for your courier</h3>
+        <div class="tip-buttons">
+          <button (click)="setTip(2)" [class.selected]="tip === 2">$2</button>
+          <button (click)="setTip(3)" [class.selected]="tip === 3">$3</button>
+          <button (click)="setTip(5)" [class.selected]="tip === 5">$5</button>
+          <button (click)="setTip(0)" [class.selected]="tip === 0">No Tip</button>
+        </div>
+        <div class="custom-tip">
+          <label>Custom Tip: $</label>
+          <input type="number" [(ngModel)]="tip" (ngModelChange)="onTipChange()" min="0" step="0.5" />
+        </div>
+      </div>
+
+      <div class="fee-row" *ngIf="tip > 0">
+        <span>Courier Tip</span>
+        <span>{{ tip | currency:'CAD' }}</span>
+      </div>
+    </div>
+
+    <!-- Total -->
+    <div class="total-line">
+      <span>Total</span>
+      <span>{{ total | currency:'CAD' }}</span>
+    </div>
+
+    <button (click)="confirmOrder()" [disabled]="isLoading">
+      {{ isLoading ? 'Processing...' : 'Confirm Order' }}
+    </button>
+  </div>
+</div>

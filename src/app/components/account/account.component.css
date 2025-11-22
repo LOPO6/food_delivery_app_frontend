@@ -1,0 +1,209 @@
+/* Page background */
+.account-container {
+  background-color: #fff6e9;
+  padding: 2rem 4rem;
+  font-family: "Poppins", sans-serif;
+}
+
+/* Back link */
+.back-link {
+  text-decoration: none;
+  color: #222;
+  font-weight: 500;
+}
+
+.back-link:hover {
+  text-decoration: underline;
+}
+
+/* Header */
+h1 {
+  margin-top: 1rem;
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+/* Layout */
+.account-content {
+  display: flex;
+  gap: 2rem;
+  margin-top: 2rem;
+  align-items: flex-start;
+}
+
+/* Left section = main card */
+.account-panel {
+  flex: 2;
+  background-color: #fff;
+  border: 1px solid #000;
+  border-radius: 8px;
+  padding: 1.5rem 1.8rem;
+}
+
+.account-panel h2 {
+  margin: 0 0 0.3rem 0;
+  font-weight: 700;
+}
+
+.muted {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+/* Form */
+.form-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  margin-top: 1.2rem;
+}
+
+.form-section label {
+  font-size: 0.85rem;
+  font-weight: 500;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.form-section input {
+  padding: 0.55rem 0.8rem;
+  border-radius: 20px;
+  border: 1px solid #000;
+  background-color: #fff6e9;
+  outline: none;
+}
+
+/* Primary button */
+.primary-btn {
+  background-color: #b3002d;
+  color: #fff;
+  border: none;
+  border-radius: 25px;
+  padding: 0.7rem 1.4rem;
+  margin-top: 0.3rem;
+  font-weight: 600;
+  cursor: pointer;
+  width: fit-content;
+  transition: background-color 120ms ease;
+}
+
+.primary-btn:hover {
+  background-color: #8a0024;
+}
+
+/* Right section = actions */
+.account-actions {
+  flex: 1;
+  background-color: #fff;
+  border: 1px solid #000;
+  border-radius: 8px;
+  padding: 1.2rem 1.3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.account-actions h3 {
+  margin: 0;
+  font-weight: 700;
+}
+
+.logout-btn {
+  background: transparent;
+  border: 1px solid #b3002d;
+  color: #b3002d;
+  font-weight: 600;
+  padding: 0.55rem 1rem;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background-color 120ms ease, color 120ms ease;
+  width: fit-content;
+}
+
+.logout-btn:hover {
+  background-color: #b3002d;
+  color: #fff;
+}
+
+/* Center content in this div */
+.account-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .account-content {
+    flex-direction: column;
+  }
+  .account-actions {
+    width: 100%;
+  }
+}
+
+.account-container {
+  max-width: 480px;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 1.25rem;
+  font-size: 1.4rem;
+  color: #111827;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 0.9rem;
+}
+
+label {
+  font-size: 0.9rem;
+  color: #374151;
+  margin-bottom: 0.25rem;
+}
+
+input,
+textarea {
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  padding: 0.5rem;
+  font-size: 0.9rem;
+}
+
+button {
+  width: 100%;
+  background: #111827;
+  color: #fff;
+  border: none;
+  border-radius: 9999px;
+  padding: 0.65rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+button:hover {
+  opacity: 0.95;
+}
+
+.success {
+  margin-top: 1rem;
+  color: #059669;
+  text-align: center;
+}
+
+.error {
+  margin-top: 1rem;
+  color: #dc2626;
+  text-align: center;
+}
+

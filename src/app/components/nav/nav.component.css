@@ -1,0 +1,64 @@
+.navbar {
+  background-color:#BB002F !important;
+  color: white;
+}
+.navbar .nav-link {
+  color: white;
+}
+.navbar .nav-link:hover {
+  color: #ccc;
+}
+
+.navbar .nav-link-box{
+    display: inline-block;
+    padding: 0.375rem 0.75rem;
+    font-size: 0.9rem;
+    line-height: 1;
+    color: #fff;
+    background-color: #2f4f4f; /* dark grey */
+    border: 1px solid rgba(0,0,0,0.12);
+    border-radius: 0.375rem;
+    text-decoration: none;
+    vertical-align: middle;
+    transition: background-color .15s ease, transform .05s ease;
+}
+.navbar .nav-link-box:hover,
+.navbar .nav-link-box:focus{
+    background-color: #232f2f; /* slightly darker on hover */
+    color: #fff;
+    text-decoration: none;
+    transform: translateY(-1px);
+}
+
+.nav-link-box:active {
+  transform: translateY(0);
+}
+
+.navbar-nav .nav-item {
+  display: flex;
+  align-items: center;
+}
+
+/* Cart icon with badge */
+.cart-link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.cart-badge {
+  position: absolute;
+  top: -8px;
+  right: -12px;
+  background-color: #ff6b35;
+  color: white;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.2rem 0.5rem;
+  border-radius: 12px;
+  min-width: 20px;
+  text-align: center;
+  line-height: 1;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
