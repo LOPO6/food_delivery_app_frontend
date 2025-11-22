@@ -568,8 +568,37 @@
 
 #rate-us {
   font-size: 1.5em;
-  margin-top: 1em;
+  margin-top: 1.2em;
   margin-bottom: 0.01;
 }
+
+
+.star-rating i {
+  font-size: 3rem;
+  color: white;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+
+.star-rating i.fa-star,
+.star-rating {
+  color: gold;
+}
+
+
+.star-rating i.fa-star-o {
+  color: white;
+}
+
+#rating-message {
+ font-size: 1.2em;
+ margin-top: 1em;
+}
+  
+
+
+
+
 
 

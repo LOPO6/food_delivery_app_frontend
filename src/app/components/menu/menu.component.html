@@ -34,11 +34,23 @@
       </div>
       <h3 id="rate-us">Rate us</h3>
       <div class="star-rating">
-        <i class="fa fa-star" *ngFor="let star of stars"></i>
-        <i class="fa fa-star-half" *ngIf="rating % 1 !== 0"></i>
-      </div>
-    </div>
+      <!-- Output five stars, add the font awesome class (fa) to each-->
+       <!--  Add the ngClass based on -->
+        <ng-container *ngFor="let star of stars; let i = index">
+          <i class="fa"
+            [ngClass]="{
+              'fa-star': i + 1 <= (hovered || rating),
 
+              'fa-star-o': i + 1 > (hovered || rating)
+            }"
+            (mouseenter)="hovered = i + 1"
+            (mouseleave)="hovered = 0"
+            (click)="setRating(i + 1)">
+          </i>
+        </ng-container>
+      </div>
+        <p *ngIf="rating != 0" id="rating-message">Thanks for rating us!</p>
+    </div>
 
     <div class="restaurant-heading"> <!--display of name and description we need to add in-->
       <h1>{{ restaurant.name }}</h1>
@@ -117,6 +129,8 @@
   <div class="toast" *ngIf="showToast">
     <p>Item added to cart</p>
   </div>
-</div>
+  <!-- End of html div -->
+
+
 
 

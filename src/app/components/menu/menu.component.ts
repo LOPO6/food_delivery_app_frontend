@@ -36,15 +36,21 @@ export class MenuComponent {
     description: ''
   };
 
-  @Input() rating: number = 0;
+  stars = [1, 2, 3, 4, 5];  // 5 stars
+  rating = 0;              // current rating
+  hovered = 0;               // star currently hovered
 
-    get stars() 
-    {
-      return Array(Math.floor(this.rating)).fill(0);
-    }
+  setRating(value: number) {
+    this.rating = value;     // set rating when clicked
+  }
 
+  floor(value: number): number {
+    return Math.floor(value);
+  }
 
-
+  ceil(value: number): number {
+    return Math.ceil(value);
+  }
 
   constructor(
     private api: RestuarantService, 
@@ -53,8 +59,9 @@ export class MenuComponent {
     private toast: ToastService
   ){ }
 
+  
+
     ngOnInit(): void {
-      this.rating = 5;
     try {
       const userStr = localStorage.getItem('user');
       const u = userStr ? JSON.parse(userStr) : null;
