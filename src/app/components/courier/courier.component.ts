@@ -50,12 +50,19 @@ export class CourierComponent implements OnInit {
   ) {}
 
 
-   moveToAddress(address: string, zoom = 15) {
+   moveToAddress(address: string, zoom = 15): void {
     console.log('Geocoding address:', address);
 
   
     if (!this.geocoder) {
       this.geocoder = new google.maps.Geocoder();
+    }
+
+    // Wait for the gmap element to load in, then recall the function
+    if (!this.map)
+    {
+      console.log("waiting for the map to load in the dom");
+      setTimeout(this.moveToAddress, 200)
     }
     console.log('Geocoder is ready:', this.geocoder);
 
