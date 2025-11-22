@@ -71,6 +71,7 @@ export class RestaurantComponent {
           imageUrl: `${environment.serverUrl}/restaurants/${r.restaurant_id}/image${r.updatedAt ? `?v=${new Date(r.updatedAt).getTime()}` : ''}`
         }));
         this.restaurants = [...this.allRestaurants];
+        console.log(this.restaurants);
         this.loading = false;
       },
       error: (err) => {
