@@ -54,13 +54,9 @@ export class CourierComponent implements OnInit {
    moveToAddress(address: string, zoom = 15) {
     console.log('Geocoding address:', address);
 
-    this.map = this.mapElement.nativeElement.map as google.maps.Map;
-    this.geocoder = new google.maps.Geocoder();
-
   
     if (!this.geocoder) {
-      console.error('Geocoder not initialized');
-      return;
+      this.geocoder = new google.maps.Geocoder();
     }
     console.log('Geocoder is ready:', this.geocoder);
 
@@ -71,29 +67,15 @@ export class CourierComponent implements OnInit {
 
         this.currentLat = loc.lat();
         this.currentLng = loc.lng();
-        
-        console.log('Geocode successful, moving map to:', loc.toString());
-        this.map.panTo(loc);
-        this.map.setZoom(zoom);
 
-        if (!this.marker) {
-          this.marker = new google.maps.Marker({
-            map: this.map,
-            position: loc,
-            title: 'Order Location'
-          });
-        } else {
-          this.marker.setPosition(loc);
-        }
-      } else {
-        console.error('Geocode failed:', status);
+        console.log('Moving map to:', this.currentLat, this.currentLng);
       }
     });
   }
 
 
   ngOnInit(): void {
-    this.setMap();
+    // this.setMap();
 
     // Get courier info from localStorage
     try {
@@ -322,19 +304,13 @@ setTab(tab: string) {
   if (tab === 'current-order') {
     console.log('Switching to current-order tab');
     this.loadCurrentOrder();
-
-    setTimeout(() => {
       console.log('In setTab timeout');
 
         if (this.currentOrderAddress) {
           console.log('Moving to address from timeout:', this.currentOrderAddress);
           this.moveToAddress(this.currentOrderAddress);
         }
-      }, 2000);
+     
   }
-    
-    
-    
-  }
-  
+}
 }
