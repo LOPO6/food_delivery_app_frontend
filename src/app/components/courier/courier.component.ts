@@ -2,6 +2,9 @@ import { Component, OnInit, CUSTOM_ELEMENTS_SCHEMA, ViewChild, ElementRef, After
 import { CommonModule } from '@angular/common';
 import { CourierService } from '../../services/courier.service';
 import { ToastService } from '../../services/toast.service';
+import { environment } from '../../../environments/environment';
+
+
 
 @Component({
   selector: 'app-courier',
@@ -71,7 +74,14 @@ export class CourierComponent implements OnInit {
 
 
   ngOnInit(): void {
-    // this.setMap();
+
+    // Load in the google maps API key
+    const script = document.createElement('script');
+    script.src = `https://maps.googleapis.com/maps/api/js?key=${environment.GOOGLE_MAPS_KEY}&libraries=maps`;
+    script.defer = true;
+    document.body.appendChild(script);
+
+    console.log("Key: " + environment.GOOGLE_MAPS_KEY);
 
     // Get courier info from localStorage
     try {
