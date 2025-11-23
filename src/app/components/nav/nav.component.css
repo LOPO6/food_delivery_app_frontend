@@ -4,11 +4,16 @@
 }
 .navbar .nav-link {
   color: white;
+  
+  font-size: 1rem;
 }
 .navbar .nav-link:hover {
   color: #ccc;
 }
-
+.navbar-brand img{
+  padding: 0.25rem;
+  margin-left: 0.75rem;
+}
 .navbar .nav-link-box{
     display: inline-block;
     padding: 0.375rem 0.75rem;

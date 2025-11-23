@@ -1,0 +1,23 @@
+@font-face {
+  font-family: "Noto Serif";
+  src: url("./NotoSerif-VariableFont_wdth,wght.ttf") format("truetype");
+  font-weight: 100 900;      /* variable weight range */
+  font-stretch: 75% 125%;    /* supports variable width */
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Noto Serif";
+  src: url("./NotoSerif-Italic-VariableFont_wdth,wght.ttf") format("truetype");
+  font-weight: 100 900;      /* same weight range */
+  font-stretch: 75% 125%;    /* width range */
+  font-style: italic;
+}
+
+/* Space Grotesk variable font */
+@font-face {
+  font-family: "Space Grotesk";
+  src: url("./SpaceGrotesk-VariableFont_wght.ttf") format("truetype");
+  font-weight: 100 900; /* variable font weight range */
+  font-style: normal;
+}

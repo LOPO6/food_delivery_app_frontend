@@ -1,7 +1,10 @@
 /* Layout and overall style */
 .restaurant-page {
   background-color: blanchedalmond;
-  padding: 2rem;
+  padding-top: 2.5rem;
+  padding-left: 7rem;
+  padding-bottom: 7rem;
+  padding-right: 7rem;
   min-height: 100vh;
   font-family: "Segoe UI", sans-serif;
   color: #2d2d2d;
@@ -263,7 +266,7 @@
 
 .menu-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: repeat(2, minmax(300px, 1fr));
   gap: 1.5rem;
 }
 

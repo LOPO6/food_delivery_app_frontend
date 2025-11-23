@@ -126,6 +126,7 @@ button[type="submit"]:disabled {
   text-decoration: none;
   color: #b91c1c;
   font-weight: 600;
+  
 }
 .back-btn .arrow {
   margin-right: 0.5rem;
@@ -138,6 +139,8 @@ button[type="submit"]:disabled {
   gap: 0.5rem;
   margin-top: 0.5rem;
   padding: 0.4rem 0.75rem;
+  margin-left: 7rem;
+  margin-top:1.5rem;
   border-radius: 0.375rem;
   text-decoration: none;
   color: inherit;

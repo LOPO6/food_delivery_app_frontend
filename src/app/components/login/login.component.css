@@ -10,7 +10,7 @@
 
 .login-container {
     width: 100%;
-    max-width: 480px;
+    max-width: 720px;
 }
 
 .logo-section {
@@ -20,9 +20,9 @@
 }
 
 .logo {
-    width: 80px;
-    height: 80px;
-    margin-bottom: 1rem;
+    width: 15rem;
+    height: 15rem;
+    margin-bottom: 0.25rem;
     filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.2));
 }
 
