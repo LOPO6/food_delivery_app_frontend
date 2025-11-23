@@ -97,6 +97,7 @@ export class AuthService {
 
   // A method to log out a user
   logout(): Observable<any> {
+    localStorage.clear();
     if (!this.serverUrl) {
       this.clearUsername();
       this.userSource.next(null);

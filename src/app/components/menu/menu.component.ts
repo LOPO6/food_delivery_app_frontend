@@ -25,6 +25,8 @@ export class MenuComponent {
   selectedImage?: File;
   selectedCategory = 'All Items';
   categories: string[] = ['All Items'];
+
+  userId = 0;
   
   // Menu item management
   showAddForm = false;
@@ -36,23 +38,85 @@ export class MenuComponent {
     description: ''
   };
 
+  ratingPayload: any = null
+
+
   stars = [1, 2, 3, 4, 5];  // 5 stars
   rating = 0;              // current rating
   hovered = 0;               // star currently hovered
 
-  setRating(value: number) {
-    console.log("In set Rating")
-    console.log(value);
-    this.rating = value;     // set rating when clicked
-    console.log("This Rating: " + this.rating);
-  }
+
+
+
   constructor(
     private api: RestuarantService, 
     private cart: CartService, 
     private route: ActivatedRoute,
     private toast: ToastService
   ){ }
+  
+  setRating(value: number) {
+  console.log("In set Rating")
+  console.log(value);
+  this.rating = value;     // set rating when clicked
+  console.log("This Rating: " + this.rating);
 
+  // Get the userId from local storage
+  const userString = localStorage.getItem('user');
+
+   if (userString) {
+      const user = JSON.parse(userString);
+
+      console.log("User object " + userString);
+
+      const userId = user.user_id;
+
+      this.userId = userId;
+   }
+
+
+  // Create the payload needed to use the addRating function
+  this.ratingPayload = 
+  {
+    restaurant_id: Number(this.restaurantId),
+    user_id: this.userId,
+    rating: this.rating
+  }
+  console.log("Rating payload: " + this.ratingPayload.rating);
+
+  console.log("Calling service function");
+
+  const payloadForRestaurantTable = {
+    restaurant_id: this.restaurantId,
+    rating: this.rating
+  }
+
+  // Call the service method (must be ran in this order to ensure restaurant review integrity)
+  this.api.addRating(this.ratingPayload).subscribe
+  ({
+    next: (res: any)=>
+    {
+      this.api.updateRestaurantRatings(payloadForRestaurantTable).subscribe
+      ({
+        next: (res: any) => {
+          console.log(res.restaurant);
+          console.log("Rating logged properly")
+        }, 
+        error: (err) => 
+        {
+          console.log(this.rating)
+          console.log("Error adding review to restaurant table" + err);
+        }// End of first error
+      })// End of nested call
+    }, error: (err) => 
+    {
+      console.log("Error adding review to ratings table " + err);
+    }
+  })
+  
+
+
+  }// End of setRating Function
   
 
     ngOnInit(): void {

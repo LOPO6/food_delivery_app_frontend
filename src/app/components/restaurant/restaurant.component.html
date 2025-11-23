@@ -65,7 +65,7 @@
               </p>
               <div class="restaurant-stats">
                 <div class="stat-item">
-                  <span class="rating-value">{{ restaurant.avg_rating || 'Unrated' }}</span>
+                  <span class="rating-value">Rating: {{ restaurant.rating_sum/restaurant.rating_count || 'Unrated' }} <i class="fa-star fa-solid"></i> </span>
                 </div>
                 <div class="stat-item muted-text">
                   <span>{{ restaurant.eta || '25-35 min' }}</span>

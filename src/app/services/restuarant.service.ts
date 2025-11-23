@@ -91,4 +91,16 @@ export class RestuarantService { //all the functions that are being called from 
   deleteMenuItem(id: number){
     return this.http.delete(`${this.serverUrl}/menu-items/${id}`, { withCredentials: true });
   }
+
+  addRating(payload: any) {
+    console.log("In service method");
+    return this.http.post(`${this.serverUrl}/restaurants/rating`, payload)
+  }
+
+  updateRestaurantRatings(payload: any) {
+    console.log("In update restaurant ratings auth function")
+    
+    return this.http.put(`${this.serverUrl}/restaurants/review`, payload)
+    
+  }
 }

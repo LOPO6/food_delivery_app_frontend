@@ -57,6 +57,7 @@ export class LoginComponent {
       address: this.address
     };
 
+
     const payload: any = {
       ...user,
       isCourier: this.userRole === 'courier',
@@ -101,6 +102,7 @@ export class LoginComponent {
       address: this.address
     };
 
+
     this.authService.login(user).subscribe({
       next: (res: any) => {
         const u = res?.user;
@@ -110,6 +112,7 @@ export class LoginComponent {
           return;
         }
         this.toast.success(`Welcome back, ${u.name}!`);
+
         this.router.navigate(['/restaurant']);
       },
       error: (err) => {
