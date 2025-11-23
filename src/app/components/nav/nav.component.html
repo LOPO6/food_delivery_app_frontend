@@ -19,6 +19,9 @@
                 <li class="nav-item" *ngIf="isAdmin">
                         <a class="nav-link" routerLink="/restaurant-approvals">Pending Restaurants</a>
                 </li>
+                <li class="nav-item" *ngIf="isAdmin">
+                        <a class="nav-link" routerLink="/courier-approvals">Pending Couriers</a>
+                </li>
                 <li class="nav-item" *ngIf="isRestaurant && !isAdmin">
                     <a class="nav-link" routerLink="/restaurant-add">Submit Restaurant</a>
                 </li>

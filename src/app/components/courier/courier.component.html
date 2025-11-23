@@ -1,4 +1,19 @@
 <main>
+    <!-- Pending Approval Message -->
+    <section *ngIf="!isApproved && courierId" class="pending-approval">
+        <div class="approval-card">
+            <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#900028" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <polyline points="12 6 12 12 16 14"></polyline>
+            </svg>
+            <h2>Pending Approval</h2>
+            <p>Your courier account is currently under review by our admin team.</p>
+            <p>You will be notified once your account has been approved and you can start accepting deliveries.</p>
+        </div>
+    </section>
+
+    <!-- Dashboard Content (only shown when approved) -->
+    <div *ngIf="isApproved || !courierId">
     <section class="dashboard-header">
         <div>
             <h1>Courier Dashboard</h1>
@@ -189,5 +204,6 @@
             </div>
         </div>
     </section>
+    </div>
 </main>
 

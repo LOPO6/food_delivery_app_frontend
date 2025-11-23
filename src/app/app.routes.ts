@@ -8,6 +8,7 @@ import { RegisterComponent } from './components/register/register.component';
 import { RestaurantComponent } from './components/restaurant/restaurant.component';
 import { RestaurantAddComponent } from './components/restaurant-add/restaurant-add.component';
 import { RestaurantApprovalsComponent } from './components/restaurant-approvals/restaurant-approvals.component';
+import { CourierApprovalsComponent } from './components/courier-approvals/courier-approvals.component';
 import { UserComponent } from './components/user/user.component';
 import { CartComponent } from './components/cart/cart.component';
 import { MenuComponent } from './components/menu/menu.component';
@@ -27,6 +28,7 @@ export const routes: Routes = [
     {path: 'register', component: RegisterComponent},
     {path: 'restaurant-add', component: RestaurantAddComponent},
     {path: 'restaurant-approvals', component: RestaurantApprovalsComponent},
+    {path: 'courier-approvals', component: CourierApprovalsComponent},
     {path: 'user', component: UserComponent},
     {path: 'cart', component: CartComponent },
     {path: 'menu', component: MenuComponent},

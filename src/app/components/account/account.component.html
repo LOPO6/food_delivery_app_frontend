@@ -2,7 +2,7 @@
   <a routerLink="/" class="back-link">← Back to home</a>
 
   <h1>My Account</h1>
-  <div class="account-container">
+  <div class="account-card">
   <h2>Update Account</h2>
 
   <form (ngSubmit)="updateAccount()" #accountForm="ngForm">
@@ -56,11 +56,94 @@
     <button type="submit" [disabled]="accountForm.invalid">Save Changes</button>
   </form>
 
-  <p class="success" *ngIf="successMessage">{{ successMessage }}</p>
-  <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
+  <p class="success" *ngIf="false && successMessage">{{ successMessage }}</p>
+  <p class="error" *ngIf="false && errorMessage">{{ errorMessage }}</p>
+
+  <!-- Courier Profile Section -->
+  <div class="account-card" *ngIf="isCourier && courierLoaded">
+    <h2>Courier Profile</h2>
+
+    <form (ngSubmit)="updateCourierProfile()" #courierForm="ngForm">
+      <div class="form-row">
+        <div class="form-group">
+          <label for="vehicleMake">Vehicle Make</label>
+          <input
+            type="text"
+            id="vehicleMake"
+            name="vehicleMake"
+            [(ngModel)]="courierProfile.vehicleMake"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="vehicleModel">Vehicle Model</label>
+          <input
+            type="text"
+            id="vehicleModel"
+            name="vehicleModel"
+            [(ngModel)]="courierProfile.vehicleModel"
+            required
+          />
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="vehicleYear">Vehicle Year</label>
+          <input
+            type="number"
+            id="vehicleYear"
+            name="vehicleYear"
+            [(ngModel)]="courierProfile.vehicleYear"
+            required
+            min="1900"
+            max="2030"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="vehicleColour">Vehicle Color</label>
+          <input
+            type="text"
+            id="vehicleColour"
+            name="vehicleColour"
+            [(ngModel)]="courierProfile.vehicleColour"
+            required
+          />
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="licensePlate">License Plate</label>
+          <input
+            type="text"
+            id="licensePlate"
+            name="licensePlate"
+            [(ngModel)]="courierProfile.licensePlate"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="city">City</label>
+          <input
+            type="text"
+            id="city"
+            name="city"
+            [(ngModel)]="courierProfile.city"
+            required
+          />
+        </div>
+      </div>
+
+      <button type="submit" [disabled]="courierForm.invalid">Update Courier Profile</button>
+    </form>
+  </div>
 </div>
 
-  <div class="account-box">
+  <div class="account-card">
     <h3>Session</h3>
     <p class="muted">You are currently signed in.</p>
 

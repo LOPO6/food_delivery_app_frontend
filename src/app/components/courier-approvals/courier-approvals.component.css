@@ -1,0 +1,101 @@
+.container {
+  max-width: 1000px;
+  margin: 2rem auto;
+  padding: 2rem;
+}
+
+.back-btn {
+  display: inline-block;
+  margin-bottom: 1rem;
+  color: #900028;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.back-btn:hover {
+  text-decoration: underline;
+}
+
+h2 {
+  color: #900028;
+  margin-bottom: 1.5rem;
+}
+
+.pending-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.pending-item {
+  background: #f9f0dd;
+  border: 2px solid #d4c5a0;
+  border-radius: 12px;
+  padding: 1.5rem;
+}
+
+.pending-item h3 {
+  color: #900028;
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+
+.pending-item p {
+  margin: 0.5rem 0;
+  color: #2c2c2c;
+}
+
+.vehicle-info {
+  background: white;
+  padding: 1rem;
+  border-radius: 8px;
+  margin: 1rem 0;
+  border: 1px solid #d4c5a0;
+}
+
+.vehicle-info h4 {
+  color: #900028;
+  margin-top: 0;
+  margin-bottom: 0.75rem;
+  font-size: 1rem;
+}
+
+.vehicle-info p {
+  margin: 0.25rem 0;
+}
+
+.actions {
+  margin-top: 1rem;
+  display: flex;
+  gap: 1rem;
+}
+
+.btn-approve {
+  padding: 0.5rem 1.5rem;
+  background: #28a745;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.2s;
+}
+
+.btn-approve:hover {
+  background: #218838;
+}
+
+.btn-reject {
+  padding: 0.5rem 1.5rem;
+  background: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.2s;
+}
+
+.btn-reject:hover {
+  background: #c82333;
+}

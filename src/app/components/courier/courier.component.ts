@@ -26,6 +26,7 @@ export class CourierComponent implements OnInit {
   courierId: number | null = null;
   userId: number | null = null;
   isAvailable: boolean = false;
+  isApproved: boolean = false;
 
   currentOrderAddress: string = '';
   currentLat: number = 0;
@@ -131,12 +132,26 @@ export class CourierComponent implements OnInit {
       } else {
         // Regular courier flow
         this.courierService.getCourierByUserId(this.userId).subscribe({
-          next: (res: any) => {
-            const courier = res.find((c: any) => c.user_id === this.userId);
+          next: (courier: any) => {
             if (courier) {
               this.courierId = courier.courier_id;
               this.isAvailable = courier.isActive;
-              this.loadAllData();
+              // Treat null/undefined as false (not approved)
+              this.isApproved = courier.isApproved === true;
+              
+              console.log('Courier profile loaded:', {
+                courier_id: this.courierId,
+                isActive: this.isAvailable,
+                isApproved: this.isApproved,
+                rawIsApproved: courier.isApproved
+              });
+              
+              // Only load data if courier is approved
+              if (this.isApproved) {
+                this.loadAllData();
+              } else {
+                this.toast.warning('Your courier account is pending approval');
+              }
             } else {
               this.toast.error('Courier profile not found');
             }
@@ -217,6 +232,10 @@ export class CourierComponent implements OnInit {
 
   acceptOrder(orderId: number): void {
     if (!this.courierId) return;
+    if (!this.isApproved) {
+      this.toast.error('Your courier account is pending approval');
+      return;
+    }
     
     this.courierService.acceptOrder(orderId, this.courierId).subscribe({
       next: (res: any) => {
@@ -236,6 +255,10 @@ export class CourierComponent implements OnInit {
 
   markAsPickedUp(): void {
     if (!this.currentOrder || !this.courierId) return;
+    if (!this.isApproved) {
+      this.toast.error('Your courier account is pending approval');
+      return;
+    }
     
     this.courierService.updateOrderStatus(this.currentOrder.order_id, 'Picked Up', this.courierId).subscribe({
       next: (res: any) => {
@@ -251,6 +274,10 @@ export class CourierComponent implements OnInit {
 
   markAsDelivered(): void {
     if (!this.currentOrder || !this.courierId) return;
+    if (!this.isApproved) {
+      this.toast.error('Your courier account is pending approval');
+      return;
+    }
     
     this.courierService.updateOrderStatus(this.currentOrder.order_id, 'Delivered', this.courierId).subscribe({
       next: (res: any) => {
@@ -267,6 +294,10 @@ export class CourierComponent implements OnInit {
 
   toggleAvailability(): void {
     if (!this.courierId) return;
+    if (!this.isApproved) {
+      this.toast.error('Your courier account is pending approval');
+      return;
+    }
     
     const newStatus = !this.isAvailable;
     this.courierService.toggleAvailability(this.courierId, newStatus).subscribe({

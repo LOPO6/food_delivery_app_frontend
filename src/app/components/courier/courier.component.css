@@ -11,6 +11,38 @@ main {
   padding: 0 1rem;
 }
 
+.pending-approval {
+  max-width: 600px;
+  margin: 4rem auto;
+  padding: 0 1rem;
+}
+
+.approval-card {
+  background: white;
+  border: 2px solid #900028;
+  border-radius: 12px;
+  padding: 3rem 2rem;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(144, 0, 40, 0.1);
+}
+
+.approval-card svg {
+  margin-bottom: 1.5rem;
+}
+
+.approval-card h2 {
+  color: #900028;
+  margin: 0 0 1rem 0;
+  font-size: 1.75rem;
+}
+
+.approval-card p {
+  color: #444;
+  margin: 0.75rem 0;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
 .dashboard-header {
   display: flex;
   justify-content: space-between;

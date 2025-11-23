@@ -43,11 +43,26 @@ export class CourierService {
 
   // Get courier profile by user_id
   getCourierByUserId(userId: number): Observable<any> {
-    return this.http.get(`${this.serverUrl}/couriers`);
+    return this.http.get(`${this.serverUrl}/couriers/user/${userId}`);
   }
 
   // Get all couriers (for admin)
   getAllCouriers(): Observable<any> {
     return this.http.get(`${this.serverUrl}/couriers`);
+  }
+
+  // Get pending couriers (admin)
+  listPendingCouriers(): Observable<any> {
+    return this.http.get(`${this.serverUrl}/admin/couriers/pending`, { withCredentials: true });
+  }
+
+  // Approve courier (admin)
+  approveCourier(courierId: number): Observable<any> {
+    return this.http.put(`${this.serverUrl}/admin/couriers/${courierId}/approve`, {}, { withCredentials: true });
+  }
+
+  // Update courier profile
+  updateCourierProfile(courierId: number, data: any): Observable<any> {
+    return this.http.put(`${this.serverUrl}/couriers/${courierId}`, data);
   }
 }

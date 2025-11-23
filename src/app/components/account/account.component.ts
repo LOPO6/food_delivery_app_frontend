@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service'
+import { CourierService } from '../../services/courier.service';
+import { ToastService } from '../../services/toast.service';
 import { HttpClient } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 
@@ -23,12 +25,25 @@ export class AccountComponent {
     user_id: ''
   };
 
+  courierProfile = {
+    courier_id: 0,
+    vehicleMake: '',
+    vehicleModel: '',
+    vehicleYear: undefined as number | undefined,
+    licensePlate: '',
+    vehicleColour: '',
+    city: ''
+  };
+
+  isCourier = false;
+  courierLoaded = false;
+
   successMessage = '';
   errorMessage = '';
 
   
 
-  constructor(private authService: AuthService, private router: Router, private http: HttpClient) {}
+  constructor(private authService: AuthService, private courierService: CourierService, private router: Router, private http: HttpClient, private toast: ToastService) {}
 
   ngOnInit(): void {
     const userId = this.authService.getCurrentUserId();
@@ -36,6 +51,13 @@ export class AccountComponent {
       this.router.navigate(['/login']);
       return;
     }
+
+    // Check if user is a courier
+    try {
+      const userStr = localStorage.getItem('user');
+      const user = userStr ? JSON.parse(userStr) : null;
+      this.isCourier = Boolean(user?.isCourier);
+    } catch {}
 
     this.authService.getProfile(userId).subscribe({
       next: (res: any) => {
@@ -47,11 +69,36 @@ export class AccountComponent {
           address: res.address ?? '',
           password: ''
         };
-        // form is prefilled; address remains a simple text field now
+        
+        // Load courier profile if user is a courier
+        if (this.isCourier) {
+          this.loadCourierProfile(userId);
+        }
       },
       error: (err) => {
         console.error('Failed to load profile', err);
-        // still show the form with empty values
+      }
+    });
+  }
+
+  loadCourierProfile(userId: string): void {
+    this.courierService.getCourierByUserId(Number(userId)).subscribe({
+      next: (courier: any) => {
+        if (courier) {
+          this.courierProfile = {
+            courier_id: courier.courier_id,
+            vehicleMake: courier.vehicleMake || '',
+            vehicleModel: courier.vehicleModel || '',
+            vehicleYear: courier.vehicleYear || undefined,
+            licensePlate: courier.licensePlate || '',
+            vehicleColour: courier.vehicleColour || '',
+            city: courier.city || ''
+          };
+          this.courierLoaded = true;
+        }
+      },
+      error: (err) => {
+        console.error('Failed to load courier profile', err);
       }
     });
   }
@@ -66,12 +113,32 @@ export class AccountComponent {
 
     this.authService.updateUser(this.updatedUser).subscribe({
       next: () => {
-        this.successMessage = 'Account updated successfully!';
+        this.toast.success('Account updated successfully!');
+        this.successMessage = '';
         this.errorMessage = '';
       },
       error: (err) => {
         console.error(err);
-        this.errorMessage = 'Failed to update account.';
+        this.toast.error('Failed to update account.');
+        this.errorMessage = '';
+        this.successMessage = '';
+      }
+    });
+  }
+
+  updateCourierProfile(): void {
+    if (!this.courierProfile.courier_id) return;
+
+    this.courierService.updateCourierProfile(this.courierProfile.courier_id, this.courierProfile).subscribe({
+      next: () => {
+        this.toast.success('Courier profile updated successfully!');
+        this.successMessage = '';
+        this.errorMessage = '';
+      },
+      error: (err) => {
+        console.error('Failed to update courier profile', err);
+        this.toast.error('Failed to update courier profile.');
+        this.errorMessage = '';
         this.successMessage = '';
       }
     });
