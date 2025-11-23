@@ -118,55 +118,61 @@ export class MenuComponent {
   }// End of setRating Function
   
   // Function to check if the user has ordered from the restaurant before
-  hasUserOrderedFromRestaurant() {
+hasUserOrderedFromRestaurant() {
+  console.log("In hasUserOrderedFromRestaurant function");
 
-    console.log("In hasUserOrderedFromRestaurant function");
-    // Query db users orders to see if they have ordered from this.restaurantID
+  const userString = localStorage.getItem('user');
 
-    // Get userId from local storage
-    const userString = localStorage.getItem('user');
-    
-    if (userString) {
-      const user = JSON.parse(userString);
-      const userId = user.user_id;
-      
-      this.userId = userId;
-
-      console.log("User ID: " + this.userId);
-    }
-
-    console.log("Restaurant ID: " + this.restaurantId);
-
-
-    // Get orders for this user, then check if any orders are from this restaurantID
-    this.api.getOrderHistoryByUser(Number(this.userId)).subscribe({
-      next: (res: any) => {
-        const orders = res;
-        orders.forEach((order: any) => {
-          if (order.Restaurant.restaurant_id === Number(this.restaurantId)) {
-            console.log("User has ordered from this restaurant before.");
-            this.hasOrdered = true;
-          }
-          else {
-            console.log("User has NOT ordered from this restaurant before.");
-            this.hasOrdered = false;
-          }
-        });
-      },
-      error: (err) => {
-        console.error('Error fetching order history:', err);
-      }
-    });
-    return this.hasOrdered;
+  if (userString) {
+    const user = JSON.parse(userString);
+    this.userId = user.user_id;
+    console.log("User ID: " + this.userId);
   }
+
+  console.log("Restaurant ID: " + this.restaurantId);
+
+  this.api.getOrderHistoryByUser(Number(this.userId)).subscribe({
+    next: (orders: any) => {
+
+      const match = orders.some((order: any) =>
+        order.Restaurant.restaurant_id === Number(this.restaurantId)
+      );
+
+      this.hasOrdered = match;
+
+      if (match) {
+        console.log("User has ordered from this restaurant before.");
+      } else {
+        console.log("User has NOT ordered from this restaurant before.");
+      }
+    },
+    error: (err) => {
+      console.error('Error fetching order history:', err);
+    }
+  });
+}
+
 
   // A function that checks if the user has reviewed the restaurant before
-  getRestaurantReviews() {
+  // checkIfUserHasReviewed() {
+    // To be implemented in the future
 
-  }
+    // // Query the ratings table to see if a record exists with this.userId and this.restaurantId
+    // this.api.getRestaurantRatings(Number(this.restaurantId)).subscribe({
+    //   next: (res: any) => {
+    //     const ratings = res;
+    //     ratings.forEach((rating: any) => {
+    //       if (rating.user_id === this.userId) {
+    //         console.log("User has already reviewed this restaurant.");
+    //         return true;
+    //       }
+    //     });
+    //   }
+    // });
+  // }
 
     ngOnInit(): void {
-      this.hasOrdered = this.hasUserOrderedFromRestaurant();
+      this.hasUserOrderedFromRestaurant();
       // this.rating = 5;
      console.log(this.rating);
     try {
