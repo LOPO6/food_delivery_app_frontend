@@ -562,19 +562,12 @@
   margin: 0.5rem 0;
 }
 
-.star-rating {
-  font-size: 2em;
-  color: #fbfbfb;
-  display: flex;
-  margin-bottom: 0.3em;
-}
 
 #rate-us {
   font-size: 1.5em;
   margin-top: 1.2em;
   margin-bottom: 0.01;
 }
-
 
 .star-rating i {
   font-size: 3rem;
@@ -583,21 +576,16 @@
   transition: color 0.2s;
 }
 
-
-.star-rating i.fa-star,
-.star-rating {
+.star-rating .fa-solid {
   color: gold;
-}
-
-
-.star-rating i.fa-star-o {
-  color: white;
 }
 
 #rating-message {
  font-size: 1.2em;
  margin-top: 1em;
 }
+
+
   
 
 

@@ -37,15 +37,15 @@
       <!-- Output five stars, add the font awesome class (fa) to each-->
        <!--  Add the ngClass based on -->
         <ng-container *ngFor="let star of stars; let i = index">
-          <i class="fa"
+          <i class="fa-star"
             [ngClass]="{
-              'fa-star': i + 1 <= (hovered || rating),
+              'fa-solid': i+1 <= (hovered || rating),
 
-              'fa-star-o': i + 1 > (hovered || rating)
+              'fa-regular': i+1 > (hovered || rating)
             }"
-            (mouseenter)="hovered = i + 1"
+            (mouseenter)="hovered = i+1"
             (mouseleave)="hovered = 0"
-            (click)="setRating(i + 1)">
+            (click)="setRating(i+1)">
           </i>
         </ng-container>
       </div>

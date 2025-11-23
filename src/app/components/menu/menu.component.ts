@@ -41,17 +41,11 @@ export class MenuComponent {
   hovered = 0;               // star currently hovered
 
   setRating(value: number) {
+    console.log("In set Rating")
+    console.log(value);
     this.rating = value;     // set rating when clicked
+    console.log("This Rating: " + this.rating);
   }
-
-  floor(value: number): number {
-    return Math.floor(value);
-  }
-
-  ceil(value: number): number {
-    return Math.ceil(value);
-  }
-
   constructor(
     private api: RestuarantService, 
     private cart: CartService, 
@@ -62,6 +56,8 @@ export class MenuComponent {
   
 
     ngOnInit(): void {
+      // this.rating = 5;
+     console.log(this.rating);
     try {
       const userStr = localStorage.getItem('user');
       const u = userStr ? JSON.parse(userStr) : null;
