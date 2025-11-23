@@ -45,6 +45,7 @@ export class MenuComponent {
   rating = 0;              // current rating
   hovered = 0;               // star currently hovered
 
+  hasOrdered: boolean = false;
 
 
 
@@ -74,7 +75,6 @@ export class MenuComponent {
       this.userId = userId;
    }
 
-
   // Create the payload needed to use the addRating function
   this.ratingPayload = 
   {
@@ -82,6 +82,7 @@ export class MenuComponent {
     user_id: this.userId,
     rating: this.rating
   }
+
   console.log("Rating payload: " + this.ratingPayload.rating);
 
   console.log("Calling service function");
@@ -113,13 +114,59 @@ export class MenuComponent {
       console.log("Error adding review to ratings table " + err);
     }
   })
-  
-
 
   }// End of setRating Function
   
+  // Function to check if the user has ordered from the restaurant before
+  hasUserOrderedFromRestaurant() {
+
+    console.log("In hasUserOrderedFromRestaurant function");
+    // Query db users orders to see if they have ordered from this.restaurantID
+
+    // Get userId from local storage
+    const userString = localStorage.getItem('user');
+    
+    if (userString) {
+      const user = JSON.parse(userString);
+      const userId = user.user_id;
+      
+      this.userId = userId;
+
+      console.log("User ID: " + this.userId);
+    }
+
+    console.log("Restaurant ID: " + this.restaurantId);
+
+
+    // Get orders for this user, then check if any orders are from this restaurantID
+    this.api.getOrderHistoryByUser(Number(this.userId)).subscribe({
+      next: (res: any) => {
+        const orders = res;
+        orders.forEach((order: any) => {
+          if (order.Restaurant.restaurant_id === Number(this.restaurantId)) {
+            console.log("User has ordered from this restaurant before.");
+            this.hasOrdered = true;
+          }
+          else {
+            console.log("User has NOT ordered from this restaurant before.");
+            this.hasOrdered = false;
+          }
+        });
+      },
+      error: (err) => {
+        console.error('Error fetching order history:', err);
+      }
+    });
+    return this.hasOrdered;
+  }
+
+  // A function that checks if the user has reviewed the restaurant before
+  getRestaurantReviews() {
+
+  }
 
     ngOnInit(): void {
+      this.hasOrdered = this.hasUserOrderedFromRestaurant();
       // this.rating = 5;
      console.log(this.rating);
     try {
@@ -134,6 +181,7 @@ export class MenuComponent {
       this.loadRestaurant(this.restaurantId);
       this.loadMenu(Number(this.restaurantId));
     }
+    this.hasUserOrderedFromRestaurant();
   }
 
   /**

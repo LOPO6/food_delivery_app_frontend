@@ -101,6 +101,10 @@ export class RestuarantService { //all the functions that are being called from 
     console.log("In update restaurant ratings auth function")
     
     return this.http.put(`${this.serverUrl}/restaurants/review`, payload)
-    
+  }
+
+  getOrderHistoryByUser(userId: number) {
+    console.log("In get order history by user service method");
+    return this.http.get(`${this.serverUrl}/orders/user/${userId}`);
   }
 }
