@@ -47,6 +47,10 @@ export class MenuComponent {
 
   hasOrdered: boolean = false;
 
+  hasRatedPrev: boolean = false;
+
+  tellUserTheyHaveAlreadyReviewed: boolean = false;
+
 
 
   constructor(
@@ -55,6 +59,10 @@ export class MenuComponent {
     private route: ActivatedRoute,
     private toast: ToastService
   ){ }
+
+  tellUserTheyHaveAlreadyReviewedFunction () {
+    this.tellUserTheyHaveAlreadyReviewed = true;
+  }
   
   setRating(value: number) {
   console.log("In set Rating")
@@ -152,27 +160,46 @@ hasUserOrderedFromRestaurant() {
   });
 }
 
-
   // A function that checks if the user has reviewed the restaurant before
-  // checkIfUserHasReviewed() {
-    // To be implemented in the future
+checkIfUserHasReviewed(): void {
+  console.log('Checking if the user has reviewed the restaurant before....');
 
-    // // Query the ratings table to see if a record exists with this.userId and this.restaurantId
-    // this.api.getRestaurantRatings(Number(this.restaurantId)).subscribe({
-    //   next: (res: any) => {
-    //     const ratings = res;
-    //     ratings.forEach((rating: any) => {
-    //       if (rating.user_id === this.userId) {
-    //         console.log("User has already reviewed this restaurant.");
-    //         return true;
-    //       }
-    //     });
-    //   }
-    // });
-  // }
+  const userString = localStorage.getItem('user');
+  if (userString) {
+    const user = JSON.parse(userString);
+    this.userId = user.user_id;
+    console.log('User ID: ' + this.userId);
+  } else {
+    // no user -> ensure flag is false and return
+    this.hasRatedPrev = false;
+    return;
+  }
+
+  this.api.getRatingsByUserId(this.userId).subscribe({
+    next: (userRatings: any) => {
+      console.log('Total Ratings: ' + userRatings.length);
+
+      // Check if any rating matches this.restaurantId
+      const match = userRatings.some((r: { restaurant_id: Number; }) => r.restaurant_id === Number(this.restaurantId));
+
+      if (match) {
+        const found = userRatings.find((r: { restaurant_id: Number; }) => r.restaurant_id === Number(this.restaurantId));
+        this.rating = found?.rating;
+      }
+      this.hasRatedPrev = match;
+    },
+    error: (err) => {
+      console.error('Error getting ratings', err);
+      this.hasRatedPrev = false;
+    }
+  });
+}
+
 
     ngOnInit(): void {
-      this.hasUserOrderedFromRestaurant();
+
+      this.checkIfUserHasReviewed();
+
       // this.rating = 5;
      console.log(this.rating);
     try {

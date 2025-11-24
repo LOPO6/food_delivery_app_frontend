@@ -37,7 +37,7 @@
       <!-- Output five stars, add the font awesome class (fa) to each-->
        <!--  Add the ngClass based on -->
         <ng-container *ngFor="let star of stars; let i = index;">
-          <i *ngIf="hasOrdered" class="fa-star"
+          <i *ngIf="hasOrdered && !hasRatedPrev" class="fa-star"
             [ngClass]="{
               'fa-solid': i+1 <= (hovered || rating),
 
@@ -47,9 +47,21 @@
             (mouseleave)="hovered = 0"
             (click)="setRating(i+1)">
           </i>
+
+          <i *ngIf="hasOrdered && hasRatedPrev" class="fa-star"
+            [ngClass]="{
+              'fa-solid': i+1 <= (rating),
+
+              'fa-regular': i+1 > (rating)
+            }"
+            (click)="tellUserTheyHaveAlreadyReviewedFunction()">
+          </i>
+
+
         </ng-container>
       </div>
         <p *ngIf="rating != 0" id="rating-message">Thanks for rating us!</p>
+        <p *ngIf="tellUserTheyHaveAlreadyReviewed"> You have already reviewed! </p>
     </div>
 
     <div class="restaurant-heading"> <!--display of name and description we need to add in-->

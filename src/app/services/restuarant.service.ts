@@ -107,4 +107,9 @@ export class RestuarantService { //all the functions that are being called from 
     console.log("In get order history by user service method");
     return this.http.get(`${this.serverUrl}/orders/user/${userId}`);
   }
+
+  getRatingsByUserId (userId: number) {
+    console.log("In get ratings by user id function")
+    return this.http.get(`${this.serverUrl}/ratings/user/${userId}`)
+  }
 }
