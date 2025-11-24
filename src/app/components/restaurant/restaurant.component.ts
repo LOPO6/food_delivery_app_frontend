@@ -213,16 +213,6 @@ searchForItem(query: string): void {
     }
   }
 
-  getRestaurantRating(r: any): string {
-    if (!r || !r.rating_count || r.rating_count === 0) return 'Unrated';
-    const sum = Number(r.rating_sum);
-    const count = Number(r.rating_count);
-    if (!isFinite(sum) || !isFinite(count) || count <= 0) return 'Unrated';
-    const avg = sum / count;
-    return avg.toFixed(1);
-  }
-
-
 
 
 }
