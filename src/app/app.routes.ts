@@ -3,7 +3,6 @@ import { Routes } from '@angular/router';
 // Import all the components used as pages
 import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './components/login/login.component';
-import { LogoutComponent } from './components/logout/logout.component';
 import { RegisterComponent } from './components/register/register.component';
 import { RestaurantComponent } from './components/restaurant/restaurant.component';
 import { RestaurantAddComponent } from './components/restaurant-add/restaurant-add.component';
@@ -17,13 +16,13 @@ import { AccountComponent } from './components/account/account.component';
 import { PaymentComponent } from './components/payment/payment.component';
 import { CourierComponent } from './components/courier/courier.component';
 import { OrderConfirmationComponent } from './components/order-confirmation/order-confirmation.component';
+import { UserOrdersComponent } from './components/user-orders/user-orders.component';
 
 
 
 export const routes: Routes = [
     {path: 'restaurant', component: RestaurantComponent},
     {path: 'login', component: LoginComponent},
-    {path: 'logout', component: LogoutComponent},
     {path: '', component: HomeComponent},
     {path: 'register', component: RegisterComponent},
     {path: 'restaurant-add', component: RestaurantAddComponent},
@@ -38,5 +37,5 @@ export const routes: Routes = [
     {path: 'account', component: AccountComponent},
     {path: 'payment', component: PaymentComponent},
     {path: 'courier', component: CourierComponent},
-
+    {path: 'userOrders', component: UserOrdersComponent}
 ];

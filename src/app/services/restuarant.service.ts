@@ -103,10 +103,14 @@ export class RestuarantService { //all the functions that are being called from 
     return this.http.put(`${this.serverUrl}/restaurants/review`, payload)
   }
 
+
+  // Calls "GetOrdersByUser" in the backend
   getOrderHistoryByUser(userId: number) {
     console.log("In get order history by user service method");
     return this.http.get(`${this.serverUrl}/orders/user/${userId}`);
   }
+
+
 
   getRatingsByUserId (userId: number) {
     console.log("In get ratings by user id function")
