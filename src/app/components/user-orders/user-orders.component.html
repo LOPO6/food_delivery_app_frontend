@@ -1,5 +1,6 @@
 <h1>Your Orders</h1>
 <div id="general-orders-container">
+    <p *ngIf="orders.length === 0" id="orderHistory">No order history found!</p>
     <div class="user-orders-container" *ngFor="let order of orders">
     <p id="restaurant-name">{{order.Restaurant.name}}</p>
     <p id="restaurant-address">Address: {{order.Restaurant.address}}</p>

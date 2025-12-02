@@ -38,7 +38,7 @@ export class AuthService {
   }
 
   private clearUsername(): void {
-    this.usernameSource.next(null);
+    this.usernameSource.next("User");
     localStorage.removeItem('username');
   }
 
@@ -104,12 +104,13 @@ export class AuthService {
       return of({ message: 'Logged out (local mode)' });
     }
     return this.http.post(`${this.serverUrl}/users/logout`, {}, { withCredentials: true }).pipe(
-      tap(() => this.clearUsername()),
-      catchError(err => {
-        this.clearUsername();
-        return throwError(() => err);
+      tap((res:any) => {
+        console.log("Running set username")
+        window.location.reload();
+        this.setUsername("User");
       })
-    );
+    )
+
   }
 
     // A method to get the current user's ID from localStorage

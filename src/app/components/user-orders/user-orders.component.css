@@ -146,6 +146,12 @@ h1 {
   transition: background-color 150ms ease;
 }
 
+#orderHistory {
+  text-align: center;
+  font-size: 1em;
+  margin-top: 1em;
+}
+
 .user-orders-container .rate-btn:hover {
   background-color: #f6e5ce;
 }
