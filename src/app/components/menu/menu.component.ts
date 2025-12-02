@@ -52,6 +52,19 @@ export class MenuComponent {
   tellUserTheyHaveAlreadyReviewed: boolean = false;
 
 
+  // ===============================
+  // Restaurant Editing (New Feature)
+  // ===============================
+  isEditingRestaurant = false;
+
+  restaurantEdit = {
+    name: '',
+    details: '',
+    address: '',
+    phone: ''
+  };
+
+
 
   constructor(
     private api: RestuarantService, 
@@ -359,6 +372,43 @@ checkIfUserHasReviewed(): void {
       }
     });
   }
+
+  // ===============================
+  // Edit Restaurant Information
+  // ===============================
+  toggleEditRestaurant(): void {
+    this.isEditingRestaurant = !this.isEditingRestaurant;
+
+    if (this.isEditingRestaurant && this.restaurant) {
+      // Pre-fill the editable form with current restaurant values
+      this.restaurantEdit = {
+        name: this.restaurant.name || '',
+        details: this.restaurant.details || '',
+        address: this.restaurant.address || '',
+        phone: this.restaurant.phone || ''
+      };
+    }
+  }
+
+  saveRestaurantInfo(): void {
+    const payload = { ...this.restaurantEdit };
+
+    this.api.updateRestaurantInfo(Number(this.restaurantId), payload).subscribe({
+      next: () => {
+        this.toast.success("Restaurant info updated!");
+
+        // Reload updated restaurant data
+        this.loadRestaurant(this.restaurantId);
+
+        this.isEditingRestaurant = false; // Close edit form
+      },
+      error: (err) => {
+        console.error(err);
+        this.toast.error(err?.error?.error || "Failed to update restaurant info");
+      }
+    });
+  }
+
 
   onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;

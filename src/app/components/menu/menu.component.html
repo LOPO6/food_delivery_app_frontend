@@ -31,6 +31,12 @@
       <p><strong>Phone Number:</strong> {{ restaurant.phone }}</p>
       <p><strong>Address:</strong> {{ restaurant.address }}</p>
       <p><strong>Cuisine Type:</strong> {{ restaurant.cuisineType}}</p>
+      <!-- Edit Restaurant Info Button (Admin/Owner Only) -->
+      <div *ngIf="canUploadImage" style="margin-top: 10px;">
+        <button class="btn-edit-info" (click)="toggleEditRestaurant()">
+          ✎ Edit Restaurant Info
+        </button>
+      </div>
       </div>
       <h3 id="rate-us" *ngIf="hasOrdered" class="bounce">Rate us</h3>
       <div class="star-rating">
@@ -63,12 +69,45 @@
         <p *ngIf="rating != 0" id="rating-message">Thanks for rating us!</p>
         <p *ngIf="tellUserTheyHaveAlreadyReviewed"> You have already reviewed! </p>
     </div>
-
     <div class="restaurant-heading"> <!--display of name and description we need to add in-->
       <h1>{{ restaurant.name }}</h1>
       <p>{{restaurant.details}}</p>
     </div>
   </div>
+  <!-- ================================ -->
+    <!-- INLINE Edit Restaurant Info Form -->
+    <!-- ================================ -->
+    <div *ngIf="isEditingRestaurant" class="edit-restaurant-panel">
+      <h3>Edit Restaurant Information</h3>
+
+      <div class="form-group">
+        <label>Name</label>
+        <input type="text" [(ngModel)]="restaurantEdit.name">
+      </div>
+
+      <div class="form-group">
+        <label>Description</label>
+        <textarea rows="3" [(ngModel)]="restaurantEdit.details"></textarea>
+      </div>
+
+      <div class="form-group">
+        <label>Address</label>
+        <input type="text" [(ngModel)]="restaurantEdit.address">
+      </div>
+
+      <div class="form-group">
+        <label>Phone</label>
+        <input type="text" [(ngModel)]="restaurantEdit.phone">
+      </div>
+
+      <div class="form-actions">
+        <button class="btn-save" (click)="saveRestaurantInfo()">Save</button>
+        <button class="btn-cancel" (click)="toggleEditRestaurant()">Cancel</button>
+      </div>
+    </div>
+
+    
+
 
   <div class="menu-section">
   <div class="toast-notification" *ngIf="showToast">
@@ -106,8 +145,6 @@
           <select [(ngModel)]="newItem.category">
             <option *ngFor="let cat of categories" [value]="cat" [disabled]="cat === 'All Items'">{{ cat }}</option>
           </select>
-          <small style="display: block; margin-top: 0.25rem; color: #666;">Or type a new category name to create it</small>
-          <input type="text" [(ngModel)]="newItem.category" placeholder="e.g., Appetizers, Desserts, Beverages" style="margin-top: 0.5rem;" />
         </div>
         <div class="form-group">
           <label>Description (Optional)</label>
@@ -141,7 +178,7 @@
   <div class="toast" *ngIf="showToast">
     <p>Item added to cart</p>
   </div>
-  <!-- End of html div -->
+<!-- End of html div -->
 
 
 

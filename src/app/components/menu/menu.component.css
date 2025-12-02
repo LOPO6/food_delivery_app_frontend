@@ -104,6 +104,7 @@
   overflow: hidden;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
   border: 3px solid white;
+  background-color: white;
 }
 
 .restaurant-image {
@@ -611,6 +612,124 @@
   margin-top: 1rem;
   font-weight: 700;
 }
+
+@keyframes popup {
+  from { transform: scale(0.8); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+/* Form styling */
+.modal .form-group {
+  margin-bottom: 15px;
+}
+.modal label {
+  font-weight: bold;
+}
+.modal input,
+.modal textarea {
+  width: 100%;
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+/* Buttons */
+.modal-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+.btn-save {
+  background: #4caf50;
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  cursor: pointer;
+  border-radius: 6px;
+}
+.btn-cancel {
+  background: #ccc;
+  border: none;
+  padding: 10px 18px;
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+/* Edit button next to Restaurant info */
+.btn-edit-info {
+  background: #a50f25;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-edit-info:hover {
+  background: #8a0c1f;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(165, 15, 37, 0.3);
+}
+.btn-edit-info:active {
+  transform: scale(1.05);
+}
+
+.edit-restaurant-panel {
+  background: #fff;
+  padding: 1.5rem;
+  margin-top: 1.5rem; /* margin between restaurant info and menu — only appears when visible */
+  border-radius: 16px;
+  border: 2px solid #ffe28a;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+
+  /* Make width match menu-section */
+  width: 100%;
+  box-sizing: border-box;
+  margin-bottom: 1.5rem;
+}
+
+.edit-restaurant-panel h3 {
+  margin-bottom: 1rem;
+  font-size: 1.3rem;
+}
+
+.edit-restaurant-panel .form-group {
+  margin-bottom: 1rem;
+}
+
+.edit-restaurant-panel input,
+.edit-restaurant-panel textarea {
+  width: 100%;
+  padding: 0.5rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+}
+
+.edit-restaurant-panel .form-actions {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.edit-restaurant-panel .btn-save,
+.edit-restaurant-panel .btn-cancel {
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  border: none;
+}
+
+.btn-save {
+  background: #4CAF50;
+  color: white;
+}
+
+.btn-cancel {
+  background: #ccc;
+}
+
+
 
 
   
