@@ -65,18 +65,15 @@ export class MenuComponent {
   }
   
   setRating(value: number) {
-  console.log("In set Rating")
-  console.log(value);
+  this.hasRatedPrev = true;
   this.rating = value;     // set rating when clicked
-  console.log("This Rating: " + this.rating);
+
 
   // Get the userId from local storage
   const userString = localStorage.getItem('user');
 
    if (userString) {
       const user = JSON.parse(userString);
-
-      console.log("User object " + userString);
 
       const userId = user.user_id;
 

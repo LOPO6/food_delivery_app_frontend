@@ -1,9 +1,10 @@
-<h1>Orders</h1>
+<h1>Your Orders</h1>
 <div id="general-orders-container">
     <div class="user-orders-container" *ngFor="let order of orders">
     <p id="restaurant-name">{{order.Restaurant.name}}</p>
     <p id="restaurant-address">Address: {{order.Restaurant.address}}</p>
     <p id="order-date">{{order.order_time | date:'M/d/yyyy'}}</p>
+    <p id="order-status">Status: {{order.status}}</p>
 
     <p>Order Items</p>
     <div class="items-list">
@@ -17,5 +18,11 @@
         <span class="label">Total (including taxes, fees, and tip):</span>
         <span class="amount">{{ getOrderTotal(order) || 0 }} $</span>
     </div>
+    <!-- Rate Restaurant Link -->
+    <a [routerLink]="['/menu', order.Restaurant.restaurant_id]" class="rate-btn">
+  Rate Restaurant
+    </a>
+
     </div>
+
 </div>

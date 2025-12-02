@@ -1,16 +1,17 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router, RouterModule } from '@angular/router';
 import { RestuarantService } from '../../services/restuarant.service';
 
 @Component({
   selector: 'app-user-orders',
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule],
   templateUrl: './user-orders.component.html',
   styleUrl: './user-orders.component.css'
 })
 export class UserOrdersComponent {
 
-  constructor (private api : RestuarantService){}
+  constructor (private api : RestuarantService, private router: Router){}
   orders: any[] = [];
   userId: any;
 

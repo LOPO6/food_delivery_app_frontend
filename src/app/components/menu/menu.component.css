@@ -585,6 +585,33 @@
  margin-top: 1em;
 }
 
+/* Bounce animation */
+@keyframes bounceIn {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+  70% {
+    transform: scale(0.9);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Apply bounce animation */
+#rate-us.bounce {
+  display: inline-block;
+  animation: bounceIn 0.8s ease forwards;
+  text-align: center;
+  margin-top: 1rem;
+  font-weight: 700;
+}
+
 
   
 
