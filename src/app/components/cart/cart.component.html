@@ -17,10 +17,16 @@
           <h2>🍽️ {{ restaurantCart.restaurantName }}</h2>
           <p class="item-count">{{ restaurantCart.items.length }} item(s)</p>
         </div>
-        <button class="clear-restaurant-btn" (click)="clearRestaurantCart(restaurantCart.restaurantId)" 
+        <button class="clear-restaurant-btn" (click)="showClearConfirmation(restaurantCart.restaurantId, restaurantCart.restaurantName)" 
                 title="Clear all items from this restaurant">
           Clear Cart
         </button>
+      </div>
+      <!-- Inline confirmation div -->
+      <div *ngIf="pendingClearRestaurantId === restaurantCart.restaurantId" class="inline-confirmation">
+        <p>Are you sure you want to clear all items from {{ pendingClearRestaurantName }}?</p>
+        <button (click)="confirmClear()" class="confirm-btn">Yes</button>
+        <button (click)="cancelClear()" class="cancel-btn">No</button>
       </div>
 
       <!-- Items for this restaurant -->

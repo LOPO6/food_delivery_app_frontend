@@ -19,6 +19,9 @@ export class CartComponent {
   isLoggedIn = false;
   currentUser: any = null;
 
+  pendingClearRestaurantId: number | null = null;
+  pendingClearRestaurantName: string = '';
+
   constructor(
     private cart: CartService,
     private authService: AuthService
@@ -32,6 +35,25 @@ export class CartComponent {
       this.isLoggedIn = !!user?.user_id;
       this.userName = user?.name || '';
     });
+  }
+  // Open the confirmation div
+  showClearConfirmation(restaurantId: number, restaurantName: string) {
+    this.pendingClearRestaurantId = restaurantId;
+    this.pendingClearRestaurantName = restaurantName;
+  }
+
+  // Cancel clearing
+  cancelClear() {
+    this.pendingClearRestaurantId = null;
+    this.pendingClearRestaurantName = '';
+  }
+
+  // Actually clear the cart
+  confirmClear() {
+    if (this.pendingClearRestaurantId !== null) {
+      this.cart.clearRestaurant(this.pendingClearRestaurantId);
+      this.cancelClear(); // hide the confirmation div
+    }
   }
 
   getSubtotal(restaurantId: number): number {

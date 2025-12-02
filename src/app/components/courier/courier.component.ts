@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { CourierService } from '../../services/courier.service';
 import { ToastService } from '../../services/toast.service';
 import { environment } from '../../../environments/environment';
+import { Router } from '@angular/router';
 
 
 
@@ -47,7 +48,8 @@ export class CourierComponent implements OnInit {
 
   constructor(
     private courierService: CourierService,
-    private toast: ToastService
+    private toast: ToastService,
+    private router: Router
   ) {}
 
 
@@ -98,6 +100,7 @@ export class CourierComponent implements OnInit {
       
       if (!user?.isCourier && !user?.isAdmin) {
         this.toast.error('Access denied. Courier account required.');
+        this.router.navigate(['/restaurant']);
         return;
       }
       
