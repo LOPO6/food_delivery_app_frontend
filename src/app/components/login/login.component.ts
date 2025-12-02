@@ -42,6 +42,13 @@ export class LoginComponent {
 
   constructor(private router: Router, private authService: AuthService, private toast: ToastService) {}
 
+  ngOnInit() {
+    // Check if user is already logged in
+    if (this.authService.isLoggedIn()) {
+      this.toast.warning('You are already logged in. Please sign out first to switch accounts.');
+      this.router.navigate(['/restaurant']); // redirect to main page
+    }
+  } 
   showLogin() { this.isLogin = true; }
   showRegister() { this.isLogin = false; }
 

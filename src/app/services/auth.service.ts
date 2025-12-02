@@ -42,6 +42,10 @@ export class AuthService {
     localStorage.removeItem('username');
   }
 
+  isLoggedIn(): boolean {
+  return !!localStorage.getItem('token'); // or whatever you use for auth
+}
+
   // ==========================================================================================
   // PERMANENT (BACKEND) SECTION
   // ==========================================================================================
