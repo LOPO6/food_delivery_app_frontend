@@ -1,16 +1,28 @@
-# FoodDeliveryFrontend
+# GourmAI Frontend (Angular)
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.17.
+Angular 19 standalone app for GourmAI. Connects to the Express + PostgreSQL backend and supports cookie-based auth. Can be deployed independently (Vercel) or “exported” and served by the backend.
 
-## Development server
+## Project Overview
+- Role-based auth (customer, courier, admin)
+- Courier approval flow and dashboard
+- Restaurant browsing, AI recommendations banner, menu search
+- JWT auth via HttpOnly cookies (`withCredentials: true`)
 
-To start a local development server, run:
+## Environment Configuration
+Frontend reads the backend URL from `src/environments/environment.ts` and `src/environments/environments.development.ts`.
 
-```bash
-ng serve
+Typical variables:
+- `environment.serverUrl` → e.g. `http://localhost:3000`
+
+Update these before building for production.
+
+## Development (Windows PowerShell)
+
+```powershell
+Push-Location "C:\University\GourmAI\backend\food_delivery_app_frontend"; npm install; ng serve; Pop-Location
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Open `http://localhost:4200/`. Ensure backend is running on the URL referenced by `environment.serverUrl` and that CORS allows `localhost:4200` with credentials if cross-origin.
 
 ## Code scaffolding
 
@@ -26,34 +38,47 @@ For a complete list of available schematics (such as `components`, `directives`,
 ng generate --help
 ```
 
-## Building
+## Build
 
-To build the project run:
-
-```bash
-ng build
+```powershell
+Push-Location "C:\University\GourmAI\backend\food_delivery_app_frontend"; ng build; Pop-Location
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+Output directory is defined in `angular.json` under `projects.<name>.architect.build.options.outputPath` (commonly `dist/<project-name>`).
+
+### Serve via Backend (Single-Origin)
+1. Build the frontend (see above).
+2. Copy the `dist/<project-name>` contents to backend `public/`.
+
+```powershell
+$distPath = "C:\University\GourmAI\backend\food_delivery_app_frontend\dist\<your-project-name>"
+$backendPublic = "C:\University\GourmAI\backend\food_delivery_app_backendv2\public"
+New-Item -ItemType Directory -Force -Path $backendPublic | Out-Null
+Copy-Item -Path "$distPath\*" -Destination $backendPublic -Recurse -Force
+```
+
+Make sure backend `app.js` serves static files and SPA fallback to `index.html` (see backend README). This gives a single origin for UI + API and simplifies CORS/cookies.
+
+### Deploy Frontend to Vercel (Optional)
+- `npm i -g vercel; vercel login`
+- From frontend folder: `vercel` then `vercel --prod`
+- Set env `environment.serverUrl` to your backend public URL (e.g. Render/Railway). Ensure backend CORS allows your Vercel domain with credentials.
 
 ## Running unit tests
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
+```powershell
+Push-Location "C:\University\GourmAI\backend\food_delivery_app_frontend"; ng test; Pop-Location
 ```
 
 ## Running end-to-end tests
 
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
+```powershell
+Push-Location "C:\University\GourmAI\backend\food_delivery_app_frontend"; ng e2e; Pop-Location
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+Choose and configure your e2e framework (Angular CLI isn’t shipping one by default).
 
 ## Additional Resources
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+- Angular CLI: [Overview and Command Reference](https://angular.dev/tools/cli)
+- Deployment notes: See backend README for serving Angular build and CORS/cookies configuration.
